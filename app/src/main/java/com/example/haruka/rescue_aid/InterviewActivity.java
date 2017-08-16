@@ -19,6 +19,7 @@ public class InterviewActivity extends AppCompatActivity {
     private TextView mInterviewContent;
     private String[] contents = {"意識はありますか？", "息をしていますか？", "頭からの出血はありますか？", "周りに危険物はありますか？"};
     private int offset = 0;
+    private String mResult = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,11 +40,22 @@ public class InterviewActivity extends AppCompatActivity {
     View.OnClickListener interAnsBtnListener = new View.OnClickListener(){
         @Override
         public void onClick(View v){
-            if(++offset < contents.length ) mInterviewContent.setText(contents[offset]);
+            if(offset < contents.length ){
+                switch(v.getId()){
+                    case R.id.btn_yes:
+                        mResult += contents[offset] + " : YES\n";
+                        break;
+                    case R.id.btn_no:
+                        mResult += contents[offset] + " : No\n";
+                        break;
+                }
+                mInterviewContent.setText(contents[offset++]);
+            }
             else {
                 new AlertDialog.Builder(context).setMessage("問診は終了です\nQRコードを表示します").setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        mToQr.putExtra("RESULT", mResult);
                         startActivity(mToQr);
                     }
                 }).show();
