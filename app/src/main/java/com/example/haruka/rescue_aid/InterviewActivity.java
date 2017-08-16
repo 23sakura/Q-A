@@ -62,4 +62,11 @@ public class InterviewActivity extends AppCompatActivity {
             }
         }
     };
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+
+        offset = 0;
+    }
 }

@@ -23,27 +23,25 @@ public class Display_qr extends FragmentActivity {
 
     private String mResult;
     private Intent mGetResultIntent;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_qr);
-        findViewById(R.id.button).setOnClickListener(onClickListener);
 
-        mGetResultIntent = getIntent();
-        mResult = mGetResultIntent.getStringExtra("RESULT");
+        context = this;
+
+        findViewById(R.id.btnToTitle).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent mInteTotitle = new Intent(context, TitleActivity.class);
+                startActivity(mInteTotitle);
+            }
+        });
+
+
     }
-
-    private OnClickListener onClickListener = new OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            String contents = mResult;
-            // 非同期でエンコードする
-            Bundle bundle = new Bundle();
-            bundle.putString("contents", contents);
-            getSupportLoaderManager().initLoader(0, bundle, callbacks);
-        }
-    };
 
     private LoaderCallbacks<Bitmap> callbacks = new LoaderCallbacks<Bitmap>() {
         @Override
@@ -111,5 +109,17 @@ public class Display_qr extends FragmentActivity {
             bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
             return bitmap;
         }
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+
+        mGetResultIntent = getIntent();
+        mResult = mGetResultIntent.getStringExtra("RESULT");
+        // 非同期でエンコードする
+        Bundle bundle = new Bundle();
+        bundle.putString("contents", mResult);
+        getSupportLoaderManager().initLoader(0, bundle, callbacks);
     }
 }
