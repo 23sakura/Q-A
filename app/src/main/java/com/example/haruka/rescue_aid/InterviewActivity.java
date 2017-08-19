@@ -40,7 +40,7 @@ public class InterviewActivity extends AppCompatActivity {
     View.OnClickListener interAnsBtnListener = new View.OnClickListener(){
         @Override
         public void onClick(View v){
-            if(offset < contents.length ){
+            if(++offset < contents.length ){
                 switch(v.getId()){
                     case R.id.btn_yes:
                         mResult += contents[offset] + " : YES\n";
@@ -49,7 +49,7 @@ public class InterviewActivity extends AppCompatActivity {
                         mResult += contents[offset] + " : No\n";
                         break;
                 }
-                mInterviewContent.setText(contents[offset++]);
+                mInterviewContent.setText(contents[offset]);
             }
             else {
                 new AlertDialog.Builder(context).setMessage("問診は終了です\nQRコードを表示します").setPositiveButton("OK", new DialogInterface.OnClickListener() {
