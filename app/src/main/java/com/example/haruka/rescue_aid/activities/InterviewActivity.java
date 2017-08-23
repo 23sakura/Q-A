@@ -1,4 +1,4 @@
-package com.example.haruka.rescue_aid;
+package com.example.haruka.rescue_aid.activities;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -9,6 +9,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.example.haruka.rescue_aid.Display_qr;
+import com.example.haruka.rescue_aid.R;
 
 public class InterviewActivity extends AppCompatActivity {
 

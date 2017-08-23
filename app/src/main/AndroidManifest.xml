@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.haruka.rescue_aid">
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-feature android:name="android.hardware.microphone" android:required="false" />
 
     <application
         android:allowBackup="true"
@@ -9,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".TitleActivity">
+            android:name=".activities.TitleActivity">
             //android:theme="@android:style/Theme.NoTitleBar"
 
             <intent-filter>
@@ -18,7 +21,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".InterviewActivity" />
+        <activity android:name=".activities.InterviewActivity" />
+        <activity android:name=".activities.VoiceRecognizeActivity" />
         <activity android:name=".Display_qr"></activity>
     </application>
 
