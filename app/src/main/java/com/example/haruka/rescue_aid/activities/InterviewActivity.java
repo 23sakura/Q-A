@@ -3,14 +3,13 @@ package com.example.haruka.rescue_aid.activities;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.haruka.rescue_aid.Display_qr;
 import com.example.haruka.rescue_aid.R;
 
 public class InterviewActivity extends AppCompatActivity {
@@ -43,18 +42,18 @@ public class InterviewActivity extends AppCompatActivity {
     View.OnClickListener interAnsBtnListener = new View.OnClickListener(){
         @Override
         public void onClick(View v){
-            if(++offset < contents.length ){
-                switch(v.getId()){
-                    case R.id.btn_yes:
-                        mResult += contents[offset] + " : YES\n";
-                        break;
-                    case R.id.btn_no:
-                        mResult += contents[offset] + " : No\n";
-                        break;
-                }
-                mInterviewContent.setText(contents[offset]);
+            mResult += Integer.toString(offset+1) + ".";
+            switch(v.getId()){
+                case R.id.btn_yes:
+                    mResult += contents[offset] + " : YES\n";
+                    break;
+                case R.id.btn_no:
+                    mResult += contents[offset] + " : No\n";
+                    break;
             }
-            else {
+            if(++offset < contents.length) {
+                mInterviewContent.setText(contents[offset]);
+            }else {
                 new AlertDialog.Builder(context).setMessage("問診は終了です\nQRコードを表示します").setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -62,6 +61,7 @@ public class InterviewActivity extends AppCompatActivity {
                         startActivity(mToQr);
                     }
                 }).show();
+
             }
         }
     };
