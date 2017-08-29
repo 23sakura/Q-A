@@ -4,12 +4,18 @@ import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.location.LocationProvider;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -21,6 +27,7 @@ import android.widget.Toast;
 import com.example.haruka.rescue_aid.R;
 import com.example.haruka.rescue_aid.recognition_list.YesClass;
 import com.example.haruka.rescue_aid.utils.InterviewAnswers;
+import com.example.haruka.rescue_aid.utils.InterviewData;
 import com.example.haruka.rescue_aid.utils.Question;
 
 import java.io.BufferedReader;
@@ -30,9 +37,10 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
+import static com.example.haruka.rescue_aid.R.id.interview;
 
-public class InterviewActivity extends AppCompatActivity {
 
+public class InterviewActivity extends AppCompatActivity implements LocationListener {
     private Context context;
     private Intent mToQr;
     private Button mBtnYes;
@@ -42,8 +50,12 @@ public class InterviewActivity extends AppCompatActivity {
 
     private ArrayList<Question> questions;
     private Question currentQuestion;
+    private ArrayList<Question> usedQuestions;
 
     private ArrayList<String>[] dictionary;
+
+    private InterviewData interviewData;
+    private LocationManager mLocationManager;
 
     class SpeechListener implements RecognitionListener {
 
@@ -173,7 +185,8 @@ public class InterviewActivity extends AppCompatActivity {
                 answer = InterviewAnswers.NO;
                 break;
         }
-
+        currentQuestion.answer(answer);
+        usedQuestions.add(currentQuestion);
         nextIndex = currentQuestion.getNextIndex(answer);
         mResult += String.format(" : %s\n", InterviewAnswers.AnswerToString(answer)) + " : " + InterviewAnswers.AnswerToString(answer) + "\n";
 
@@ -186,6 +199,7 @@ public class InterviewActivity extends AppCompatActivity {
             intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
             sr.startListening(intent);
         }else {
+            interviewData.setListOfQuestions(usedQuestions);
             new AlertDialog.Builder(context).setMessage("問診は終了です\nQRコードを表示します").setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -207,6 +221,7 @@ public class InterviewActivity extends AppCompatActivity {
         dictionary = YesClass.getDictionary();
 
         questions = new ArrayList<>();
+        usedQuestions = new ArrayList<>();
         loadQuestion();
 
         mToQr = new Intent(this, Display_qr.class);
@@ -214,8 +229,9 @@ public class InterviewActivity extends AppCompatActivity {
         mBtnNo = (Button) findViewById(R.id.btn_no);
         mBtnYes.setOnClickListener(interAnsBtnListener);
         mBtnNo.setOnClickListener(interAnsBtnListener);
-        mInterviewContent = (TextView) findViewById(R.id.interview);
+        mInterviewContent = (TextView) findViewById(interview);
         mInterviewContent.setText(currentQuestion.getQuestion());
+        interviewData = new InterviewData(null);
 
         sr = SpeechRecognizer.createSpeechRecognizer(getApplicationContext());
         sr.setRecognitionListener(new SpeechListener());
@@ -223,6 +239,15 @@ public class InterviewActivity extends AppCompatActivity {
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
         sr.startListening(intent);
+
+        mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
+        //Location Permission
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,}, 0);
+            return;
+        }
+
     }
 
     View.OnClickListener interAnsBtnListener = new View.OnClickListener(){
@@ -237,5 +262,62 @@ public class InterviewActivity extends AppCompatActivity {
     @Override
     protected void onResume(){
         super.onResume();
+        if (mLocationManager != null) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                return;
+            }
+            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+        }
+
+    }
+
+
+    @Override
+    protected void onPause() {
+        if (mLocationManager != null) {
+            mLocationManager.removeUpdates(this);
+        }
+
+        super.onPause();
+    }
+
+
+
+
+    @Override
+    public void onLocationChanged(Location location) {
+        interviewData.updateLocation(location);
+        Log.d("Longitude", String.valueOf(location.getLongitude()));
+        Log.d("Latitude", String.valueOf(location.getLatitude()));
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+        if (mLocationManager != null) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                return;
+            }
+            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+        }
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+        switch (status) {
+            case LocationProvider.AVAILABLE:
+                Log.v("Status", "AVAILABLE");
+                break;
+            case LocationProvider.OUT_OF_SERVICE:
+                Log.v("Status", "OUT_OF_SERVICE");
+                break;
+            case LocationProvider.TEMPORARILY_UNAVAILABLE:
+                Log.v("Status", "TEMPORARILY_UNAVAILABLE");
+                break;
+        }
     }
 }
