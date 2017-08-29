@@ -20,6 +20,8 @@ import android.widget.Toast;
 
 import com.example.haruka.rescue_aid.R;
 import com.example.haruka.rescue_aid.recognition_list.YesClass;
+import com.example.haruka.rescue_aid.utils.InterviewAnswers;
+import com.example.haruka.rescue_aid.utils.Question;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -28,6 +30,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
+
 public class InterviewActivity extends AppCompatActivity {
 
     private Context context;
@@ -35,48 +38,12 @@ public class InterviewActivity extends AppCompatActivity {
     private Button mBtnYes;
     private Button mBtnNo;
     private TextView mInterviewContent;
-    private String[] contents = {"意識はありますか？", "息をしていますか？", "頭からの出血はありますか？", "周りに危険物はありますか？"};
-    private int offset = 0;
     private String mResult = "";
 
     private ArrayList<Question> questions;
     private Question currentQuestion;
 
     private ArrayList<String>[] dictionary;
-
-
-    class Question{
-
-        private int index;
-        private int yesIndex, noIndex;
-        private String question;
-
-        public Question(){
-            index = -1;
-            yesIndex = -100;
-            noIndex = -100;
-            question = "This question is invalid";
-        }
-
-        public Question(int index, String question, int yesIndex, int noIndex){
-            this.index = index;
-            this.yesIndex = yesIndex;
-            this.noIndex = noIndex;
-            this.question = question;
-        }
-
-        public int getYesIndex(){
-            return yesIndex;
-        }
-
-        public int getNoIndex(){
-            return noIndex;
-        }
-
-        public String getQuestion(){
-            return question;
-        }
-    }
 
     class SpeechListener implements RecognitionListener {
 
@@ -100,7 +67,6 @@ public class InterviewActivity extends AppCompatActivity {
 
         @Override
         public void onError(int error) {
-            // TODO Auto-generated method stub
             if(error == 9) {
                 //get Permission
                 ActivityCompat.requestPermissions(InterviewActivity.this, new String[]{Manifest.permission.RECORD_AUDIO}, 0);
@@ -123,11 +89,10 @@ public class InterviewActivity extends AppCompatActivity {
 
         @Override
         public void onReadyForSpeech(Bundle params) {
-            // TODO Auto-generated method stub
             Toast.makeText(getApplicationContext(), "認識開始", Toast.LENGTH_SHORT).show();
         }
 
-        private void produceQuestion_(ArrayList<String> candidates){
+        private void voiceAnswer(ArrayList<String> candidates){
             int yes = 0;
 
             for(yes = 0; yes < 2; yes++){
@@ -144,20 +109,12 @@ public class InterviewActivity extends AppCompatActivity {
                 }
             }
 
-            /*
-            ArrayList<String> candidates = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
-            */
-        }
-
-        private void produceQuestion(ArrayList<String> candidates){
-
         }
 
         @Override
         public void onResults(Bundle results) {
-            // TODO Auto-generated method stub
             ArrayList<String> candidates = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
-            produceQuestion_(candidates);
+            voiceAnswer(candidates);
         }
 
         @Override
@@ -179,9 +136,12 @@ public class InterviewActivity extends AppCompatActivity {
             BufferedReader bufferReader = new BufferedReader(inputStreamReader);
             String line = "";
             line = bufferReader.readLine();
+            int _i = 0;
             while ((line = bufferReader.readLine()) != null) {
-                // 各行が","で区切られていて4つの項目があるとする
                 StringTokenizer st = new StringTokenizer(line, ",");
+                Log.d("回数" , Integer.toString(_i));
+
+                _i++;
                 String id = st.nextToken();
                 if(id == "id") continue;
                 int index = Integer.parseInt(id);
@@ -190,32 +150,72 @@ public class InterviewActivity extends AppCompatActivity {
                 int noIndex = Integer.parseInt(st.nextToken());
                 Question q = new Question(index, text, yesIndex, noIndex);
                 questions.add(q);
+
+                Log.d(" 質問" , q.getQuestion());
             }
         } catch (IOException e) {
             Log.i(InterviewActivity.this.getClass().getSimpleName(), e.toString());
             e.printStackTrace();
         }
-        
+
         currentQuestion = questions.get(0);
     }
+
+    private void produceNextQuestion(int viewID){
+        mResult += currentQuestion.getQuestion();
+        int nextIndex = 0;
+        boolean answer = false;
+        switch(viewID){
+            case R.id.btn_yes:
+                answer = InterviewAnswers.YES;
+                break;
+            case R.id.btn_no:
+                answer = InterviewAnswers.NO;
+                break;
+        }
+
+        nextIndex = currentQuestion.getNextIndex(answer);
+        mResult += String.format(" : %s\n", InterviewAnswers.AnswerToString(answer)) + " : " + InterviewAnswers.AnswerToString(answer) + "\n";
+
+        if(nextIndex >= 0) {
+            currentQuestion = questions.get(nextIndex);
+
+            mInterviewContent.setText(currentQuestion.getQuestion());
+            Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+            intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
+            sr.startListening(intent);
+        }else {
+            new AlertDialog.Builder(context).setMessage("問診は終了です\nQRコードを表示します").setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    mToQr.putExtra("RESULT", mResult);
+                    startActivity(mToQr);
+                }
+            }).show();
+
+        }
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_interview);
-
         context = this;
+
+        dictionary = YesClass.getDictionary();
+
+        questions = new ArrayList<>();
+        loadQuestion();
+
         mToQr = new Intent(this, Display_qr.class);
         mBtnYes = (Button) findViewById(R.id.btn_yes);
         mBtnNo = (Button) findViewById(R.id.btn_no);
-        mInterviewContent = (TextView) findViewById(R.id.interview);
-        mInterviewContent.setText(contents[offset]);
-
-
         mBtnYes.setOnClickListener(interAnsBtnListener);
         mBtnNo.setOnClickListener(interAnsBtnListener);
-
-        dictionary = YesClass.getDictionary();
+        mInterviewContent = (TextView) findViewById(R.id.interview);
+        mInterviewContent.setText(currentQuestion.getQuestion());
 
         sr = SpeechRecognizer.createSpeechRecognizer(getApplicationContext());
         sr.setRecognitionListener(new SpeechListener());
@@ -223,38 +223,12 @@ public class InterviewActivity extends AppCompatActivity {
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
         sr.startListening(intent);
-
-        questions = new ArrayList<Question>();
-        loadQuestion();
     }
+
     View.OnClickListener interAnsBtnListener = new View.OnClickListener(){
         @Override
         public void onClick(View v){
-            mResult += Integer.toString(offset+1) + "." + questions.get(offset).getQuestion();
-            switch(v.getId()){
-                case R.id.btn_yes:
-                    mResult += " : YES\n";
-                    break;
-                case R.id.btn_no:
-                    mResult += " : No\n";
-                    break;
-            }
-            if(++offset < questions.size()) {
-                mInterviewContent.setText(questions.get(offset).getQuestion());
-                Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-                intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
-                sr.startListening(intent);
-            }else {
-                new AlertDialog.Builder(context).setMessage("問診は終了です\nQRコードを表示します").setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        mToQr.putExtra("RESULT", mResult);
-                        startActivity(mToQr);
-                    }
-                }).show();
-
-            }
+            produceNextQuestion(v.getId());
         }
     };
 
@@ -263,7 +237,5 @@ public class InterviewActivity extends AppCompatActivity {
     @Override
     protected void onResume(){
         super.onResume();
-
-        offset = 0;
     }
 }
