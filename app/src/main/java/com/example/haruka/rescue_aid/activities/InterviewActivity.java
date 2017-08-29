@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
@@ -11,6 +12,7 @@ import android.speech.SpeechRecognizer;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -19,7 +21,12 @@ import android.widget.Toast;
 import com.example.haruka.rescue_aid.R;
 import com.example.haruka.rescue_aid.recognition_list.YesClass;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 public class InterviewActivity extends AppCompatActivity {
 
@@ -32,8 +39,44 @@ public class InterviewActivity extends AppCompatActivity {
     private int offset = 0;
     private String mResult = "";
 
+    private ArrayList<Question> questions;
+    private Question currentQuestion;
+
     private ArrayList<String>[] dictionary;
 
+
+    class Question{
+
+        private int index;
+        private int yesIndex, noIndex;
+        private String question;
+
+        public Question(){
+            index = -1;
+            yesIndex = -100;
+            noIndex = -100;
+            question = "This question is invalid";
+        }
+
+        public Question(int index, String question, int yesIndex, int noIndex){
+            this.index = index;
+            this.yesIndex = yesIndex;
+            this.noIndex = noIndex;
+            this.question = question;
+        }
+
+        public int getYesIndex(){
+            return yesIndex;
+        }
+
+        public int getNoIndex(){
+            return noIndex;
+        }
+
+        public String getQuestion(){
+            return question;
+        }
+    }
 
     class SpeechListener implements RecognitionListener {
 
@@ -84,13 +127,8 @@ public class InterviewActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "認識開始", Toast.LENGTH_SHORT).show();
         }
 
-        @Override
-        public void onResults(Bundle results) {
-            // TODO Auto-generated method stub
-
-
+        private void produceQuestion_(ArrayList<String> candidates){
             int yes = 0;
-            ArrayList<String> candidates = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
 
             for(yes = 0; yes < 2; yes++){
                 for(int index = 0; index < dictionary[yes].size(); index++){
@@ -111,6 +149,17 @@ public class InterviewActivity extends AppCompatActivity {
             */
         }
 
+        private void produceQuestion(ArrayList<String> candidates){
+
+        }
+
+        @Override
+        public void onResults(Bundle results) {
+            // TODO Auto-generated method stub
+            ArrayList<String> candidates = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+            produceQuestion_(candidates);
+        }
+
         @Override
         public void onRmsChanged(float rmsdB) {
             // TODO Auto-generated method stub
@@ -120,6 +169,35 @@ public class InterviewActivity extends AppCompatActivity {
     }
 
     private SpeechRecognizer sr;
+
+    private void loadQuestion(){
+        AssetManager assetManager = this.context.getResources().getAssets();
+        try{
+            // CSVファイルの読み込み
+            InputStream is = assetManager.open("scenario.csv");
+            InputStreamReader inputStreamReader = new InputStreamReader(is);
+            BufferedReader bufferReader = new BufferedReader(inputStreamReader);
+            String line = "";
+            line = bufferReader.readLine();
+            while ((line = bufferReader.readLine()) != null) {
+                // 各行が","で区切られていて4つの項目があるとする
+                StringTokenizer st = new StringTokenizer(line, ",");
+                String id = st.nextToken();
+                if(id == "id") continue;
+                int index = Integer.parseInt(id);
+                String text = st.nextToken();
+                int yesIndex = Integer.parseInt(st.nextToken());
+                int noIndex = Integer.parseInt(st.nextToken());
+                Question q = new Question(index, text, yesIndex, noIndex);
+                questions.add(q);
+            }
+        } catch (IOException e) {
+            Log.i(InterviewActivity.this.getClass().getSimpleName(), e.toString());
+            e.printStackTrace();
+        }
+        
+        currentQuestion = questions.get(0);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,21 +223,24 @@ public class InterviewActivity extends AppCompatActivity {
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
         sr.startListening(intent);
+
+        questions = new ArrayList<Question>();
+        loadQuestion();
     }
     View.OnClickListener interAnsBtnListener = new View.OnClickListener(){
         @Override
         public void onClick(View v){
-            mResult += Integer.toString(offset+1) + ".";
+            mResult += Integer.toString(offset+1) + "." + questions.get(offset).getQuestion();
             switch(v.getId()){
                 case R.id.btn_yes:
-                    mResult += contents[offset] + " : YES\n";
+                    mResult += " : YES\n";
                     break;
                 case R.id.btn_no:
-                    mResult += contents[offset] + " : No\n";
+                    mResult += " : No\n";
                     break;
             }
-            if(++offset < contents.length) {
-                mInterviewContent.setText(contents[offset]);
+            if(++offset < questions.size()) {
+                mInterviewContent.setText(questions.get(offset).getQuestion());
                 Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
                 intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
                 intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
@@ -176,6 +257,8 @@ public class InterviewActivity extends AppCompatActivity {
             }
         }
     };
+
+
 
     @Override
     protected void onResume(){
