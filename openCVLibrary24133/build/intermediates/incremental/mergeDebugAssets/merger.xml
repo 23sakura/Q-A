@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3"><dataSet config="main"><source path="/Users/skriulle/AndroidStudioProjects/QandA_ver1.0/openCVLibrary24133/src/main/assets"/><source path="/Users/skriulle/AndroidStudioProjects/QandA_ver1.0/openCVLibrary24133/build/generated/assets/shaders/debug"/></dataSet><dataSet config="debug"><source path="/Users/skriulle/AndroidStudioProjects/QandA_ver1.0/openCVLibrary24133/src/debug/assets"/></dataSet></merger>

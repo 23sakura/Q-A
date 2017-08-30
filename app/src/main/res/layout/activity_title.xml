@@ -28,10 +28,10 @@
         android:layout_marginStart="75dp" />
 
     <Button
-        android:id="@+id/voiceRecognizeBtn"
+        android:id="@+id/gotoTestBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_toEndOf="@+id/startbtn"
-        android:text="音声認識テスト" />
+        android:text="テスト" />
 </RelativeLayout>

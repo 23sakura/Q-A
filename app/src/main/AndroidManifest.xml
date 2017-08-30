@@ -3,7 +3,18 @@
     package="com.example.haruka.rescue_aid">
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
     <uses-feature android:name="android.hardware.microphone" android:required="false" />
+
+    <meta-data
+        android:name="com.google.android.gms.version"
+        android:value="@integer/google_play_services_version" />
 
     <application
         android:allowBackup="true"
@@ -21,9 +32,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activities.TestPlatformActivity" />
         <activity android:name=".activities.InterviewActivity" />
         <activity android:name=".activities.VoiceRecognizeActivity" />
-        <activity android:name=".Display_qr"></activity>
+        <activity android:name=".activities.ShakeTestActivity" />
+        <activity android:name=".activities.CardiotachometerActivity" />
+        <activity android:name=".activities.LightTestActivity" />
+        <activity android:name=".activities.CVCameraTestActivity" />
+        <activity android:name=".activities.LocationTestActivity" />
+        <activity android:name=".activities.Display_qr" />
     </application>
 
 </manifest>

@@ -3,7 +3,7 @@ package com.example.haruka.rescue_aid.recognition_list;
 import java.util.ArrayList;
 
 /**
- * Created by skriulle on 8/23/2017 AD.
+ * Created by Tomoya on 8/23/2017 AD.
  */
 
 public class YesClass {

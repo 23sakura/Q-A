@@ -78,7 +78,7 @@ public class VoiceRecognizeActivity extends AppCompatActivity{
         @Override
         public void onReadyForSpeech(Bundle params) {
             // TODO Auto-generated method stub
-            Toast.makeText(getApplicationContext(), "認識開始", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(), "認識開始", Toast.LENGTH_SHORT).show();
         }
 
         @Override
@@ -134,8 +134,6 @@ public class VoiceRecognizeActivity extends AppCompatActivity{
 
             @Override
             public void onClick(View v) {
-
-
                 // TODO Auto-generated method stub
                 sr = SpeechRecognizer.createSpeechRecognizer(getApplicationContext());
                 sr.setRecognitionListener(new SpeechListener());
