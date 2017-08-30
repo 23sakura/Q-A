@@ -203,7 +203,9 @@ public class InterviewActivity extends AppCompatActivity implements LocationList
             new AlertDialog.Builder(context).setMessage("問診は終了です\nQRコードを表示します").setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    mToQr.putExtra("RESULT", mResult);
+                    //mToQr.putExtra("RESULT", mResult);
+                    mToQr.putExtra("RESULT", interviewData.toString());
+                    Log.d("RESULT", interviewData.toString());
                     startActivity(mToQr);
                 }
             }).show();
