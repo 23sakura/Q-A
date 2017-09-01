@@ -40,6 +40,7 @@
         <activity android:name=".activities.LightTestActivity" />
         <activity android:name=".activities.CVCameraTestActivity" />
         <activity android:name=".activities.LocationTestActivity" />
+        <activity android:name=".activities.MetronomeTestActivity" />
         <activity android:name=".activities.Display_qr" />
     </application>
 

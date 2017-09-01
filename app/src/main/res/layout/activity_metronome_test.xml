@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/btn_metronome"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:text="Button"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true" />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/table_explain_heart_massage"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/btn_metronome">
+
+
+        <TextView
+            android:text="left at right"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.54"
+            android:layout_above="@+id/imageview_explain_heart_massage"
+            android:paddingRight="5dp"
+            android:id="@+id/textview_explain_heart_massage"/>
+
+        <ImageView
+            android:text="right at left"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="bottom"
+            android:paddingLeft="5dp"
+            android:id="@+id/imageview_explain_heart_massage"/>
+
+    </TableLayout>
+
+</RelativeLayout>

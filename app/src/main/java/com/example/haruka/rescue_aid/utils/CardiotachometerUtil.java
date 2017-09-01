@@ -26,6 +26,7 @@ public class CardiotachometerUtil {
         System.loadLibrary("opencv_java");
     }
 
+
     private static native long nBitmapToMat(Bitmap b);
 
     private static native boolean nMatToBitmap(long m, Bitmap b);

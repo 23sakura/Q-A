@@ -19,8 +19,11 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.HorizontalScrollView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,6 +49,11 @@ public class InterviewActivity extends AppCompatActivity implements LocationList
     private Button mBtnYes;
     private Button mBtnNo;
     private TextView mInterviewContent;
+    private HorizontalScrollView historyScroll;
+    private LinearLayout historyScrollLayout;
+    //TODO check ListView
+    private LayoutInflater inflater;
+
     private String mResult = "";
 
     private ArrayList<Question> questions;
@@ -143,7 +151,7 @@ public class InterviewActivity extends AppCompatActivity implements LocationList
         AssetManager assetManager = this.context.getResources().getAssets();
         try{
             // CSVファイルの読み込み
-            InputStream is = assetManager.open("scenario.csv");
+            InputStream is = assetManager.open("scenarios/scenario.csv");
             InputStreamReader inputStreamReader = new InputStreamReader(is);
             BufferedReader bufferReader = new BufferedReader(inputStreamReader);
             String line = "";
@@ -187,11 +195,19 @@ public class InterviewActivity extends AppCompatActivity implements LocationList
         }
         currentQuestion.answer(answer);
         usedQuestions.add(currentQuestion);
+
+        LinearLayout incLayout =(LinearLayout)inflater.inflate(R.layout.history_slide_view, null);
+        Button btn = new Button(this);
+        btn.setText(currentQuestion.getQuestion() + "\n" + currentQuestion.getAnswer());
+        historyScrollLayout.addView(btn);
+
         nextIndex = currentQuestion.getNextIndex(answer);
         mResult += String.format(" : %s\n", InterviewAnswers.AnswerToString(answer)) + " : " + InterviewAnswers.AnswerToString(answer) + "\n";
 
         if(nextIndex >= 0) {
             currentQuestion = questions.get(nextIndex);
+
+
 
             mInterviewContent.setText(currentQuestion.getQuestion());
             Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
@@ -233,6 +249,10 @@ public class InterviewActivity extends AppCompatActivity implements LocationList
         mBtnNo.setOnClickListener(interAnsBtnListener);
         mInterviewContent = (TextView) findViewById(interview);
         mInterviewContent.setText(currentQuestion.getQuestion());
+        historyScroll = (HorizontalScrollView)findViewById(R.id.history_scroll);
+        historyScrollLayout = (LinearLayout) findViewById(R.id.history_scroll_layout);
+        inflater = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
         interviewData = new InterviewData(null);
 
         sr = SpeechRecognizer.createSpeechRecognizer(getApplicationContext());

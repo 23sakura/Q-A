@@ -11,7 +11,7 @@ import java.util.Date;
 
 public class QADateFormat {
 
-    public final static String simpleDateFormat =  "yyyy/MM/dd kk:mm:ss";
+    public final static String simpleDateFormat =  "yyyy.MM.dd kk:mm:ss";
 
     public static String getInstance(){
         SimpleDateFormat sdf = new SimpleDateFormat(simpleDateFormat);
@@ -21,7 +21,7 @@ public class QADateFormat {
     }
 
     public static Date getDate(String dateFormat) {
-        DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
+        DateFormat df = new SimpleDateFormat(simpleDateFormat);
         Date date = null;
         try {
             date = df.parse(dateFormat);

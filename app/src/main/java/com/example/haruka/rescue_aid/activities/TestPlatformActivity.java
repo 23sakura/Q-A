@@ -14,8 +14,8 @@ import com.example.haruka.rescue_aid.R;
 
 public class TestPlatformActivity extends AppCompatActivity {
 
-    private Button gotoTestBtn1, gotoTestBtn2, gotoTestBtn3, gotoTestBtn4, gotoTestBtn5;
-    private Intent testIntent1, testIntent2, testIntent3, testIntent4, testIntent5;
+    private Button gotoTestBtn1, gotoTestBtn2, gotoTestBtn3, gotoTestBtn4, gotoTestBtn5, gotoTestBtn6;
+    private Intent testIntent1, testIntent2, testIntent3, testIntent4, testIntent5, testIntent6;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -27,6 +27,7 @@ public class TestPlatformActivity extends AppCompatActivity {
         gotoTestBtn3 = (Button)findViewById(R.id.gotoTestBtn3);
         gotoTestBtn4 = (Button)findViewById(R.id.gotoTestBtn4);
         gotoTestBtn5 = (Button)findViewById(R.id.gotoTestBtn5);
+        gotoTestBtn6 = (Button)findViewById(R.id.gotoTestBtn6);
 
         testIntent1 = new Intent(this, VoiceRecognizeActivity.class);
         gotoTestBtn1.setText("音声認識テスト");
@@ -71,6 +72,15 @@ public class TestPlatformActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(testIntent5);
+            }
+        });
+
+        testIntent6 = new Intent(this, MetronomeTestActivity.class);
+        gotoTestBtn6.setText("メトロノームテスト");
+        gotoTestBtn6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(testIntent6);
             }
         });
     }

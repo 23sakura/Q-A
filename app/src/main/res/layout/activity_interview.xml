@@ -9,6 +9,22 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.haruka.rescue_aid.activities.InterviewActivity">
 
+    <HorizontalScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="14dp"
+        android:id="@+id/history_scroll">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:id="@+id/history_scroll_layout">
+
+        </LinearLayout>
+    </HorizontalScrollView>
 
     <TextView
         android:layout_width="wrap_content"
@@ -16,20 +32,19 @@
         android:id="@+id/interview"
         android:text="Interview Contents"
         android:textSize="20dp"
-        android:layout_below="@+id/textView"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="58dp"
         android:textIsSelectable="false"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="問診をします"
         android:id="@+id/textView"
         android:textSize="20dp"
-        android:layout_alignParentTop="true"
+        android:layout_above="@+id/interview"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="58dp" />
+        android:layout_marginBottom="46dp" />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -46,4 +61,6 @@
         android:id="@+id/btn_no"
         android:layout_alignTop="@+id/btn_yes"
         android:layout_toStartOf="@+id/textView" />
+
+
 </RelativeLayout>

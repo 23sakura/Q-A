@@ -1,6 +1,7 @@
 package com.example.haruka.rescue_aid.utils;
 
 import android.location.Location;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -43,7 +44,11 @@ public class InterviewData {
         JSONObject interviewJSON = new JSONObject();
         try {
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("location", location.toString());
+            try {
+                jsonObject.put("location", location.toString());
+            }catch(NullPointerException ne){
+                jsonObject.put("location", "");
+            }
             jsonObject.put("begin@", dateBeginning);
             interviewJSON.put("Begin@", jsonObject);
 
@@ -51,14 +56,16 @@ public class InterviewData {
             for(Question q : questions) {
                 jsonObject = new JSONObject();
                 jsonObject.put(Integer.toString(q.getIndex()), q.getAnswer());
+                Log.d(Integer.toString(q.getIndex()), Boolean.toString(q.getAnswer()));
                 jsonArray.put(jsonObject);
             }
-            interviewJSON.put("Question", jsonArray);
+            interviewJSON.put("Questions", jsonArray);
 
 
         } catch(Exception e) {
-
+            Log.e("InterviewData", e.toString());
         }
+
         return interviewJSON.toString();
     }
 }

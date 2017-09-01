@@ -9,7 +9,6 @@ import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
-import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.imgproc.Imgproc;
@@ -67,26 +66,23 @@ public class CVCameraTestActivity extends AppCompatActivity implements CameraBri
 
     @Override
     public void onCameraViewStarted(int width, int height) {
-// カメラプレビュー開始時に呼ばれる
         mOutputFrame = new Mat(height, width, CvType.CV_8UC1);
     }
 
     @Override
     public void onCameraViewStopped() {
         mOutputFrame.release();
-// カメラプレビュー終了時に呼ばれる
     }
 
-    // CvCameraViewListener の場合
+    private Mat canny(CameraBridgeViewBase.CvCameraViewFrame inputFrame){
+        Imgproc.Canny(inputFrame.gray(), mOutputFrame, 80, 100);
+        return mOutputFrame;
+    }
+
     @Override
     public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
-        // Cannyフィルタをかける
+        return canny(inputFrame);
 
-        Imgproc.Canny(inputFrame.gray(), mOutputFrame, 80, 100);
-
-        // ビット反転
-        Core.bitwise_not(mOutputFrame, mOutputFrame);
-        return mOutputFrame;
     }
 
 }
