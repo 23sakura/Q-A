@@ -75,8 +75,8 @@ public class TestPlatformActivity extends AppCompatActivity {
             }
         });
 
-        testIntent6 = new Intent(this, MetronomeTestActivity.class);
-        gotoTestBtn6.setText("メトロノームテスト");
+        testIntent6 = new Intent(this, ExplainActivity.class);
+        gotoTestBtn6.setText("救援指示テスト");
         gotoTestBtn6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

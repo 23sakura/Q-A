@@ -5,9 +5,7 @@ import android.content.res.AssetManager;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 /**
  * Created by Tomoya on 9/1/2017 AD.
@@ -15,31 +13,42 @@ import java.io.InputStreamReader;
 
 public class EmergencyExplanation {
 
+
+
     private AssetManager assetManager;
-    private String text;
-    private Drawable drawable;
+    private ArrayList<EmergencySituation> explain;
+    public boolean isMetronomeRequired;
 
     public EmergencyExplanation(Context context, String situation){
         assetManager = context.getResources().getAssets();
+        explain = new ArrayList();
         try {
-            InputStream is = assetManager.open("explain/texts/test" + ".txt");
-            InputStreamReader inputStreamReader = new InputStreamReader(is);
-            BufferedReader bufferReader = new BufferedReader(inputStreamReader);
-            text = bufferReader.readLine();
-            Log.d("EmergencyExplanation", text);
+            Log.d(EmergencyExplanation.class.getSimpleName(), Integer.toString(assetManager.list(situation).length));
+        }catch (Exception e ) {
 
-            is = assetManager.open("explain/images/chest_compression" + ".png");
-            drawable = Drawable.createFromStream(is, null);
-        }catch (Exception e){
-            Log.e("EmergencyExplanation", e.toString());
+        }
+        try {
+
+            //for (int i = 0; i < assetManager.list(situation).length; i++) {
+            for (int i = 0; i < 2; i++) {
+                    EmergencySituation es = new EmergencySituation(situation, i, assetManager);
+                    explain.add(es);
+            }
+
+        } catch (Exception e){
+
         }
     }
 
-    public String getText(){
-        return text;
+    public String getText(int id){
+        return explain.get(id).text;
     }
 
-    public Drawable getImage(){
-        return drawable;
+    public Drawable getImage(int id){
+        return explain.get(id).drawable;
+    }
+
+    public int getProcesses(){
+        return explain.size();
     }
 }

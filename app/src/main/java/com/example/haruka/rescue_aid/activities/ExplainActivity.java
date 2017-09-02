@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.example.haruka.rescue_aid.R;
 import com.example.haruka.rescue_aid.utils.EmergencyExplanation;
+import com.example.haruka.rescue_aid.utils.EmergencySituation;
 
 import java.util.ArrayList;
 
@@ -18,13 +19,14 @@ import jp.fsoriented.cactusmetronome.lib.DefaultHighClickCallback;
 import jp.fsoriented.cactusmetronome.lib.Metronome;
 
 /**
- * Created by Tomoya on 9/1/2017 AD.
+ * Created by Tomoya on 9/2/2017 AD.
  */
 
-public class MetronomeTestActivity  extends AppCompatActivity {
+public class ExplainActivity extends AppCompatActivity {
 
     Metronome mMetronome;
-    Button metronomeButton;
+    boolean isMetronomeRequired;
+    Button explainButton;
     EmergencyExplanation emergencyExplanation;
 
     TextView textView;
@@ -84,12 +86,11 @@ public class MetronomeTestActivity  extends AppCompatActivity {
         }
     }
 
-    public void onStartClick(View view) {
+    public void startMetronome() {
         mMetronome.finish();
 
         int tempo = 100;
 
-        // 再生するクリック音のリストを作成する
         ArrayList<Click> list = new ArrayList<Click>();
         int samples = BpmUtil.getSampleLength(tempo);
         int beatsPerMeasure = 4;
@@ -98,18 +99,16 @@ public class MetronomeTestActivity  extends AppCompatActivity {
             note.addNewClicks(list, samples, i);
         }
 
-        // 再生する
         mMetronome.start();
         mMetronome.setPattern(list, samples * beatsPerMeasure);
-
-        nextExplanation();
     }
+
+
 
     void nextExplanation(){
         explainIndex = (explainIndex+1) % 2;
         setExplain(explainIndex);
         _handler.removeCallbacksAndMessages(null);
-        _handler = new Handler();
         _handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -119,26 +118,69 @@ public class MetronomeTestActivity  extends AppCompatActivity {
 
     }
 
+    void AEDExplaination(){
+        mMetronome.finish();
+        _handler.removeCallbacksAndMessages(null);
+
+        EmergencySituation AEDSituation = new EmergencySituation("AED");
+        AEDSituation.setAssetManager(this.getAssets());
+        textView.setText(AEDSituation.getText());
+        imageView.setImageDrawable(AEDSituation.getImage());
+        textView.setText(AEDSituation.getText());
+        imageView.setImageDrawable(AEDSituation.getImage());
+
+        explainButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                explainButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        AEDExplaination();
+
+                    }
+                });
+                if(isMetronomeRequired) {
+                    startMetronome();
+                }
+                nextExplanation();
+            }
+        });
+    }
+
+
     public void onStopClick(View view) {
         mMetronome.finish();
     }
 
     public void setExplain(int id){
-        textView.setText(emergencyExplanation.getText(id));
-        imageView.setImageDrawable(emergencyExplanation.getImage(id));
+        textView.setText(emergencyExplanation.getText(explainIndex));
+        imageView.setImageDrawable(emergencyExplanation.getImage(explainIndex));
+
     }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_explain);
 
+
+        textView = (TextView)findViewById(R.id.textview_explain_heart_massage);
+        imageView = (ImageView)findViewById(R.id.imageview_explain_heart_massage);
+        explainButton = (Button)findViewById(R.id.btn_explain);
+        explainButton.setText("AEDが到着した");
+        explainButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AEDExplaination();
+            }
+        });
+
         emergencyExplanation = new EmergencyExplanation(this, "chest_compression");
         explainTime = new int[emergencyExplanation.getProcesses()];
         explainTime[0] = 1000;
         explainTime[1] = 3000;
-        textView = (TextView)findViewById(R.id.textview_explain_heart_massage);
-        imageView = (ImageView)findViewById(R.id.imageview_explain_heart_massage);
         explainIndex = 0;
         setExplain(explainIndex);
         _handler = new Handler();
@@ -150,14 +192,13 @@ public class MetronomeTestActivity  extends AppCompatActivity {
         }, explainTime[explainIndex]);
 
         mMetronome = new Metronome();
-        metronomeButton = (Button)findViewById(R.id.btn_metronome);
-        metronomeButton.setText("AEDが到着した");
-        metronomeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        isMetronomeRequired = true;
+        if(isMetronomeRequired){
+            startMetronome();
+        }else{
+            mMetronome.finish();
+        }
 
-            }
-        });
     }
 
     @Override
@@ -173,7 +214,9 @@ public class MetronomeTestActivity  extends AppCompatActivity {
 
         explainIndex = 0;
         setExplain(explainIndex);
-        _handler = new Handler();
+
+
+        _handler.removeCallbacksAndMessages(null);
         _handler.postDelayed(new Runnable() {
             @Override
             public void run() {
