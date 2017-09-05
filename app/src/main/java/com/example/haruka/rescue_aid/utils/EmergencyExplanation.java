@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 public class EmergencyExplanation {
 
-
+    public String title;
     private AssetManager assetManager;
     private ArrayList<EmergencySituation> explain;
     public boolean isMetronomeRequired;
@@ -38,16 +38,20 @@ public class EmergencyExplanation {
 
     public void loadXML(Context context, String situation){
         int xmlID = 0;
+        title = "";
         switch(situation){
             case "chest_compression":
                 xmlID = R.xml.chest_compression;
+                title = "chest_compression";
                 break;
 
             case "aed":
                 xmlID = R.xml.aed;
+                title = "aed";
                 break;
 
             case "recovery_position":
+                title = "recovry_position";
                 xmlID = R.xml.recovery_position;
                 break;
 
