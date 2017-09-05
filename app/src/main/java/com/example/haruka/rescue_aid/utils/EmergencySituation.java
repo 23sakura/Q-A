@@ -18,8 +18,16 @@ public class EmergencySituation{
     String situation;
     int id;
 
-    String text;
-    Drawable drawable;
+    public String text;
+    public String button;
+    public Drawable drawable;
+    public int duration;
+
+    public EmergencySituation(){
+        this.situation = situation;
+        id = 0;
+        button = "";
+    }
 
     public EmergencySituation(String situation){
         this.situation = situation;
@@ -34,6 +42,13 @@ public class EmergencySituation{
     EmergencySituation(String situation, int id, AssetManager assetManager){
         this(situation, id);
         setAssetManager(assetManager);
+    }
+
+    EmergencySituation(String description, Drawable drawable){
+        situation = "";
+        id = 0;
+        this.text = description;
+        this.drawable = drawable;
     }
 
     public void setAssetManager(AssetManager assetManager){

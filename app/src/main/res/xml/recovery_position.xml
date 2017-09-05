@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root xmlns:android="http://schemas.android.com/apk/res/android">
+    <id>5</id>
+    <num>1</num>
+    <items>
+        <item>
+            <description>
+                回復体位をとってください
+            </description>
+            <image>
+                explain/recovery_position/kaifukutai.gif
+            </image>
+            <duration>5000</duration>
+            <button>
+                救急隊が来た
+            </button>
+        </item>
+    </items>
+    <metronome>0</metronome> <!-- メトロノームが必要なら1, 不要なら0 -->
+</root>

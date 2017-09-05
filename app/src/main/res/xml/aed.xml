@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root xmlns:android="http://schemas.android.com/apk/res/android">
+    <id>0</id>
+    <num>1</num>
+    <items>
+        <item>
+            <description>
+                AEDの音声案内に従って処置をしてください。終了後は胸骨圧迫を再開してください。
+            </description>
+            <image>
+                explain/AED/i000/img.png
+            </image>
+            <duration>2000</duration>
+            <button>
+                処置を再開する
+            </button>
+        </item>
+    </items>
+    <metronome>0</metronome>
+</root>
