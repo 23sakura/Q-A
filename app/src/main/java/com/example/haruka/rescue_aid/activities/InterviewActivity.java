@@ -146,6 +146,7 @@ public class InterviewActivity extends AppCompatActivity implements LocationList
 
     }
 
+
     private SpeechRecognizer sr;
 
     private void loadQuestion(){

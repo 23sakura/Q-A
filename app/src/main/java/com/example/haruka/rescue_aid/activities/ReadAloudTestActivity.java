@@ -1,5 +1,6 @@
 package com.example.haruka.rescue_aid.activities;
 
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
@@ -35,6 +36,7 @@ public class ReadAloudTestActivity extends AppCompatActivity implements View.OnC
         Button ttsButton = (Button)findViewById(R.id.btn_tts);
         ttsButton.setOnClickListener(this);
         editor = (EditText)findViewById(R.id.edit_text);
+        editor.setText("熱盛");
     }
 
     @Override
@@ -60,12 +62,21 @@ public class ReadAloudTestActivity extends AppCompatActivity implements View.OnC
         }
     }
 
+    private void 熱盛(){
+        MediaPlayer mp = MediaPlayer.create(this, R.raw.atsumori);
+        mp.start();
+    }
+
     private void speechText() {
         editor.selectAll();
         // EditTextからテキストを取得
         String string = editor.getText().toString();
 
-        if (string.length() > 0) {
+        if ("熱盛".equals(string)){
+            熱盛();
+        }
+
+        else if (string.length() > 0) {
             if (tts.isSpeaking()) {
                 tts.stop();
                 return;
