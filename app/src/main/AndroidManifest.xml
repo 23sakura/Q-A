@@ -41,6 +41,7 @@
         <activity android:name=".activities.CVCameraTestActivity" />
         <activity android:name=".activities.LocationTestActivity" />
         <activity android:name=".activities.ExplainActivity" />
+        <activity android:name=".activities.ResultActivity" />
         <activity android:name=".activities.Display_qr" />
     </application>
 

@@ -1,5 +1,5 @@
 id,質問内容,id_yes,id_no,y.result,n.result,
-0,意識はありますか,1,2,yellow,red,
+0,意識はありますか,2,1,yellow,red,
 1,体動はありますか,3,4,yellow,red,
 2,普通に会話できますか,5,6,yellow,red,
 3,脈はありますか,7,8,yellow,red,

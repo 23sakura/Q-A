@@ -31,7 +31,9 @@ import com.example.haruka.rescue_aid.R;
 import com.example.haruka.rescue_aid.recognition_list.YesClass;
 import com.example.haruka.rescue_aid.utils.InterviewAnswers;
 import com.example.haruka.rescue_aid.utils.InterviewData;
+import com.example.haruka.rescue_aid.utils.MedicalCertification;
 import com.example.haruka.rescue_aid.utils.Question;
+import com.example.haruka.rescue_aid.utils.Record;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -42,10 +44,8 @@ import java.util.StringTokenizer;
 
 import static com.example.haruka.rescue_aid.R.id.interview;
 
-
 public class InterviewActivity extends AppCompatActivity implements LocationListener {
     private Context context;
-    private Intent mToQr;
     private Button mBtnYes;
     private Button mBtnNo;
     private TextView mInterviewContent;
@@ -59,6 +59,7 @@ public class InterviewActivity extends AppCompatActivity implements LocationList
     private ArrayList<Question> questions;
     private Question currentQuestion;
     private ArrayList<Question> usedQuestions;
+    private MedicalCertification medicalCertification;
 
     private ArrayList<String>[] dictionary;
 
@@ -182,6 +183,8 @@ public class InterviewActivity extends AppCompatActivity implements LocationList
     }
 
     private void produceNextQuestion(int viewID){
+        //final Intent intentCertification = new Intent(this, ExplainActivity.class);
+        final Intent intentCertification = new Intent(this, ResultActivity.class);
         mResult += currentQuestion.getQuestion();
         int nextIndex = 0;
         boolean answer = false;
@@ -195,6 +198,8 @@ public class InterviewActivity extends AppCompatActivity implements LocationList
         }
         currentQuestion.answer(answer);
         usedQuestions.add(currentQuestion);
+        Record r = new Record(Integer.toString(currentQuestion.getIndex()), Boolean.toString(currentQuestion.getAnswer()));
+        medicalCertification.addRecord(r);
 
         LinearLayout incLayout =(LinearLayout)inflater.inflate(R.layout.history_slide_view, null);
         Button btn = new Button(this);
@@ -203,30 +208,40 @@ public class InterviewActivity extends AppCompatActivity implements LocationList
 
         nextIndex = currentQuestion.getNextIndex(answer);
         mResult += String.format(" : %s\n", InterviewAnswers.AnswerToString(answer)) + " : " + InterviewAnswers.AnswerToString(answer) + "\n";
-
-        if(nextIndex >= 0) {
+        if (nextIndex >= 0) {
             currentQuestion = questions.get(nextIndex);
 
 
 
             mInterviewContent.setText(currentQuestion.getQuestion());
-            Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-            intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
-            sr.startListening(intent);
+            Intent intent_listener = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+            intent_listener.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+            intent_listener.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
+            sr.startListening(intent_listener);
         }else {
             interviewData.setListOfQuestions(usedQuestions);
-            new AlertDialog.Builder(context).setMessage("問診は終了です\nQRコードを表示します").setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            new AlertDialog.Builder(context).setMessage("問診は終了です").setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    //mToQr.putExtra("RESULT", mResult);
-                    mToQr.putExtra("RESULT", interviewData.toString());
-                    Log.d("RESULT", interviewData.toString());
-                    startActivity(mToQr);
+                    //makeMedicalCertification();
+                    intentCertification.putExtra("certification", medicalCertification);
+
+                    startActivity(intentCertification);
+                    finish();
                 }
             }).show();
 
         }
+    }
+
+    void makeMedicalCertification(){
+        medicalCertification = new MedicalCertification();
+        for (Question q : usedQuestions){
+            Record r = new Record(Integer.toString(q.getIndex()), Boolean.toString(q.getAnswer()));
+            medicalCertification.addRecord(r);
+        }
+
+        medicalCertification.showRecords();
     }
 
 
@@ -241,8 +256,8 @@ public class InterviewActivity extends AppCompatActivity implements LocationList
         questions = new ArrayList<>();
         usedQuestions = new ArrayList<>();
         loadQuestion();
+        medicalCertification = new MedicalCertification();
 
-        mToQr = new Intent(this, Display_qr.class);
         mBtnYes = (Button) findViewById(R.id.btn_yes);
         mBtnNo = (Button) findViewById(R.id.btn_no);
         mBtnYes.setOnClickListener(interAnsBtnListener);
@@ -293,7 +308,6 @@ public class InterviewActivity extends AppCompatActivity implements LocationList
 
     }
 
-
     @Override
     protected void onPause() {
         if (mLocationManager != null) {
@@ -302,9 +316,6 @@ public class InterviewActivity extends AppCompatActivity implements LocationList
 
         super.onPause();
     }
-
-
-
 
     @Override
     public void onLocationChanged(Location location) {

@@ -14,6 +14,9 @@
             <button>
                 処置を再開する
             </button>
+            <button2>
+                <!-- 終了ボタンの案内 -->
+            </button2>
         </item>
     </items>
     <metronome>0</metronome>
