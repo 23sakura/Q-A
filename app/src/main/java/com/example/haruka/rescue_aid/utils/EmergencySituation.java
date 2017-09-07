@@ -20,6 +20,7 @@ public class EmergencySituation{
 
     public String text;
     public String button;
+    public String button2;
     public Drawable drawable;
     public int duration;
 

@@ -40,19 +40,19 @@ public class EmergencyExplanation {
         int xmlID = 0;
         title = "";
         switch(situation){
-            case "chest_compression":
-                xmlID = R.xml.chest_compression;
-                title = "chest_compression";
+            case "care_chest_compression":
+                xmlID = R.xml.care_chest_compression;
+                title = "care_chest_compression";
                 break;
 
-            case "aed":
-                xmlID = R.xml.aed;
-                title = "aed";
+            case "care_aed":
+                xmlID = R.xml.care_aed;
+                title = "care_aed";
                 break;
 
-            case "recovery_position":
+            case "care_recovery_position":
                 title = "recovry_position";
-                xmlID = R.xml.recovery_position;
+                xmlID = R.xml.care_recovery_position;
                 break;
 
             default:
@@ -104,6 +104,9 @@ public class EmergencyExplanation {
                         } else if ("button".equals(name)){
                             Log.d("tag", "button");
                             emergencySituation.button = xpp.nextText();
+                        } else if ("button2".equals(name)){
+                            Log.d("tag", "button2");
+                            emergencySituation.button2 = xpp.nextText();
                         } else if ("metronome".equals(name)){
                             if (Integer.parseInt(xpp.nextText()) == 1) {
                                 isMetronomeRequired = true;
@@ -152,6 +155,9 @@ public class EmergencyExplanation {
 
     public String getButtonText(int index){
         return explain.get(index).button;
+    }
+    public String getButton2Text(int index){
+        return explain.get(index).button2;
     }
 
 }

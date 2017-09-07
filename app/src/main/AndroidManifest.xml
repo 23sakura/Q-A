@@ -42,6 +42,7 @@
         <activity android:name=".activities.LocationTestActivity" />
         <activity android:name=".activities.ExplainActivity" />
         <activity android:name=".activities.ResultActivity" />
+        <activity android:name=".activities.ReadAloudTestActivity" />
         <activity android:name=".activities.Display_qr" />
     </application>
 

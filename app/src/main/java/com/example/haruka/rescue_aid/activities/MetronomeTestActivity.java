@@ -37,7 +37,7 @@ public class MetronomeTestActivity  extends AppCompatActivity {
 
     private static class BpmUtil {
         public static int getSampleLength(double bpm) {
-            // 1beatあたりの長さ（sample）
+            // 1beatあたりの長さ（care_sample）
             return (int)(60 * Metronome.FREQUENCY / bpm);
         }
     }
@@ -133,7 +133,7 @@ public class MetronomeTestActivity  extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_explain);
 
-        emergencyExplanation = new EmergencyExplanation(this, "chest_compression");
+        emergencyExplanation = new EmergencyExplanation(this, "care_chest_compression");
         explainTime = new int[emergencyExplanation.getProcesses()];
         explainTime[0] = 1000;
         explainTime[1] = 3000;
