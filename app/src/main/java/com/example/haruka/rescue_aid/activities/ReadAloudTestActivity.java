@@ -30,13 +30,12 @@ public class ReadAloudTestActivity extends AppCompatActivity implements View.OnC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_read_aloud);
 
-        // TTS インスタンス生成
         tts = new TextToSpeech(this, this);
 
         Button ttsButton = (Button)findViewById(R.id.btn_tts);
         ttsButton.setOnClickListener(this);
         editor = (EditText)findViewById(R.id.edit_text);
-        editor.setText("熱盛");
+        editor.setText("こんにちは");
     }
 
     @Override
@@ -52,7 +51,7 @@ public class ReadAloudTestActivity extends AppCompatActivity implements View.OnC
     @Override
     public void onClick(View v) {
         Log.d("Speech text", editor.getText().toString());
-        speechText();
+        speechText(editor.getText().toString());
     }
 
     private void shutDown(){
@@ -67,16 +66,9 @@ public class ReadAloudTestActivity extends AppCompatActivity implements View.OnC
         mp.start();
     }
 
-    private void speechText() {
-        editor.selectAll();
-        // EditTextからテキストを取得
-        String string = editor.getText().toString();
-
-        if ("熱盛".equals(string)){
-            熱盛();
-        }
-
-        else if (string.length() > 0) {
+    private void speechText(String text) {
+        Log.d(TAG, "text is " + text);
+        if (text.length() > 0) {
             if (tts.isSpeaking()) {
                 tts.stop();
                 return;
@@ -89,7 +81,7 @@ public class ReadAloudTestActivity extends AppCompatActivity implements View.OnC
             HashMap<String, String> map = new HashMap<String, String>();
             map.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID,"messageID");
 
-            tts.speak(string, TextToSpeech.QUEUE_FLUSH, map);
+            tts.speak(text, TextToSpeech.QUEUE_FLUSH, map);
             setTtsListener();
 
         }

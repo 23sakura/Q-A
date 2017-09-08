@@ -10,10 +10,13 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
+import android.os.Build;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
+import android.speech.tts.TextToSpeech;
+import android.speech.tts.UtteranceProgressListener;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -40,11 +43,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.StringTokenizer;
 
 import static com.example.haruka.rescue_aid.R.id.interview;
 
-public class InterviewActivity extends AppCompatActivity implements LocationListener {
+public class InterviewActivity extends AppCompatActivity implements LocationListener, TextToSpeech.OnInitListener {
     private Context context;
     private Button mBtnYes;
     private Button mBtnNo;
@@ -53,8 +57,6 @@ public class InterviewActivity extends AppCompatActivity implements LocationList
     private LinearLayout historyScrollLayout;
     //TODO check ListView
     private LayoutInflater inflater;
-
-    private String mResult = "";
 
     private ArrayList<Question> questions;
     private Question currentQuestion;
@@ -148,8 +150,103 @@ public class InterviewActivity extends AppCompatActivity implements LocationList
 
 
     private SpeechRecognizer sr;
+    private TextToSpeech tts;
 
-    private void loadQuestion(){
+    private static final String TAG = "TestTTS";
+
+    @Override
+    public void onInit(int status) {
+        if (TextToSpeech.SUCCESS == status) {
+            Log.d(TAG, "initialized");
+            showReadQuestion();
+        } else {
+            Log.e(TAG, "faile to initialize");
+        }
+    }
+
+    // 読み上げのスピード
+    private void setSpeechRate(float rate){
+        if (null != tts) {
+            tts.setSpeechRate(rate);
+        } else {
+            Log.d(TAG, "tts is null");
+        }
+    }
+
+    // 読み上げのピッチ
+    private void setSpeechPitch(float pitch){
+        if (null != tts) {
+            tts.setPitch(pitch);
+        } else {
+            Log.d(TAG, "tts is null");
+        }
+    }
+
+    private void setTtsListener(){
+        if (Build.VERSION.SDK_INT >= 15)
+        {
+            int listenerResult = tts.setOnUtteranceProgressListener(new UtteranceProgressListener()
+            {
+                @Override
+                public void onDone(String utteranceId)
+                {
+                    Log.d(TAG,"progress on Done " + utteranceId);
+                }
+
+                @Override
+                public void onError(String utteranceId)
+                {
+                    Log.d(TAG,"progress on Error " + utteranceId);
+                }
+
+                @Override
+                public void onStart(String utteranceId)
+                {
+                    Log.d(TAG,"progress on Start " + utteranceId);
+                }
+
+            });
+            if (listenerResult != TextToSpeech.SUCCESS)
+            {
+                Log.e(TAG, "failed to add utterance progress listener");
+            }
+        }
+        else {
+            Log.e(TAG, "Build VERSION is less than API 15");
+        }
+
+    }
+
+
+    private void speechText(String text) {
+        Log.d(TAG, "text is " + text);
+        if (text.length() > 0) {
+            if (tts.isSpeaking()) {
+                tts.stop();
+            }
+            setSpeechRate(1.0f);
+            setSpeechPitch(1.0f);
+
+            // tts.speak(text, TextToSpeech.QUEUE_FLUSH, null) に
+            // KEY_PARAM_UTTERANCE_ID を HasMap で設定
+            HashMap<String, String> map = new HashMap<String, String>();
+            map.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID,"messageID");
+
+            setTtsListener();
+            tts.speak(text, TextToSpeech.QUEUE_FLUSH, map);
+        }
+    }
+
+    private void showReadQuestion(){
+        mInterviewContent.setText(currentQuestion.getQuestion());
+        try{
+            speechText(currentQuestion.getQuestion());
+        }catch (Exception e){
+
+        }
+    }
+
+    private void loadQuestions(){
         AssetManager assetManager = this.context.getResources().getAssets();
         try{
             // CSVファイルの読み込み
@@ -186,7 +283,6 @@ public class InterviewActivity extends AppCompatActivity implements LocationList
     private void produceNextQuestion(int viewID){
         //final Intent intentCertification = new Intent(this, ExplainActivity.class);
         final Intent intentCertification = new Intent(this, ResultActivity.class);
-        mResult += currentQuestion.getQuestion();
         int nextIndex = 0;
         boolean answer = false;
         switch(viewID){
@@ -208,13 +304,14 @@ public class InterviewActivity extends AppCompatActivity implements LocationList
         historyScrollLayout.addView(btn);
 
         nextIndex = currentQuestion.getNextIndex(answer);
-        mResult += String.format(" : %s\n", InterviewAnswers.AnswerToString(answer)) + " : " + InterviewAnswers.AnswerToString(answer) + "\n";
         if (nextIndex >= 0) {
             currentQuestion = questions.get(nextIndex);
 
 
+            showReadQuestion();
+            //mInterviewContent.setText(currentQuestion.getQuestion());
+            //speechText(currentQuestion.getQuestion());
 
-            mInterviewContent.setText(currentQuestion.getQuestion());
             Intent intent_listener = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
             intent_listener.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
             intent_listener.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
@@ -245,6 +342,30 @@ public class InterviewActivity extends AppCompatActivity implements LocationList
         medicalCertification.showRecords();
     }
 
+    private void setLayout(){
+        mBtnYes = (Button) findViewById(R.id.btn_yes);
+        mBtnNo = (Button) findViewById(R.id.btn_no);
+        mBtnYes.setOnClickListener(interAnsBtnListener);
+        mBtnNo.setOnClickListener(interAnsBtnListener);
+        mInterviewContent = (TextView) findViewById(interview);
+
+        //mInterviewContent.setText(currentQuestion.getQuestion());
+        showReadQuestion();
+
+        historyScroll = (HorizontalScrollView)findViewById(R.id.history_scroll);
+        historyScrollLayout = (LinearLayout) findViewById(R.id.history_scroll_layout);
+        inflater = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    }
+
+    private void setSpeechRecognizer(){
+        sr = SpeechRecognizer.createSpeechRecognizer(getApplicationContext());
+        sr.setRecognitionListener(new SpeechListener());
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
+        //sr.startListening(intent);
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -256,27 +377,15 @@ public class InterviewActivity extends AppCompatActivity implements LocationList
 
         questions = new ArrayList<>();
         usedQuestions = new ArrayList<>();
-        loadQuestion();
+        loadQuestions();
         medicalCertification = new MedicalCertification();
 
-        mBtnYes = (Button) findViewById(R.id.btn_yes);
-        mBtnNo = (Button) findViewById(R.id.btn_no);
-        mBtnYes.setOnClickListener(interAnsBtnListener);
-        mBtnNo.setOnClickListener(interAnsBtnListener);
-        mInterviewContent = (TextView) findViewById(interview);
-        mInterviewContent.setText(currentQuestion.getQuestion());
-        historyScroll = (HorizontalScrollView)findViewById(R.id.history_scroll);
-        historyScrollLayout = (LinearLayout) findViewById(R.id.history_scroll_layout);
-        inflater = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        setLayout();
+        setSpeechRecognizer();
 
         interviewData = new InterviewData(null);
 
-        sr = SpeechRecognizer.createSpeechRecognizer(getApplicationContext());
-        sr.setRecognitionListener(new SpeechListener());
-        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
-        sr.startListening(intent);
+        tts = new TextToSpeech(this, this);
 
         mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
@@ -314,7 +423,7 @@ public class InterviewActivity extends AppCompatActivity implements LocationList
         if (mLocationManager != null) {
             mLocationManager.removeUpdates(this);
         }
-
+        tts.stop();
         super.onPause();
     }
 
