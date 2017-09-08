@@ -32,18 +32,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.TestPlatformActivity" />
         <activity android:name=".activities.InterviewActivity" />
-        <activity android:name=".activities.VoiceRecognizeActivity" />
+        <activity android:name=".activities.ResultActivity" />
+        <activity android:name=".activities.ExplainActivity" />
+        <activity android:name=".activities.Display_qr" />
+
         <activity android:name=".activities.ShakeTestActivity" />
+        <activity android:name=".activities.VoiceRecognizeActivity" />
+        <activity android:name=".activities.TestPlatformActivity" />
         <activity android:name=".activities.CardiotachometerActivity" />
         <activity android:name=".activities.LightTestActivity" />
         <activity android:name=".activities.CVCameraTestActivity" />
         <activity android:name=".activities.LocationTestActivity" />
-        <activity android:name=".activities.ExplainActivity" />
-        <activity android:name=".activities.ResultActivity" />
         <activity android:name=".activities.ReadAloudTestActivity" />
-        <activity android:name=".activities.Display_qr" />
+        <activity android:name=".activities.SettingActivity" />
     </application>
 
 </manifest>

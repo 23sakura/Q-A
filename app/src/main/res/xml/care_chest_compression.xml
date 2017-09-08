@@ -1,28 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root xmlns:android="http://schemas.android.com/apk/res/android">
     <id>1</id>
+
+
+    <notice>
+        <title>
+            胸骨圧迫をしてください
+        </title>
+        <description>
+            胸骨圧迫をします。下の「応急手当ボタン」を押すとガイドが始まります。
+        </description>
+    </notice>
+
     <num>2</num>
     <items>
         <item>
-            <description>
-                ひじを伸ばし、垂直に体重をかけ、成人は深さ約5cm、小児は胸の厚さの約1／3胸が沈みこむように、1分間に100～120回のテンポで強く速く胸を押します。（AEDが到着するまで）。胸を完全に元の位置に戻すために、圧迫と圧迫の間に胸壁に力がかからないようにします。
-            </description>
+            <description>ひじを伸ばし、垂直に体重をかけ、成人は深さ約5cm、小児は胸の厚さの約1／3胸が沈みこむように、1分間に100～120回のテンポで強く速く胸を押します。（AEDが到着するまで）。胸を完全に元の位置に戻すために、圧迫と圧迫の間に胸壁に力がかからないようにします。</description>
             <image>
                 explain/chest_compression/i000/img.png
             </image>
-            <duration>2000</duration>
+            <duration>10000</duration>
             <button>
                 AEDが到着した
             </button>
         </item>
         <item>
-            <description>
-                次の図を参考に胸の中央部に置きます。
-            </description>
+            <description>次の図を参考に胸の中央部に手を置きます。</description>
             <image>
                 explain/chest_compression/i001/img.png
             </image>
-            <duration>1000</duration>
+            <duration>10000</duration>
             <button>
                 AEDが到着した
             </button>

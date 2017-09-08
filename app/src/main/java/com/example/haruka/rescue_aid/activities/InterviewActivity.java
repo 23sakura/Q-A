@@ -10,17 +10,13 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
-import android.os.Build;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
-import android.speech.tts.TextToSpeech;
-import android.speech.tts.UtteranceProgressListener;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,12 +39,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.StringTokenizer;
 
 import static com.example.haruka.rescue_aid.R.id.interview;
 
-public class InterviewActivity extends AppCompatActivity implements LocationListener, TextToSpeech.OnInitListener {
+public class InterviewActivity extends ReadAloudTestActivity implements LocationListener{
     private Context context;
     private Button mBtnYes;
     private Button mBtnNo;
@@ -150,92 +145,6 @@ public class InterviewActivity extends AppCompatActivity implements LocationList
 
 
     private SpeechRecognizer sr;
-    private TextToSpeech tts;
-
-    private static final String TAG = "TestTTS";
-
-    @Override
-    public void onInit(int status) {
-        if (TextToSpeech.SUCCESS == status) {
-            Log.d(TAG, "initialized");
-            showReadQuestion();
-        } else {
-            Log.e(TAG, "faile to initialize");
-        }
-    }
-
-    // 読み上げのスピード
-    private void setSpeechRate(float rate){
-        if (null != tts) {
-            tts.setSpeechRate(rate);
-        } else {
-            Log.d(TAG, "tts is null");
-        }
-    }
-
-    // 読み上げのピッチ
-    private void setSpeechPitch(float pitch){
-        if (null != tts) {
-            tts.setPitch(pitch);
-        } else {
-            Log.d(TAG, "tts is null");
-        }
-    }
-
-    private void setTtsListener(){
-        if (Build.VERSION.SDK_INT >= 15)
-        {
-            int listenerResult = tts.setOnUtteranceProgressListener(new UtteranceProgressListener()
-            {
-                @Override
-                public void onDone(String utteranceId)
-                {
-                    Log.d(TAG,"progress on Done " + utteranceId);
-                }
-
-                @Override
-                public void onError(String utteranceId)
-                {
-                    Log.d(TAG,"progress on Error " + utteranceId);
-                }
-
-                @Override
-                public void onStart(String utteranceId)
-                {
-                    Log.d(TAG,"progress on Start " + utteranceId);
-                }
-
-            });
-            if (listenerResult != TextToSpeech.SUCCESS)
-            {
-                Log.e(TAG, "failed to add utterance progress listener");
-            }
-        }
-        else {
-            Log.e(TAG, "Build VERSION is less than API 15");
-        }
-
-    }
-
-
-    private void speechText(String text) {
-        Log.d(TAG, "text is " + text);
-        if (text.length() > 0) {
-            if (tts.isSpeaking()) {
-                tts.stop();
-            }
-            setSpeechRate(1.0f);
-            setSpeechPitch(1.0f);
-
-            // tts.speak(text, TextToSpeech.QUEUE_FLUSH, null) に
-            // KEY_PARAM_UTTERANCE_ID を HasMap で設定
-            HashMap<String, String> map = new HashMap<String, String>();
-            map.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID,"messageID");
-
-            setTtsListener();
-            tts.speak(text, TextToSpeech.QUEUE_FLUSH, map);
-        }
-    }
 
     private void showReadQuestion(){
         mInterviewContent.setText(currentQuestion.getQuestion());
@@ -385,8 +294,6 @@ public class InterviewActivity extends AppCompatActivity implements LocationList
 
         interviewData = new InterviewData(null);
 
-        tts = new TextToSpeech(this, this);
-
         mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
         //Location Permission
@@ -423,7 +330,6 @@ public class InterviewActivity extends AppCompatActivity implements LocationList
         if (mLocationManager != null) {
             mLocationManager.removeUpdates(this);
         }
-        tts.stop();
         super.onPause();
     }
 

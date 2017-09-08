@@ -14,8 +14,8 @@ import com.example.haruka.rescue_aid.R;
 
 public class TestPlatformActivity extends AppCompatActivity {
 
-    private Button gotoTestBtn1, gotoTestBtn2, gotoTestBtn3, gotoTestBtn4, gotoTestBtn5, gotoTestBtn6, gotoTestBtn7;
-    private Intent testIntent1, testIntent2, testIntent3, testIntent4, testIntent5, testIntent6, testIntent7;
+    private Button gotoTestBtn1, gotoTestBtn2, gotoTestBtn3, gotoTestBtn4, gotoTestBtn5, gotoTestBtn6, gotoTestBtn7, gotoTestBtn8;
+    private Intent testIntent1, testIntent2, testIntent3, testIntent4, testIntent5, testIntent6, testIntent7, testIntent8;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -29,6 +29,7 @@ public class TestPlatformActivity extends AppCompatActivity {
         gotoTestBtn5 = (Button)findViewById(R.id.gotoTestBtn5);
         gotoTestBtn6 = (Button)findViewById(R.id.gotoTestBtn6);
         gotoTestBtn7 = (Button)findViewById(R.id.gotoTestBtn7);
+        gotoTestBtn8 = (Button)findViewById(R.id.gotoTestBtn8);
 
         testIntent1 = new Intent(this, VoiceRecognizeActivity.class);
         gotoTestBtn1.setText("音声認識テスト");
@@ -57,7 +58,6 @@ public class TestPlatformActivity extends AppCompatActivity {
             }
         });
 
-        //testIntent4 = new Intent(this, LightTestActivity.class);
         testIntent4 = new Intent(this, CVCameraTestActivity.class);
         gotoTestBtn4.setText("フラッシュライトテスト");
         gotoTestBtn4.setOnClickListener(new View.OnClickListener() {
@@ -91,6 +91,15 @@ public class TestPlatformActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(testIntent7);
+            }
+        });
+
+        testIntent8 = new Intent(this, SettingActivity.class);
+        gotoTestBtn8.setText("設定");
+        gotoTestBtn8.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(testIntent8);
             }
         });
     }

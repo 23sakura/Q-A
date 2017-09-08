@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root xmlns:android="http://schemas.android.com/apk/res/android">
     <id>0</id> <!-- 通し番号（いらないかも）-->
+
+    <notice>
+        <title>
+            タイトル
+        </title>
+        <description>
+            結果表示画面の説明文
+        </description>
+    </notice>
+
+
     <num>1</num> <!-- 表示する説明文の数 itemタグの数と同じ-->
     <items> <!-- item集合 -->
         <item> <!-- 一つの処置 -->
