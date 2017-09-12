@@ -159,7 +159,8 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
         AssetManager assetManager = this.context.getResources().getAssets();
         try{
             // CSVファイルの読み込み
-            InputStream is = assetManager.open("scenarios/scenario.csv");
+            //InputStream is = assetManager.open("scenarios/scenario.csv");
+            InputStream is = assetManager.open("scenarios/text4.csv");
             InputStreamReader inputStreamReader = new InputStreamReader(is);
             BufferedReader bufferReader = new BufferedReader(inputStreamReader);
             String line = "";
@@ -174,8 +175,11 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
                 if(id == "id") continue;
                 int index = Integer.parseInt(id);
                 String text = st.nextToken();
+                Log.d("text", text);
                 int yesIndex = Integer.parseInt(st.nextToken());
+                Log.d("yes", Integer.toString(yesIndex));
                 int noIndex = Integer.parseInt(st.nextToken());
+                Log.d("no", Integer.toString(noIndex));
                 Question q = new Question(index, text, yesIndex, noIndex);
                 questions.add(q);
 

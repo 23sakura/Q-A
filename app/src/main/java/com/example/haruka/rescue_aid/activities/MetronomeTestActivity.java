@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.haruka.rescue_aid.R;
-import com.example.haruka.rescue_aid.utils.EmergencyExplanation;
+import com.example.haruka.rescue_aid.utils.ExplainCare;
 
 import java.util.ArrayList;
 
@@ -25,7 +25,7 @@ public class MetronomeTestActivity  extends AppCompatActivity {
 
     Metronome mMetronome;
     Button metronomeButton;
-    EmergencyExplanation emergencyExplanation;
+    ExplainCare emergencyExplanation;
 
     TextView textView;
     ImageView imageView;
@@ -133,7 +133,7 @@ public class MetronomeTestActivity  extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_explain);
 
-        emergencyExplanation = new EmergencyExplanation(this, "care_chest_compression");
+        emergencyExplanation = new ExplainCare(this, "care_chest_compression");
         explainTime = new int[emergencyExplanation.getProcesses()];
         explainTime[0] = 1000;
         explainTime[1] = 3000;

@@ -7,24 +7,24 @@
     <items>
         <item>
             <description>
-                出血しているきず口をガーゼやハンカチなどで直接強く押さえて、しばらく圧迫します。感染防止のために、ビニール袋やビニール手袋などを使用することが推奨されています。
+                出血しているきず口をガーゼやハンカチなどで直接強く押さえて、しばらく圧迫します。感染防止のために、ビニール袋やビニール手袋などを使用してください。
             </description>
             <image>
                 explain/bleed_stopping/i001.gif
             </image>
-            <duration>2000</duration>
+            <duration>8000</duration>
             <button>
                 出血が止まった
             </button>
         </item>
         <item>
             <description>
-                出血が持続している間は、手を動かさず圧迫を続ける。
+                出血が持続している間は、手を動かさず圧迫を続けてください。
             </description>
             <image>
                 explain/bleed_stopping/i001.gif
             </image>
-            <duration>5000</duration>
+            <duration>8000</duration>
             <button>
                 出血が止まった
             </button>

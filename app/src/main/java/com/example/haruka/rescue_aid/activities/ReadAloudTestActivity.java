@@ -39,7 +39,7 @@ public class ReadAloudTestActivity extends AppCompatActivity implements TextToSp
             Log.e(TAG, "faile to initialize");
         }
     }
-    
+
     private void shutDown(){
         if (null != tts) {
             // to release the resource of TextToSpeech
