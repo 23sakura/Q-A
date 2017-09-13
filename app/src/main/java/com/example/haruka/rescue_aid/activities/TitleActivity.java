@@ -21,7 +21,8 @@ public class TitleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_title);
 
-        interviewIntent = new Intent(this, InterviewActivity.class);
+        //interviewIntent = new Intent(this, InterviewActivity.class);
+        interviewIntent = new Intent(this, SymptomCategorizeActivity.class);
         testIntent = new Intent(this, TestPlatformActivity.class);
 
         gotoInterviewBtn = (Button)findViewById(R.id.startbtn);

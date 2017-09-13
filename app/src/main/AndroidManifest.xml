@@ -32,6 +32,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activities.SymptomCategorizeActivity" />
         <activity android:name=".activities.InterviewActivity" />
         <activity android:name=".activities.ResultActivity" />
         <activity android:name=".activities.ExplainActivity" />

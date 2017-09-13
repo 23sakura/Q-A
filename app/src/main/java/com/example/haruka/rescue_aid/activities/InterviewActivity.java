@@ -63,6 +63,8 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
     private InterviewData interviewData;
     private LocationManager mLocationManager;
 
+    String scenario;
+
     class SpeechListener implements RecognitionListener {
 
         @Override
@@ -159,8 +161,10 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
         AssetManager assetManager = this.context.getResources().getAssets();
         try{
             // CSVファイルの読み込み
-            //InputStream is = assetManager.open("scenarios/scenario.csv");
-            InputStream is = assetManager.open("scenarios/text4.csv");
+            //InputStream is = assetManager.open("scenarios/" + scenario);
+            String scenario_ = "scenarios/" + scenario;
+            Log.d("Scenario", scenario_);
+            InputStream is = assetManager.open(scenario_);
             InputStreamReader inputStreamReader = new InputStreamReader(is);
             BufferedReader bufferReader = new BufferedReader(inputStreamReader);
             String line = "";
@@ -194,7 +198,6 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
     }
 
     private void produceNextQuestion(int viewID){
-        //final Intent intentCertification = new Intent(this, ExplainActivity.class);
         final Intent intentCertification = new Intent(this, ResultActivity.class);
         int nextIndex = 0;
         boolean answer = false;
@@ -285,6 +288,9 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_interview);
         context = this;
+
+        Intent intent = getIntent();
+        scenario = intent.getStringExtra("SCENARIO");
 
         dictionary = YesClass.getDictionary();
 
