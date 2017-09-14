@@ -178,7 +178,6 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
             int _i = 0;
             while ((line = bufferReader.readLine()) != null) {
                 StringTokenizer st = new StringTokenizer(line, ",");
-                Log.d("回数" , Integer.toString(_i));
 
                 _i++;
                 String id = st.nextToken();
@@ -259,7 +258,7 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 //makeMedicalCertification();
-                intentCertification.putExtra("certification", medicalCertification);
+                intentCertification.putExtra("CERTIFICATION", medicalCertification);
 
                 startActivity(intentCertification);
                 finish();

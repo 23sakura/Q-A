@@ -13,6 +13,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.example.haruka.rescue_aid.R;
+import com.example.haruka.rescue_aid.utils.MedicalCertification;
 
 /**
  * Created by Tomoya on 9/7/2017 AD.
@@ -20,6 +21,7 @@ import com.example.haruka.rescue_aid.R;
 
 public class ResultActivity extends AppCompatActivity {
 
+    private MedicalCertification medicalCertification;
     LinearLayout linearLayout;
     ScrollView scrollView;
     LinearLayout inflateLayout;
@@ -80,6 +82,7 @@ public class ResultActivity extends AppCompatActivity {
         dealingBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
+                intent.putExtra("CERTIFICATION", medicalCertification);
                 startActivity(intent);
                 finish();
             }
@@ -89,12 +92,16 @@ public class ResultActivity extends AppCompatActivity {
                 LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         dealingBtn.setLayoutParams(buttonLayoutParams);
         linearLayout.addView(dealingBtn);
-        //scrollView.addView(dealingBtn);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        try {
+            medicalCertification = (MedicalCertification) getIntent().getSerializableExtra("CERTIFICATION");
+        } catch (Exception e){
+            medicalCertification = new MedicalCertification();
+        }
         setScrollView();
         setLinearLayout();
         setTextView();
