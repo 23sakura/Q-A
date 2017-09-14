@@ -33,6 +33,7 @@ import com.example.haruka.rescue_aid.utils.InterviewData;
 import com.example.haruka.rescue_aid.utils.MedicalCertification;
 import com.example.haruka.rescue_aid.utils.Question;
 import com.example.haruka.rescue_aid.utils.Record;
+import com.example.haruka.rescue_aid.views.HistoryButton;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -157,6 +158,11 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
         }
     }
 
+    private void setNextQuestion(Question q){
+        currentQuestion = q;
+        showReadQuestion();
+    }
+
     private void loadQuestions(){
         AssetManager assetManager = this.context.getResources().getAssets();
         try{
@@ -197,54 +203,142 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
         currentQuestion = questions.get(0);
     }
 
-    private void produceNextQuestion(int viewID){
-        final Intent intentCertification = new Intent(this, ResultActivity.class);
-        int nextIndex = 0;
-        boolean answer = false;
-        switch(viewID){
-            case R.id.btn_yes:
-                answer = InterviewAnswers.YES;
-                break;
-            case R.id.btn_no:
-                answer = InterviewAnswers.NO;
-                break;
+    private void backToQuestion(int index){ //the index given is to quote usedQuestions
+        Question q = usedQuestions.remove(index);
+        setNextQuestion(q);
+    }
+
+    private boolean isAnswered(int index){
+        Question question = questions.get(index);
+
+        for (Question q : usedQuestions){
+            if (q.getIndex() == index){
+                //the question is used
+                return true;
+            }
         }
-        currentQuestion.answer(answer);
+
+        return false;
+    }
+
+    private void addUsedQuestion(Question q){
         usedQuestions.add(currentQuestion);
         Record r = new Record(Integer.toString(currentQuestion.getIndex()), Boolean.toString(currentQuestion.getAnswer()));
         medicalCertification.addRecord(r);
 
         LinearLayout incLayout =(LinearLayout)inflater.inflate(R.layout.history_slide_view, null);
-        Button btn = new Button(this);
+        final HistoryButton btn = new HistoryButton(this, currentQuestion.getIndex());
         btn.setText(currentQuestion.getQuestion() + "\n" + currentQuestion.getAnswer());
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int x = btn.index;
+                Log.d("Interview on click", Integer.toString(x));
+                int i = 0;
+                for (i = 0; i < usedQuestions.size(); i++){
+                    if (usedQuestions.get(i).getIndex() == x){
+                        Log.d("Interview", usedQuestions.get(i).getQuestion());
+                        historyScrollLayout.removeView(btn);
+                        break;
+                    }
+                }
+                if (currentQuestion.isAnswered){
+                    addUsedQuestion(currentQuestion);
+                }
+                backToQuestion(i);
+            }
+        });
+        historyScrollLayout.addView(btn);
+    }
+
+    private void showFinishAlart(){
+        final Intent intentCertification = new Intent(this, ResultActivity.class);
+        interviewData.setListOfQuestions(usedQuestions);
+        new AlertDialog.Builder(context).setMessage("問診は終了です").setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //makeMedicalCertification();
+                intentCertification.putExtra("certification", medicalCertification);
+
+                startActivity(intentCertification);
+                finish();
+            }
+        }).show();
+    }
+
+    private void produceNextQuestion(int viewID){
+        int nextIndex = 0;
+        boolean answer = false;
+        switch(viewID){
+            case R.id.btn_yes:
+                answer = InterviewAnswers.YES;
+                //currentQuestion.isAnswered = true;
+                break;
+            case R.id.btn_no:
+                answer = InterviewAnswers.NO;
+                //currentQuestion.isAnswered = true;
+                break;
+        }
+        currentQuestion.answer(answer);
+
+        addUsedQuestion(currentQuestion);
+        /*
+        usedQuestions.add(currentQuestion);
+        Record r = new Record(Integer.toString(currentQuestion.getIndex()), Boolean.toString(currentQuestion.getAnswer()));
+        medicalCertification.addRecord(r);
+
+        LinearLayout incLayout =(LinearLayout)inflater.inflate(R.layout.history_slide_view, null);
+        final HistoryButton btn = new HistoryButton(this, currentQuestion.getIndex());
+        btn.setText(currentQuestion.getQuestion() + "\n" + currentQuestion.getAnswer());
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int x = btn.index;
+                Log.d("Interview on click", Integer.toString(x));
+                for (int i = 0; i < usedQuestions.size(); i++){
+                    if (usedQuestions.get(i).getIndex() == x){
+                        Log.d("Interview", usedQuestions.get(i).getQuestion());
+                        backToQuestion(i);
+                        historyScrollLayout.removeView(btn);
+                        break;
+
+                    }
+                }
+            }
+        });
         historyScrollLayout.addView(btn);
 
-        nextIndex = currentQuestion.getNextIndex(answer);
+        */
+        nextIndex = currentQuestion.getNextIndex();
         if (nextIndex >= 0) {
-            currentQuestion = questions.get(nextIndex);
-
-
-            showReadQuestion();
-            //mInterviewContent.setText(currentQuestion.getQuestion());
-            //speechText(currentQuestion.getQuestion());
-
-            Intent intent_listener = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-            intent_listener.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-            intent_listener.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
-            sr.startListening(intent_listener);
-        }else {
-            interviewData.setListOfQuestions(usedQuestions);
-            new AlertDialog.Builder(context).setMessage("問診は終了です").setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    //makeMedicalCertification();
-                    intentCertification.putExtra("certification", medicalCertification);
-
-                    startActivity(intentCertification);
-                    finish();
+            while(nextIndex >= 0) {
+                if (isAnswered(nextIndex)) {
+                    Question q = questions.get(nextIndex);
+                    if (q.getAnswer()) {
+                        nextIndex = q.getYesIndex();
+                    } else {
+                        nextIndex = q.getNoIndex();
+                    }
+                } else {
+                    break;
                 }
-            }).show();
+            }
+            if(nextIndex == -1){
+                showFinishAlart();
+            } else {
+                currentQuestion.isAnswered = true;
+                setNextQuestion(questions.get(nextIndex));
 
+
+                Intent intent_listener = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+                intent_listener.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+                intent_listener.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
+                sr.startListening(intent_listener);
+            }
+        }else {
+            showFinishAlart();
         }
     }
 

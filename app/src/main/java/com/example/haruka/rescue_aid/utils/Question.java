@@ -10,6 +10,7 @@ public class Question{
     private int yesIndex, noIndex;
     private String question;
     private boolean answer;
+    public boolean isAnswered;
 
     public Question(){
         index = -1;
@@ -17,6 +18,7 @@ public class Question{
         noIndex = -100;
         question = "This question is invalid";
         answer = false;
+        isAnswered = false;
     }
 
     public Question(int index, String question, int yesIndex, int noIndex){
@@ -26,6 +28,7 @@ public class Question{
         this.question = question;
 
         answer = false;
+        isAnswered = false;
         //Log.i("Question class", this.toString());
     }
 
@@ -43,6 +46,14 @@ public class Question{
     }
 
     public int getNextIndex(boolean answer){
+        if (answer == InterviewAnswers.YES){
+            return getYesIndex();
+        }else{
+            return getNoIndex();
+        }
+    }
+
+    public int getNextIndex(){
         if (answer == InterviewAnswers.YES){
             return getYesIndex();
         }else{
