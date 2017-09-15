@@ -6,11 +6,12 @@ package com.example.haruka.rescue_aid.utils;
 
 public class Question{
 
-    public final static int MAX_LEVEL = 3, MIN_LEVEL = 1;
+    public final static int MAX_URGENCY = Utils.MAX_URGENCY, MIN_URGENCY = Utils.MIN_URGNECY;
 
     private int index;
     private int yesIndex, noIndex;
-    private int yesLevel, noLevel;
+    private int yesUrgency, noUrgency;
+    private boolean[] yesCare, noCare;
     private String question;
     private boolean answer;
     public boolean isAnswered;
@@ -19,8 +20,10 @@ public class Question{
         index = -1;
         yesIndex = -100;
         noIndex = -100;
-        yesLevel = MIN_LEVEL;
-        noLevel = MIN_LEVEL;
+        yesUrgency = MIN_URGENCY;
+        noUrgency = MIN_URGENCY;
+        yesCare = new boolean[Utils.NUM_CARE];
+        noCare = new boolean[Utils.NUM_CARE];
         question = "This question is invalid";
         answer = false;
         isAnswered = false;
@@ -31,20 +34,38 @@ public class Question{
         this.yesIndex = yesIndex;
         this.noIndex = noIndex;
         this.question = question;
-        this.yesLevel = MIN_LEVEL;
-        this.noLevel = MIN_LEVEL;
+        this.yesUrgency = MIN_URGENCY;
+        this.noUrgency = MIN_URGENCY;
+        yesCare = new boolean[Utils.NUM_CARE];
+        noCare = new boolean[Utils.NUM_CARE];
 
         answer = false;
         isAnswered = false;
     }
 
-    public Question(int index, String question, int yesIndex, int noIndex, int yesLevel, int noLevel){
+    public Question(int index, String question, int yesIndex, int noIndex, int yesUrgency, int noUrgency){
         this.index = index;
         this.yesIndex = yesIndex;
         this.noIndex = noIndex;
         this.question = question;
-        this.yesLevel = Math.min(Math.max(yesLevel, MIN_LEVEL), MAX_LEVEL);
-        this.noLevel = Math.min(Math.max(noLevel, MIN_LEVEL), MAX_LEVEL);
+        this.yesUrgency = Math.min(Math.max(yesUrgency, MIN_URGENCY), MAX_URGENCY);
+        this.noUrgency = Math.min(Math.max(noUrgency, MIN_URGENCY), MAX_URGENCY);
+        yesCare = new boolean[Utils.NUM_CARE];
+        noCare = new boolean[Utils.NUM_CARE];
+
+        answer = false;
+        isAnswered = false;
+    }
+
+    public Question(int index, String question, int yesIndex, int noIndex, int yesUrgency, int noUrgency, boolean[] yesCare, boolean[] noCare){
+        this.index = index;
+        this.yesIndex = yesIndex;
+        this.noIndex = noIndex;
+        this.question = question;
+        this.yesUrgency = Math.min(Math.max(yesUrgency, MIN_URGENCY), MAX_URGENCY);
+        this.noUrgency = Math.min(Math.max(noUrgency, MIN_URGENCY), MAX_URGENCY);
+        this.yesCare = yesCare;
+        this.noCare = noCare;
 
         answer = false;
         isAnswered = false;
@@ -56,8 +77,8 @@ public class Question{
         res += "  , text : " + question;
         res += "  , yes index : " + Integer.toString(yesIndex);
         res += "  , no index : " + Integer.toString(noIndex);
-        res += "  , yes emergency level : " + Integer.toString(yesLevel);
-        res += "  , no emergency level : " + Integer.toString(noLevel);
+        res += "  , yes emergency urgency : " + Integer.toString(yesUrgency);
+        res += "  , no emergency urgency : " + Integer.toString(noUrgency);
         return res;
     }
 
@@ -89,19 +110,19 @@ public class Question{
         return noIndex;
     }
 
-    public int getYesLevel(){
-        return yesLevel;
+    public int getYesUrgency(){
+        return yesUrgency;
     }
 
-    public int getNoLevel(){
-        return noLevel;
+    public int getNoUrgency(){
+        return noUrgency;
     }
 
-    public int getLevel(){
+    public int getUrgency(){
         if (answer){
-            return yesLevel;
+            return yesUrgency;
         } else {
-            return noLevel;
+            return noUrgency;
         }
     }
 
@@ -125,5 +146,22 @@ public class Question{
         }
     }
 
+    public boolean[] getCares(){
+        if (answer){
+            return yesCare;
+        } else {
+            return noCare;
+        }
+    }
+
+    public String getCareString(){
+        boolean[] cares = (answer) ? yesCare : noCare;
+        String s = "";
+        for (boolean c : cares){
+            s += c ? "Y" : "N";
+        }
+
+        return s;
+    }
 
 }

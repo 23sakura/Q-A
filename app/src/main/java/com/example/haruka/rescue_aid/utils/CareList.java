@@ -19,8 +19,8 @@ public class CareList {
 
     private final String _carelist = "care/carelist_v00.csv";
     private AssetManager assetManager;
-    public ArrayList<Care> careList;
-    public int CARE_NUM;
+    public static ArrayList<Care> careList;
+    public static int CARE_NUM;
 
     public CareList(Context context){
         assetManager = context.getResources().getAssets();
@@ -63,6 +63,10 @@ public class CareList {
         }
 
         CARE_NUM = careList.size();
+    }
+
+    public static Care getCare(int index){
+        return careList.get(index);
     }
 
     public void showCareList(){

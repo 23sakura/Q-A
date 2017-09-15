@@ -13,9 +13,12 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.example.haruka.rescue_aid.R;
+import com.example.haruka.rescue_aid.utils.Care;
 import com.example.haruka.rescue_aid.utils.CareList;
 import com.example.haruka.rescue_aid.utils.MedicalCertification;
 import com.example.haruka.rescue_aid.utils.Utils;
+
+import java.util.ArrayList;
 
 /**
  * Created by Tomoya on 9/7/2017 AD.
@@ -24,7 +27,8 @@ import com.example.haruka.rescue_aid.utils.Utils;
 public class ResultActivity extends AppCompatActivity {
 
     private MedicalCertification medicalCertification;
-    private int level;
+    private int urgency;
+    private ArrayList<Care> cares;
     LinearLayout linearLayout;
     ScrollView scrollView;
     LinearLayout inflateLayout;
@@ -56,7 +60,7 @@ public class ResultActivity extends AppCompatActivity {
         textView = new TextView(this);
         textView.setTextSize(50);
 
-        textView.setTextColor(Utils.LEVEL_COLORS[level]);
+        textView.setTextColor(Utils.URGENCY_COLORS[urgency]);
         textView.setText("死にそうです");
         LinearLayout.LayoutParams textLayoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -96,19 +100,41 @@ public class ResultActivity extends AppCompatActivity {
         linearLayout.addView(dealingBtn);
     }
 
+    public String getCareString(boolean[] care_boolean){
+        cares = new ArrayList<>();
+        String s = "";
+        for (int i = 0; i < care_boolean.length; i++){
+            if (care_boolean[i]){
+                s += "Y";
+                cares.add(CareList.getCare(i));
+            } else {
+                s += "N";
+            }
+        }
+
+        return s;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        careList = new CareList(this);
+        careList.showCareList();
+
         try {
             medicalCertification = (MedicalCertification) getIntent().getSerializableExtra("CERTIFICATION");
         } catch (Exception e){
             medicalCertification = new MedicalCertification();
         }
-        level = getIntent().getIntExtra("DANGEROUS_LEVEL", 1);
-        Log.d("DANGEROUS_LEVEL", Integer.toString(level));
+        urgency = getIntent().getIntExtra("URGENCY", 1);
+        Log.d("URGENCY", Integer.toString(urgency));
+        boolean[] _cares = getIntent().getBooleanArrayExtra("CARES");
+        Log.d("CARES", getCareString(_cares));
+        for (Care c : cares){
+            Log.d("care required" , c.name);
+        }
+
         medicalCertification.showRecords("ResultActivity");
-        careList = new CareList(this);
-        careList.showCareList();
 
 
         setScrollView();

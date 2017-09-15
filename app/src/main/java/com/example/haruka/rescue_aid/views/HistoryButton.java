@@ -1,9 +1,11 @@
 package com.example.haruka.rescue_aid.views;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Button;
 
 import com.example.haruka.rescue_aid.utils.Question;
+import com.example.haruka.rescue_aid.utils.Utils;
 
 /**
  * Created by Tomoya on 9/14/2017 AD.
@@ -12,18 +14,31 @@ import com.example.haruka.rescue_aid.utils.Question;
 public class HistoryButton extends Button {
 
     public int index;
-    public int level;
+    public int urgency;
+    public boolean[] cares;
 
     public HistoryButton(Context context, int index) {
         super(context);
         this.index = index;
-        this.level = Question.MIN_LEVEL;
+        this.urgency = Utils.MIN_URGNECY;
         setHeight(180);
     }
 
     public void setText(Question q){
         setText(q.getQuestion() + "\n" + q.getAnswerString());
-        this.level = q.getLevel();
+        this.urgency = q.getUrgency();
+        this.cares = q.getCares();
+        Log.d("HistoryButton", getCareString());
+    }
+
+
+    public String getCareString(){
+        String s = "";
+        for (boolean c : cares){
+            s += c ? "Y" : "N";
+        }
+
+        return s;
     }
 }
 

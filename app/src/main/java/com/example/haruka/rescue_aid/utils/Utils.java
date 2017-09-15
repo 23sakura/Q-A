@@ -7,6 +7,7 @@ import android.graphics.Color;
  */
 
 public class Utils {
-    public final static int MIN_LEVEL = 1, MAX_LEVEL = 3;
-    public static int[] LEVEL_COLORS = {0, Color.GREEN, Color.YELLOW, Color.RED};
+    public final static int MIN_URGNECY = 1, MAX_URGENCY = 3;
+    public static int[] URGENCY_COLORS = {0, Color.GREEN, Color.YELLOW, Color.RED};
+    public final static int NUM_CARE = 7;
 }
