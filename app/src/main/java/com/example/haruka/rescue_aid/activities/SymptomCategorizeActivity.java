@@ -17,7 +17,8 @@ public class SymptomCategorizeActivity extends AppCompatActivity {
     Button BtnToIll, BtnToInjury;
     Intent interviewIntent;
 
-    final String scenarioIll = "scenario.csv";
+    //final String scenarioIll = "scenario.csv";
+    final String scenarioIll = "scenario_17091501.csv";
     final String scenarioInjury = "text4.csv";
 
     @Override

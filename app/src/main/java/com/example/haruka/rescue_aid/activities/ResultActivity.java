@@ -1,9 +1,9 @@
 package com.example.haruka.rescue_aid.activities;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +13,9 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.example.haruka.rescue_aid.R;
+import com.example.haruka.rescue_aid.utils.CareList;
 import com.example.haruka.rescue_aid.utils.MedicalCertification;
+import com.example.haruka.rescue_aid.utils.Utils;
 
 /**
  * Created by Tomoya on 9/7/2017 AD.
@@ -22,6 +24,7 @@ import com.example.haruka.rescue_aid.utils.MedicalCertification;
 public class ResultActivity extends AppCompatActivity {
 
     private MedicalCertification medicalCertification;
+    private int level;
     LinearLayout linearLayout;
     ScrollView scrollView;
     LinearLayout inflateLayout;
@@ -29,7 +32,8 @@ public class ResultActivity extends AppCompatActivity {
     Button dealingBtn;
 
     final int MATCH_P = ViewGroup.LayoutParams.MATCH_PARENT;
-    final int WRAP_C = ViewGroup.LayoutParams.WRAP_CONTENT;
+
+    CareList careList;
 
     private void setLinearLayout(){
         linearLayout = new LinearLayout(this);
@@ -39,7 +43,6 @@ public class ResultActivity extends AppCompatActivity {
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT));
         linearLayout.setGravity(Gravity.CENTER_HORIZONTAL);
-        //setContentView(linearLayout);
         scrollView.addView(linearLayout);
     }
 
@@ -52,14 +55,14 @@ public class ResultActivity extends AppCompatActivity {
     private void setTextView(){
         textView = new TextView(this);
         textView.setTextSize(50);
-        textView.setTextColor(Color.RED);
+
+        textView.setTextColor(Utils.LEVEL_COLORS[level]);
         textView.setText("死にそうです");
         LinearLayout.LayoutParams textLayoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
         textView.setLayoutParams(textLayoutParams);
         linearLayout.addView(textView);
-        //scrollView.addView(textView);
     }
 
     private void setInflate(){
@@ -72,7 +75,6 @@ public class ResultActivity extends AppCompatActivity {
         inflateLayout.removeAllViews();
         getLayoutInflater().inflate(R.layout.inflate_result, inflateLayout);
         linearLayout.addView(inflateLayout);
-        //scrollView.addView(inflateLayout);
     }
 
     private void setDealingBtn(){
@@ -102,12 +104,19 @@ public class ResultActivity extends AppCompatActivity {
         } catch (Exception e){
             medicalCertification = new MedicalCertification();
         }
+        level = getIntent().getIntExtra("DANGEROUS_LEVEL", 1);
+        Log.d("DANGEROUS_LEVEL", Integer.toString(level));
         medicalCertification.showRecords("ResultActivity");
+        careList = new CareList(this);
+        careList.showCareList();
+
+
         setScrollView();
         setLinearLayout();
         setTextView();
         setInflate();
         setDealingBtn();
+
     }
 
 }

@@ -177,8 +177,9 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
             line = bufferReader.readLine();
             int _i = 0;
             while ((line = bufferReader.readLine()) != null) {
+                Question q;
                 StringTokenizer st = new StringTokenizer(line, ",");
-
+                Log.d("scenario line", line);
                 _i++;
                 String id = st.nextToken();
                 if(id == "id") continue;
@@ -186,14 +187,24 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
                 String text = st.nextToken();
                 Log.d("text", text);
                 int yesIndex = Integer.parseInt(st.nextToken());
-                Log.d("yes", Integer.toString(yesIndex));
+                Log.d("yes_index", Integer.toString(yesIndex));
                 int noIndex = Integer.parseInt(st.nextToken());
-                Log.d("no", Integer.toString(noIndex));
-                Question q = new Question(index, text, yesIndex, noIndex);
+                Log.d("no_index", Integer.toString(noIndex));
+                try {
+                    int yesLevel = Integer.parseInt(st.nextToken());
+                    Log.d("yes_level", Integer.toString(yesLevel));
+                    int noLevel = Integer.parseInt(st.nextToken());
+                    Log.d("no_level", Integer.toString(noLevel));
+                    q = new Question(index, text, yesIndex, noIndex, yesLevel, noLevel);
+                } catch (Exception e){
+                    q = new Question(index, text, yesIndex, noIndex);
+                }
                 questions.add(q);
 
-                Log.d(" 質問" , q.getQuestion());
+                Log.d(" question" , q.getQuestion());
             }
+
+            is.close();
         } catch (IOException e) {
             Log.i(InterviewActivity.this.getClass().getSimpleName(), e.toString());
             e.printStackTrace();
@@ -261,7 +272,8 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
         }
         LinearLayout incLayout =(LinearLayout)inflater.inflate(R.layout.history_slide_view, null);
         final HistoryButton btn = new HistoryButton(this, currentQuestion.getIndex());
-        btn.setText(currentQuestion.getQuestion() + "\n" + currentQuestion.getAnswer());
+        //btn.setText(currentQuestion.getQuestion() + "\n" + currentQuestion.getAnswer());
+        btn.setText(currentQuestion);
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -285,13 +297,25 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
         historyScrollLayout.addView(btn);
     }
 
+    private int getDangerLevel(){
+        int max_level = 0;
+        for(int i = 0; i < historyScrollLayout.getChildCount(); i++) {
+            HistoryButton hb = (HistoryButton)historyScrollLayout.getChildAt(i);
+            max_level = Math.max(max_level, hb.level);
+        }
+        return max_level;
+    }
+
     private void showFinishAlart(){
         final Intent intentCertification = new Intent(this, ResultActivity.class);
         interviewData.setListOfQuestions(usedQuestions);
         new AlertDialog.Builder(context).setMessage("問診は終了です").setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                int level = getDangerLevel();
+                Log.d("CERTIFICATION", Integer.toString(level));
                 //makeMedicalCertification();
+                intentCertification.putExtra("DANGEROUS_LEVEL", level);
                 intentCertification.putExtra("CERTIFICATION", medicalCertification);
                 medicalCertification.showRecords("InterviewActivity");
                 startActivity(intentCertification);
@@ -316,34 +340,7 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
         currentQuestion.answer(answer);
 
         addUsedQuestion(currentQuestion);
-        /*
-        usedQuestions.add(currentQuestion);
-        Record r = new Record(Integer.toString(currentQuestion.getIndex()), Boolean.toString(currentQuestion.getAnswer()));
-        medicalCertification.addRecord(r);
 
-        LinearLayout incLayout =(LinearLayout)inflater.inflate(R.layout.history_slide_view, null);
-        final HistoryButton btn = new HistoryButton(this, currentQuestion.getIndex());
-        btn.setText(currentQuestion.getQuestion() + "\n" + currentQuestion.getAnswer());
-
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int x = btn.index;
-                Log.d("Interview on click", Integer.toString(x));
-                for (int i = 0; i < usedQuestions.size(); i++){
-                    if (usedQuestions.get(i).getIndex() == x){
-                        Log.d("Interview", usedQuestions.get(i).getQuestion());
-                        backToQuestion(i);
-                        historyScrollLayout.removeView(btn);
-                        break;
-
-                    }
-                }
-            }
-        });
-        historyScrollLayout.addView(btn);
-
-        */
         nextIndex = currentQuestion.getNextIndex();
         if (nextIndex >= 0) {
             while(nextIndex >= 0) {

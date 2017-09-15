@@ -16,11 +16,6 @@ public class MedicalCertification implements Serializable {
     private static final long serialVersionUID = 1L;
 
     ArrayList<Record> records;
-    /*
-    String[] times;
-    String[] tags;
-    String[] values;
-    */
 
     Location location;
 
