@@ -39,17 +39,21 @@ public class MedicalCertification implements Serializable {
         */
     }
 
-
-
     public void addRecord(Record r){
         records.add(r);
     }
+    public void remove(Record r) {}
 
     public void updateLocation(Location location){
         this.location = location;
     }
 
     public void showRecords(){
+        showRecords("");
+    }
+
+    public void showRecords(String activity){
+        Log.d("records", activity);
         for(Record r : records){
             Log.d("records", r.toString());
         }

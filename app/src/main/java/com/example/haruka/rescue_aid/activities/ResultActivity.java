@@ -102,6 +102,7 @@ public class ResultActivity extends AppCompatActivity {
         } catch (Exception e){
             medicalCertification = new MedicalCertification();
         }
+        medicalCertification.showRecords("ResultActivity");
         setScrollView();
         setLinearLayout();
         setTextView();

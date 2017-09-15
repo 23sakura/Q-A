@@ -221,6 +221,8 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
     }
 
     private void addUsedQuestion(Question q){
+        addUsedQuestion(q, false);
+        /*
         usedQuestions.add(currentQuestion);
         Record r = new Record(Integer.toString(currentQuestion.getIndex()), Boolean.toString(currentQuestion.getAnswer()));
         medicalCertification.addRecord(r);
@@ -249,6 +251,38 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
             }
         });
         historyScrollLayout.addView(btn);
+        */
+    }
+    private void addUsedQuestion(Question q, boolean isAnswered){
+        usedQuestions.add(currentQuestion);
+        if (!isAnswered) {
+            Record r = new Record(Integer.toString(currentQuestion.getIndex()), Boolean.toString(currentQuestion.getAnswer()));
+            medicalCertification.addRecord(r);
+        }
+        LinearLayout incLayout =(LinearLayout)inflater.inflate(R.layout.history_slide_view, null);
+        final HistoryButton btn = new HistoryButton(this, currentQuestion.getIndex());
+        btn.setText(currentQuestion.getQuestion() + "\n" + currentQuestion.getAnswer());
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int x = btn.index;
+                Log.d("Interview on click", Integer.toString(x));
+                int i = 0;
+                for (i = 0; i < usedQuestions.size(); i++){
+                    if (usedQuestions.get(i).getIndex() == x){
+                        Log.d("Interview", usedQuestions.get(i).getQuestion());
+                        historyScrollLayout.removeView(btn);
+                        break;
+                    }
+                }
+                if (currentQuestion.isAnswered){
+                    addUsedQuestion(currentQuestion, true);
+                }
+                backToQuestion(i);
+            }
+        });
+        historyScrollLayout.addView(btn);
     }
 
     private void showFinishAlart(){
@@ -259,7 +293,7 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
             public void onClick(DialogInterface dialog, int which) {
                 //makeMedicalCertification();
                 intentCertification.putExtra("CERTIFICATION", medicalCertification);
-
+                medicalCertification.showRecords("InterviewActivity");
                 startActivity(intentCertification);
                 finish();
             }
