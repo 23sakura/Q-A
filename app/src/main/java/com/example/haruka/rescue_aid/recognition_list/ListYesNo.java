@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * Created by Tomoya on 8/23/2017 AD.
  */
 
-public class YesClass {
+public class ListYesNo {
     private static String[] yes = {
         "はい", "ハイ", "肺", "hi", "high", "はーい", "愛", "i", "yes", "es", "jesus", "is"
     };

@@ -15,7 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.haruka.rescue_aid.R;
-import com.example.haruka.rescue_aid.recognition_list.YesClass;
+import com.example.haruka.rescue_aid.recognition_list.ListYesNo;
 
 import java.util.ArrayList;
 
@@ -123,7 +123,7 @@ public class VoiceRecognizeActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_voicerecognize);
 
-        dictionary = YesClass.getDictionary();
+        dictionary = ListYesNo.getDictionary();
 
         button1 = (Button)findViewById(R.id.vRecognizeBtn);
         textView1 = (TextView)findViewById(R.id.VRresultText);

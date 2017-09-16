@@ -66,10 +66,10 @@ public class ResultActivity extends AppCompatActivity {
     private void setTextView(){
         textView = (TextView)findViewById(R.id.textview_notice_result); //
         //textView = new TextView(this);
-        textView.setTextSize(50);
+        textView.setTextSize(34);
 
         textView.setTextColor(Utils.URGENCY_COLORS[urgency]);
-        textView.setText("死にそうです");
+        textView.setText(Utils.URGENCY_WARNING[urgency]);
         /*
         LinearLayout.LayoutParams textLayoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,

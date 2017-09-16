@@ -27,7 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.haruka.rescue_aid.R;
-import com.example.haruka.rescue_aid.recognition_list.YesClass;
+import com.example.haruka.rescue_aid.recognition_list.ListYesNo;
 import com.example.haruka.rescue_aid.utils.InterviewAnswers;
 import com.example.haruka.rescue_aid.utils.InterviewData;
 import com.example.haruka.rescue_aid.utils.MedicalCertification;
@@ -67,7 +67,6 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
     private LocationManager mLocationManager;
 
     String scenario;
-
     class SpeechListener implements RecognitionListener {
 
         @Override
@@ -304,6 +303,13 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
         });
         if(!isAnswered) {
             historyScrollLayout.addView(btn);
+            historyScroll.post(new Runnable() {
+                @Override
+                public void run() {
+                    historyScroll.fullScroll(HorizontalScrollView.FOCUS_RIGHT);
+                }
+            });
+
         }
     }
 
@@ -449,7 +455,7 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
         Intent intent = getIntent();
         scenario = intent.getStringExtra("SCENARIO");
 
-        dictionary = YesClass.getDictionary();
+        dictionary = ListYesNo.getDictionary();
 
         questions = new ArrayList<>();
         usedQuestions = new ArrayList<>();

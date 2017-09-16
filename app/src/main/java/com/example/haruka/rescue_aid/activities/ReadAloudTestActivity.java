@@ -90,7 +90,6 @@ public class ReadAloudTestActivity extends AppCompatActivity implements TextToSp
     // 読み上げの始まりと終わりを取得
     protected void setTtsListener(){
         // android version more than 15th
-        // 市場でのシェアが15未満は数パーセントなので除外
         if (Build.VERSION.SDK_INT >= 15)
         {
             int listenerResult = tts.setOnUtteranceProgressListener(new UtteranceProgressListener()
