@@ -9,20 +9,28 @@ public class Care {
     public int index;
     public String name;
     public String xml;
-    public static final String nullXML = "";
+    public String description;
+    public static final String NULL_XML = "";
 
     public Care(int index, String name, String xml){
         this.index = index;
         this.name = name;
         this.xml = xml;
+        this.description = "";
+    }
+
+    public void setDescription(String text){
+        description = text;
     }
 
     public String getXml(){
-        if (xml.equals(nullXML)){
+        if (xml.equals(NULL_XML)){
             return null;
         } else {
             return xml;
         }
     }
+
+
 
 }

@@ -302,7 +302,9 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
                 backToQuestion(i);
             }
         });
-        historyScrollLayout.addView(btn);
+        if(!isAnswered) {
+            historyScrollLayout.addView(btn);
+        }
     }
 
     private int getUrgency(){

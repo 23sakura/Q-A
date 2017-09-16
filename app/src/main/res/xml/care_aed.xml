@@ -4,11 +4,11 @@
 
     <notice>
         <title>
-            AEDを持ってきてください
+            AEDを使用してください
         </title>
-        <description>
-            AEDを持ってきてください。以下のAEDマップを参考にしてください。
-        </description>
+        <notice_description>
+            AEDを使用してください。AEDの場所はAEDマップを参考にしてください。
+        </notice_description>
     </notice>
 
 

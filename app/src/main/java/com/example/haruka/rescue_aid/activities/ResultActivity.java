@@ -1,6 +1,8 @@
 package com.example.haruka.rescue_aid.activities;
 
 import android.content.Intent;
+import android.content.res.AssetManager;
+import android.content.res.XmlResourceParser;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -19,6 +21,8 @@ import com.example.haruka.rescue_aid.utils.MedicalCertification;
 import com.example.haruka.rescue_aid.utils.Utils;
 import com.example.haruka.rescue_aid.views.ResultLineLayout;
 
+import org.xmlpull.v1.XmlPullParser;
+
 import java.util.ArrayList;
 
 /**
@@ -27,6 +31,7 @@ import java.util.ArrayList;
 
 public class ResultActivity extends AppCompatActivity {
 
+    private AssetManager assetManager;
     private MedicalCertification medicalCertification;
     private int urgency;
     private ArrayList<Care> cares;
@@ -77,8 +82,9 @@ public class ResultActivity extends AppCompatActivity {
     private void showCareList(){
         for (final Care c : cares){
             ResultLineLayout resultLineLayout = new ResultLineLayout(this);
+            addDescription(c);
             resultLineLayout.setTitle(c.name);
-            resultLineLayout.setDescription("hogehoge");
+            resultLineLayout.setDescription(c.description);
             resultLineLayout.setView();
             linearLayout.addView(resultLineLayout);
             android.view.ViewGroup.LayoutParams layoutParams = resultLineLayout.getLayoutParams();
@@ -138,13 +144,67 @@ public class ResultActivity extends AppCompatActivity {
         //linearLayout.addView(dealingBtn);
     }
 
+    private void addDescription(Care c){
+        int xmlID = Utils.getCareXmlID(c.xml);
+        if (xmlID >= 0) {
+            XmlResourceParser xpp = this.getResources().getXml(xmlID);
+
+
+            try {
+                int eventType = xpp.getEventType();
+                while (eventType != XmlResourceParser.END_DOCUMENT) {
+                    final String name = xpp.getName();
+                    //Log.d("tag loop", " " + name);
+                    if (name == null) {
+                        Log.d("xpp", "name is null");
+                        eventType = xpp.next();
+                        continue;
+                    }
+                    switch (eventType) {
+                        case XmlPullParser.START_DOCUMENT:
+                            Log.d("tag", "Start Document");
+                            break;
+
+                        case XmlPullParser.START_TAG:
+                            if ("notice".equals(name)){
+
+                            } else if ("notice_description".equals(name)){
+                                c.setDescription(xpp.nextText());
+                                Log.d("notice_description", c.description);
+                            }
+                        case XmlPullParser.END_TAG:
+                            if ("notice".equals(name)){
+                                //
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+
+                    eventType = xpp.next();
+                }
+                Log.d("tag end document", Boolean.toString(eventType == XmlResourceParser.END_DOCUMENT));
+
+            } catch (Exception e) {
+                Log.e("Emergency", e.toString());
+            }
+        }
+
+
+
+    }
+
     public String getCareString(boolean[] care_boolean){
+        assetManager = this.getResources().getAssets();
+
         cares = new ArrayList<>();
         String s = "";
         for (int i = 0; i < care_boolean.length; i++){
             if (care_boolean[i]){
                 s += "Y";
-                cares.add(CareList.getCare(i));
+                Care c = CareList.getCare(i);
+
+                cares.add(c);
             } else {
                 s += "N";
             }

@@ -31,24 +31,24 @@ public class CareList {
             InputStreamReader inputStreamReader = new InputStreamReader(is);
             BufferedReader bufferReader = new BufferedReader(inputStreamReader);
 
-            Log.i("Carelist", "file read success");
+            //Log.i("Carelist", "file read success");
             String line = "";
             while ((line = bufferReader.readLine()) != null) {
                 StringTokenizer st = new StringTokenizer(line, ",");
-                Log.i("Carelist", "String Tokenizer is made");
+                //Log.i("Carelist", "String Tokenizer is made");
 
                 String _index = st.nextToken();
-                Log.d("Carelist", _index);
+                //Log.d("Carelist", _index);
                 int index = Integer.parseInt(_index);
-                Log.d("Carelist", Integer.toString(index));
+                //Log.d("Carelist", Integer.toString(index));
                 String name = st.nextToken();
-                Log.d("Carelist", name);
+                //Log.d("Carelist", name);
                 String xml = "";
                 try {
                     xml = st.nextToken();
                 } catch (NoSuchElementException ne){
                     Log.e("Carelist", ne.toString());
-                    xml = Care.nullXML;
+                    xml = Care.NULL_XML;
                 }
                 Log.d("Carelist", xml);
 
@@ -70,9 +70,9 @@ public class CareList {
     }
 
     public void showCareList(){
-        Log.d("show care list", this.getClass().getSimpleName());
+        //Log.d("show care list", this.getClass().getSimpleName());
         for(Care c : careList){
-            Log.d("care" + Integer.toString(c.index), c.name + ", " + c.xml);
+            //Log.d("care" + Integer.toString(c.index), c.name + ", " + c.xml);
         }
     }
 }

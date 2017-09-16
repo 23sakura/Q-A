@@ -6,8 +6,6 @@ import android.content.res.XmlResourceParser;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
-import com.example.haruka.rescue_aid.R;
-
 import org.xmlpull.v1.XmlPullParser;
 
 import java.util.ArrayList;
@@ -18,9 +16,9 @@ import java.util.ArrayList;
 
 public class ExplainCare {
 
-    public String title;
+    public String name;
     private AssetManager assetManager;
-    private ArrayList<EmergencySituation> explain;
+    private ArrayList<CarePhase> explain;
     public boolean isMetronomeRequired;
 
     public int id_;
@@ -38,35 +36,18 @@ public class ExplainCare {
 
     public void loadXML(Context context, String situation){
         int xmlID = 0;
-        title = "";
-        switch(situation){
-            case "care_chest_compression":
-                xmlID = R.xml.care_chest_compression;
-                title = "care_chest_compression";
-                break;
+        name = "";
 
-            case "care_bleed_stopping":
-                xmlID = R.xml.care_bleed_stopping;
-                title = "care_bleed_stopping";
-                break;
-
-            case "care_aed":
-                xmlID = R.xml.care_aed;
-                title = "care_aed";
-                break;
-
-            case "care_recovery_position":
-                title = "recovry_position";
-                xmlID = R.xml.care_recovery_position;
-                break;
-
-            default:
-                isActive = false;
-                return;
+        xmlID = Utils.getCareXmlID(situation);
+        if (xmlID < 0){
+            isActive = false;
+        } else {
+            name = situation;
         }
+
         assetManager = context.getResources().getAssets();
         XmlResourceParser xpp = context.getResources().getXml(xmlID);
-        EmergencySituation emergencySituation = null;
+        CarePhase carePhase = null;
         isMetronomeRequired = false;
 
         boolean isNotice = false;
@@ -99,7 +80,7 @@ public class ExplainCare {
                             //explain = new ArrayList();
                         } else if ("item".equals(name)) {
                             Log.d("tag", "item");
-                            emergencySituation = new EmergencySituation();
+                            carePhase = new CarePhase();
                         }  else if ("notice".equals(name)) {
                             Log.d("tag", "notice");
                             isNotice = true;
@@ -109,26 +90,26 @@ public class ExplainCare {
                             if (isNotice){
                                 //TODO save as notice description
                             }else {
-                                emergencySituation.text = s;
+                                carePhase.text = s;
                             }
                         } else if ("image".equals(name)){
                             Log.d("tag", "image");
                             try {
                                 String filename = xpp.nextText();
                                 Drawable drawable = Drawable.createFromStream(assetManager.open(filename.trim()), null);
-                                emergencySituation.drawable = drawable;
+                                carePhase.drawable = drawable;
                             }catch (Exception e){
                                 Log.e("Emergency", e.toString());
                             }
                         } else if ("duration".equals(name)) {
                             Log.d("tag", "duration");
-                            emergencySituation.duration = Integer.parseInt(xpp.nextText());
+                            carePhase.duration = Integer.parseInt(xpp.nextText());
                         } else if ("button".equals(name)){
                             Log.d("tag", "button");
-                            emergencySituation.button = xpp.nextText();
+                            carePhase.button = xpp.nextText();
                         } else if ("button2".equals(name)){
                             Log.d("tag", "button2");
-                            emergencySituation.button2 = xpp.nextText();
+                            carePhase.button2 = xpp.nextText();
                         } else if ("metronome".equals(name)){
                             if (Integer.parseInt(xpp.nextText()) == 1) {
                                 isMetronomeRequired = true;
@@ -140,7 +121,7 @@ public class ExplainCare {
                     case XmlPullParser.END_TAG:
                         if ("item".equals(name)) {
                             Log.d("tag", "item End");
-                            explain.add(emergencySituation);
+                            explain.add(carePhase);
                         } else if ("items".equals(name)) {
                             Log.d("tag", "items End");
                             //explain.add(emergencySituation);

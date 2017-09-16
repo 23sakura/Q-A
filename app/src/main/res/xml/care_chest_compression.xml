@@ -7,9 +7,9 @@
         <title>
             胸骨圧迫をしてください
         </title>
-        <description>
-            胸骨圧迫をします。下の「応急手当ボタン」を押すとガイドが始まります。
-        </description>
+        <notice_description>
+            胸骨圧迫をしてください。ガイド音に合わせて行ってください。
+        </notice_description>
     </notice>
 
     <num>2</num>

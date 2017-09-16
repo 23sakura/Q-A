@@ -13,7 +13,7 @@ import java.io.InputStreamReader;
  */
 
 
-public class EmergencySituation{
+public class CarePhase {
 
     String situation;
     int id;
@@ -24,28 +24,28 @@ public class EmergencySituation{
     public Drawable drawable;
     public int duration;
 
-    public EmergencySituation(){
+    public CarePhase(){
         this.situation = situation;
         id = 0;
         button = "";
     }
 
-    public EmergencySituation(String situation){
+    public CarePhase(String situation){
         this.situation = situation;
         id = 0;
     }
 
-    EmergencySituation(String situation, int id){
+    CarePhase(String situation, int id){
         this.situation = situation;
         this.id = id;
     }
 
-    EmergencySituation(String situation, int id, AssetManager assetManager){
+    CarePhase(String situation, int id, AssetManager assetManager){
         this(situation, id);
         setAssetManager(assetManager);
     }
 
-    EmergencySituation(String description, Drawable drawable){
+    CarePhase(String description, Drawable drawable){
         situation = "";
         id = 0;
         this.text = description;
