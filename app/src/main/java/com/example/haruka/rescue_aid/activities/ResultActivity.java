@@ -17,6 +17,7 @@ import com.example.haruka.rescue_aid.utils.Care;
 import com.example.haruka.rescue_aid.utils.CareList;
 import com.example.haruka.rescue_aid.utils.MedicalCertification;
 import com.example.haruka.rescue_aid.utils.Utils;
+import com.example.haruka.rescue_aid.views.ResultLineLayout;
 
 import java.util.ArrayList;
 
@@ -51,22 +52,49 @@ public class ResultActivity extends AppCompatActivity {
     }
 
     private void setScrollView(){
+        LinearLayout ll = (LinearLayout)findViewById(R.id.linearlayout_result);
         scrollView = new ScrollView(this);
         scrollView.setLayoutParams(new ScrollView.LayoutParams(MATCH_P, MATCH_P));
-        setContentView(scrollView);
+        ll.addView(scrollView);
     }
 
     private void setTextView(){
-        textView = new TextView(this);
+        textView = (TextView)findViewById(R.id.textview_notice_result); //
+        //textView = new TextView(this);
         textView.setTextSize(50);
 
         textView.setTextColor(Utils.URGENCY_COLORS[urgency]);
         textView.setText("死にそうです");
+        /*
         LinearLayout.LayoutParams textLayoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
         textView.setLayoutParams(textLayoutParams);
-        linearLayout.addView(textView);
+        */
+        //linearLayout.addView(textView);
+    }
+
+    private void showCareList(){
+        for (final Care c : cares){
+            ResultLineLayout resultLineLayout = new ResultLineLayout(this);
+            resultLineLayout.setTitle(c.name);
+            resultLineLayout.setDescription("hogehoge");
+            resultLineLayout.setView();
+            linearLayout.addView(resultLineLayout);
+            android.view.ViewGroup.LayoutParams layoutParams = resultLineLayout.getLayoutParams();
+            layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+            layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
+            resultLineLayout.setLayoutParams(layoutParams);
+
+            resultLineLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final int i = c.index;
+                    Log.d("result line", Integer.toString(i));
+                }
+            });
+        }
+
     }
 
     private void setInflate(){
@@ -77,14 +105,22 @@ public class ResultActivity extends AppCompatActivity {
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT));
         inflateLayout.removeAllViews();
-        getLayoutInflater().inflate(R.layout.inflate_result, inflateLayout);
+        getLayoutInflater().inflate(R.layout.inflate_result_, inflateLayout);
         linearLayout.addView(inflateLayout);
+
+        String t = "";
+        for(Care c : cares){
+            t += c.name;
+        }
+        TextView tv = (TextView)findViewById(R.id.textview_inflate);
+        tv.setText(t);
+
     }
 
     private void setDealingBtn(){
         final Intent intent = new Intent(this, ExplainActivity.class);
 
-        dealingBtn = new Button(this);
+        dealingBtn = (Button)findViewById(R.id.btn_start_care); //new Button(this);
         dealingBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -94,10 +130,12 @@ public class ResultActivity extends AppCompatActivity {
             }
         });
         dealingBtn.setText("応急手当開始");
+        /*
         LinearLayout.LayoutParams buttonLayoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         dealingBtn.setLayoutParams(buttonLayoutParams);
-        linearLayout.addView(dealingBtn);
+        */
+        //linearLayout.addView(dealingBtn);
     }
 
     public String getCareString(boolean[] care_boolean){
@@ -118,6 +156,7 @@ public class ResultActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_result);
         careList = new CareList(this);
         careList.showCareList();
 
@@ -140,7 +179,8 @@ public class ResultActivity extends AppCompatActivity {
         setScrollView();
         setLinearLayout();
         setTextView();
-        setInflate();
+        //setInflate();
+        showCareList();
         setDealingBtn();
 
     }

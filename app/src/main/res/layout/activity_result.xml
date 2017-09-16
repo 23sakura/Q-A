@@ -1,7 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
 
+    <TextView
+        android:text="hogehoge"
+        android:id="@+id/textview_notice_result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"/>
 
-</LinearLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/linearlayout_result"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_above="@+id/btn_start_care"
+        android:layout_below="@+id/textview_notice_result">
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_start_care"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true" >
+
+    </Button>
+
+</RelativeLayout>
