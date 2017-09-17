@@ -4,6 +4,7 @@ package com.example.haruka.rescue_aid.activities;
  * Created by skriulle on 9/16/2017 AD.
  */
 
+import android.content.Intent;
 import android.hardware.Camera;
 import android.hardware.Camera.AutoFocusCallback;
 import android.os.Bundle;
@@ -48,11 +49,9 @@ public class QRActivity extends AppCompatActivity {
     private SurfaceHolder.Callback callback = new SurfaceHolder.Callback() {
         @Override
         public void surfaceCreated(SurfaceHolder holder) {
-            // 生成されたとき
             mCamera = Camera.open();
             mCamera.setDisplayOrientation(90);
             try {
-                // プレビューをセットする
                 mCamera.setPreviewDisplay(holder);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -60,18 +59,15 @@ public class QRActivity extends AppCompatActivity {
         }
         @Override
         public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-            // 変更されたとき
             Camera.Parameters parameters = mCamera.getParameters();
             List<Camera.Size> previewSizes = parameters.getSupportedPreviewSizes();
             Camera.Size previewSize = previewSizes.get(0);
             parameters.setPreviewSize(previewSize.width, previewSize.height);
-            // width, heightを変更する
             mCamera.setParameters(parameters);
             mCamera.startPreview();
         }
         @Override
         public void surfaceDestroyed(SurfaceHolder holder) {
-            // 破棄されたとき
             mCamera.release();
             mCamera = null;
         }
@@ -80,7 +76,6 @@ public class QRActivity extends AppCompatActivity {
     private OnClickListener onClickListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
-            // オートフォーカス
             if (mCamera != null) {
                 mCamera.autoFocus(autoFocusCallback);
             }
@@ -91,26 +86,30 @@ public class QRActivity extends AppCompatActivity {
         @Override
         public void onAutoFocus(boolean success, Camera camera) {
             if (success) {
-                // 現在のプレビューをデータに変換
                 camera.setOneShotPreviewCallback(previewCallback);
             }
         }
     };
 
+    private void showQR(MedicalCertification medicalCertification){
+        final Intent QRIntent = new Intent(this, Display_qr.class);
+
+        QRIntent.putExtra("RESULT", medicalCertification.toString());
+        Log.d("RESULT", medicalCertification.toString());
+        startActivity(QRIntent);
+    }
+
 
     private Camera.PreviewCallback previewCallback = new Camera.PreviewCallback() {
         @Override
         public void onPreviewFrame(byte[] data, Camera camera) {
-            // 読み込む範囲
             int previewWidth = camera.getParameters().getPreviewSize().width;
             int previewHeight = camera.getParameters().getPreviewSize().height;
 
-            // プレビューデータから BinaryBitmap を生成
             PlanarYUVLuminanceSource source = new PlanarYUVLuminanceSource(
                     data, previewWidth, previewHeight, 0, 0, previewWidth, previewHeight, false);
             BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
 
-            // バーコードを読み込む
             Reader reader = new MultiFormatReader();
             Result result = null;
             try {
@@ -121,7 +120,10 @@ public class QRActivity extends AppCompatActivity {
                 MedicalCertification medicalCertification = new MedicalCertification(text);
                 Log.i("medical certification", "read");
                 medicalCertification.showRecords();
+                showQR(medicalCertification);
+
             } catch (Exception e) {
+                Log.e("QR reader", e.toString());
                 Toast.makeText(getApplicationContext(), "Not Found", Toast.LENGTH_SHORT).show();
             }
         }

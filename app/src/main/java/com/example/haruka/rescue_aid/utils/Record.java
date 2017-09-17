@@ -30,7 +30,7 @@ public class Record implements Serializable {
 
     public Record(Date statAt, String line){
         String[] array = line.split(",");
-        Date date = new Date(statAt.getDate() + Integer.parseInt(array[1]));
+        Date date = new Date(statAt.getTime() + 1000*Integer.parseInt(array[0]));
         time = QADateFormat.getStringDate(date);
         this.tag = array[1];
         this.value = array[2];
@@ -42,6 +42,14 @@ public class Record implements Serializable {
 
     public String getTagValue(){
         return tag + "," + value;
+    }
+
+    public String getTag(){
+        return tag;
+    }
+
+    public String getValue(){
+        return value;
     }
 
     public String _toString(){

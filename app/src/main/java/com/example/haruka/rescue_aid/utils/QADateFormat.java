@@ -1,5 +1,7 @@
 package com.example.haruka.rescue_aid.utils;
 
+import android.util.Log;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -27,8 +29,10 @@ public class QADateFormat {
         DateFormat df = new SimpleDateFormat(simpleDateFormat);
         Date date = null;
         try {
+            Log.d("Date format", dateFormat);
             date = df.parse(dateFormat);
         } catch (Exception e) {
+            Log.e("Date format", e.toString());
             date = new Date();
         }
         return date;
