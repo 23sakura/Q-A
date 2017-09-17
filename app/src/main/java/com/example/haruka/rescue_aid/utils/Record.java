@@ -1,6 +1,7 @@
 package com.example.haruka.rescue_aid.utils;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Created by Tomoya on 9/5/2017 AD.
@@ -18,6 +19,21 @@ public class Record implements Serializable {
         time = QADateFormat.getInstance();
         this.tag = tag;
         this.value = value;
+    }
+
+    public Record(String line){
+        String[] array = line.split(",");
+        this.time = array[0];
+        this.tag = array[1];
+        this.value = "";
+    }
+
+    public Record(Date statAt, String line){
+        String[] array = line.split(",");
+        Date date = new Date(statAt.getDate() + Integer.parseInt(array[1]));
+        time = QADateFormat.getStringDate(date);
+        this.tag = array[1];
+        this.value = array[2];
     }
 
     public String getTime(){

@@ -29,7 +29,6 @@ import android.widget.Toast;
 import com.example.haruka.rescue_aid.R;
 import com.example.haruka.rescue_aid.recognition_list.ListYesNo;
 import com.example.haruka.rescue_aid.utils.InterviewAnswers;
-import com.example.haruka.rescue_aid.utils.InterviewData;
 import com.example.haruka.rescue_aid.utils.MedicalCertification;
 import com.example.haruka.rescue_aid.utils.Question;
 import com.example.haruka.rescue_aid.utils.Record;
@@ -63,7 +62,7 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
 
     private ArrayList<String>[] dictionary;
 
-    private InterviewData interviewData;
+    //private InterviewData interviewData;
     private LocationManager mLocationManager;
 
     String scenario;
@@ -275,7 +274,7 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
         final Question q_ = q;
         usedQuestions.add(q_);
         if (!isAnswered) {
-            Record r = new Record(Integer.toString(q_.getIndex()), Boolean.toString(q_.getAnswer()));
+            Record r = new Record(Integer.toString(q_.getIndex()), Utils.getAnswerString(q_.getAnswer()));
             medicalCertification.addRecord(r);
         }
         LinearLayout incLayout =(LinearLayout)inflater.inflate(R.layout.history_slide_view, null);
@@ -345,7 +344,7 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
 
     private void showFinishAlart(){
         final Intent intentCertification = new Intent(this, ResultActivity.class);
-        interviewData.setListOfQuestions(usedQuestions);
+        //interviewData.setListOfQuestions(usedQuestions);
         new AlertDialog.Builder(context).setMessage("問診は終了です").setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -465,7 +464,7 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
         setLayout();
         setSpeechRecognizer();
 
-        interviewData = new InterviewData(null);
+        //interviewData = new InterviewData(null);
 
         mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
@@ -508,7 +507,8 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
 
     @Override
     public void onLocationChanged(Location location) {
-        interviewData.updateLocation(location);
+        //interviewData.updateLocation(location);
+        medicalCertification.updateLocation(location);
         Log.d("Longitude", String.valueOf(location.getLongitude()));
         Log.d("Latitude", String.valueOf(location.getLatitude()));
     }

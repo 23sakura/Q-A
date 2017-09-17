@@ -94,7 +94,8 @@ public class TestPlatformActivity extends AppCompatActivity {
             }
         });
 
-        testIntent8 = new Intent(this, SettingActivity.class);
+        testIntent8 = new Intent(this, QRActivity.class);
+        //testIntent8 = new Intent(this, SettingActivity.class);
         gotoTestBtn8.setText("設定");
         gotoTestBtn8.setOnClickListener(new View.OnClickListener() {
             @Override

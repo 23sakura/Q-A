@@ -39,4 +39,12 @@ public class Utils {
 
         return xmlID;
     }
+
+    public static String getAnswerString(boolean answer){
+        return (answer) ? "Y":"N";
+    }
+
+    public static boolean getAnswerBoolean(String answer){
+        return "Y".equals(answer);
+    }
 }

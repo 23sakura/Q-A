@@ -16,7 +16,6 @@ public class MedicalCertification implements Serializable {
     private static final long serialVersionUID = 1L;
 
     ArrayList<Record> records;
-
     Location location;
 
 
@@ -32,6 +31,23 @@ public class MedicalCertification implements Serializable {
         tags[0] = r.tag;
         values = new String[];
         */
+    }
+
+    public MedicalCertification(String code){
+        //TODO test data using QA reader
+        records = new ArrayList<>();
+        Date startAt = null;
+        String[] array = code.split("\n");
+        for (String line : array){
+            Record r;
+            if (null == startAt){
+                r = new Record(line);
+                startAt = QADateFormat.getDate(r.getTime());
+            } else {
+                r = new Record(startAt, line);
+            }
+            records.add(r);
+        }
     }
 
     public void addRecord(Record r){

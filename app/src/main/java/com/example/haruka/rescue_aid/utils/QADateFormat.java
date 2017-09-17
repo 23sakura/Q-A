@@ -14,9 +14,12 @@ public class QADateFormat {
     public final static String simpleDateFormat =  "yyyy.MM.dd kk:mm:ss";
 
     public static String getInstance(){
-        SimpleDateFormat sdf = new SimpleDateFormat(simpleDateFormat);
-
         Date date = new Date();
+        return getStringDate(date);
+    }
+
+    public static String getStringDate(Date date){
+        SimpleDateFormat sdf = new SimpleDateFormat(simpleDateFormat);
         return sdf.format(date);
     }
 
