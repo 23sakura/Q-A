@@ -49,6 +49,7 @@
         <activity android:name=".activities.SettingActivity" />
         <activity android:name=".activities.QRcodeReaderTestActivity" />
         <activity android:name=".activities.QRActivity" />
+        <activity android:name=".activities.CertificationActivity" />
 
     </application>
 

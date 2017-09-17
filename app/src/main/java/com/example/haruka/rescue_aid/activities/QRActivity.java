@@ -99,6 +99,14 @@ public class QRActivity extends AppCompatActivity {
         startActivity(QRIntent);
     }
 
+    private void showCertification(MedicalCertification medicalCertification){
+        final Intent QRIntent = new Intent(this, CertificationActivity.class);
+
+        QRIntent.putExtra("CERTIFICATION", medicalCertification);
+        Log.d("RESULT", medicalCertification.toString());
+        startActivity(QRIntent);
+
+    }
 
     private Camera.PreviewCallback previewCallback = new Camera.PreviewCallback() {
         @Override
@@ -120,8 +128,8 @@ public class QRActivity extends AppCompatActivity {
                 MedicalCertification medicalCertification = new MedicalCertification(text);
                 Log.i("medical certification", "read");
                 medicalCertification.showRecords();
-                showQR(medicalCertification);
-
+                //showQR(medicalCertification);
+                showCertification(medicalCertification);
             } catch (Exception e) {
                 Log.e("QR reader", e.toString());
                 Toast.makeText(getApplicationContext(), "Not Found", Toast.LENGTH_SHORT).show();

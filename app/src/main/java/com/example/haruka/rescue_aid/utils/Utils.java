@@ -9,6 +9,10 @@ import com.example.haruka.rescue_aid.R;
  */
 
 public class Utils {
+
+    public static final long serialVersionUID_MedicalCertification = 1L;
+    public static final long serialVersionUID_Question = 2L;
+
     public final static int MIN_URGNECY = 1, MAX_URGENCY = 3;
     public static int[] URGENCY_COLORS = {0, Color.GREEN, Color.YELLOW, Color.RED};
     public static String[] URGENCY_WARNING = {"", "大きな問題はありません", "医療機関の受診が必要です", "緊急度が高いです"};

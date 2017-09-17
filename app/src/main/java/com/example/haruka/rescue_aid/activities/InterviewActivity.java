@@ -508,7 +508,7 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
     @Override
     public void onLocationChanged(Location location) {
         //interviewData.updateLocation(location);
-        medicalCertification.updateLocation(location);
+        medicalCertification.updateLocation(location, this);
         Log.d("Longitude", String.valueOf(location.getLongitude()));
         Log.d("Latitude", String.valueOf(location.getLatitude()));
     }

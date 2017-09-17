@@ -1,10 +1,14 @@
 package com.example.haruka.rescue_aid.utils;
 
+import java.io.Serializable;
+
 /**
  * Created by Tomoya on 8/29/2017 AD.
  */
 
-public class Question{
+public class Question implements Serializable {
+
+    private static final long serialVersionUID = Utils.serialVersionUID_Question;
 
     public final static int MAX_URGENCY = Utils.MAX_URGENCY, MIN_URGENCY = Utils.MIN_URGNECY;
 

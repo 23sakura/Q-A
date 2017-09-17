@@ -1,11 +1,15 @@
 package com.example.haruka.rescue_aid.utils;
 
+import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.util.Log;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Tomoya on 9/5/2017 AD.
@@ -13,7 +17,7 @@ import java.util.Date;
 
 public class MedicalCertification implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = Utils.serialVersionUID_MedicalCertification;
 
     ArrayList<Record> records;
     //Location location;
@@ -21,8 +25,12 @@ public class MedicalCertification implements Serializable {
     private boolean isLocationSet;
     private final int LONGITUDE = 0, LATITUDE = 1;
     private final String LOCATION_TAG = "loc";
+    Date startAt;
+    List<Address> addresses;
+    Address address;
 
     public MedicalCertification(){
+        startAt = QADateFormat.getDate(QADateFormat.getInstance());
         records = new ArrayList<>();
         Record r = new Record("start", "");
         records.add(r);
@@ -40,7 +48,7 @@ public class MedicalCertification implements Serializable {
     public MedicalCertification(String code){
         //TODO test data using QA reader
         records = new ArrayList<>();
-        Date startAt = null;
+        startAt = null;
         location = new double[2];
         isLocationSet = false;
 
@@ -69,6 +77,7 @@ public class MedicalCertification implements Serializable {
             }
         }
 
+
         showLocation();
 
     }
@@ -78,11 +87,22 @@ public class MedicalCertification implements Serializable {
     }
     public void remove(Record r) {}
 
-    public void updateLocation(Location location){
+    public void updateLocation(Location location, Context context){
         //this.location = location;
         isLocationSet = true;
         this.location[LONGITUDE] = location.getLongitude();
         this.location[LATITUDE] = location.getLatitude();
+
+        if(address == null) {
+            try {
+                Geocoder coder = new Geocoder(context);
+                addresses = coder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                address = addresses.get(0);
+                Log.d("Geocoder location", addresses.get(0).getLocality());
+            } catch (Exception e) {
+                Log.e("Geocoder location", e.toString());
+            }
+        }
     }
 
     public Location getLocation(){
@@ -138,6 +158,54 @@ public class MedicalCertification implements Serializable {
         }
 
         return res;
+    }
+
+    public String getStartAtJap(){
+        return QADateFormat.getStringDateJapanese(startAt);
+    }
+
+    public String getAddressLine() {
+        String adr = "";
+        adr += address.getAdminArea();
+        if (address.getSubAdminArea() != null) {
+            adr += address.getSubAdminArea();
+        }
+        adr += address.getLocality();
+        adr += address.getSubLocality();
+
+        if (address.getThoroughfare() != null) {
+            adr += address.getThoroughfare();
+        }
+        if (address.getSubThoroughfare() != null) {
+            adr += address.getSubThoroughfare();
+        }
+        return adr;
+    }
+
+    public String getAddress(Context context){
+        if(address == null) {
+            try {
+                Geocoder coder = new Geocoder(context);
+                addresses = coder.getFromLocation(location[LATITUDE], location[LONGITUDE], 1);
+                address = addresses.get(0);
+                Log.d("Geocoder location", addresses.get(0).getLocality());
+            } catch (Exception e) {
+                Log.e("Geocoder location", e.toString());
+            }
+        }
+        try {
+            return getAddressLine();
+        } catch (Exception e){
+            return "";
+        }
+    }
+
+    public String getAddress(){
+        try {
+            return getAddressLine();
+        } catch (Exception e){
+            return "";
+        }
     }
 
 }
