@@ -93,7 +93,7 @@ public class Display_qr extends FragmentActivity {
             QRCodeWriter writer = new QRCodeWriter();
             // エンコード
             BitMatrix bm = null;
-            bm = writer.encode(mContents, BarcodeFormat.QR_CODE, 100, 100);
+            bm = writer.encode(mContents, BarcodeFormat.QR_CODE, 300, 300);
             // ピクセルを作る
             int width = bm.getWidth();
             int height = bm.getHeight();
