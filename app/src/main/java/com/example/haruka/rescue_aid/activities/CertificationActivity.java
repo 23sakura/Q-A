@@ -47,6 +47,7 @@ public class CertificationActivity extends AppCompatActivity {
         try {
             medicalCertification = (MedicalCertification) getIntent().getSerializableExtra("CERTIFICATION");
             medicalCertification.getAddress(this);
+            
         } catch (Exception e){
             medicalCertification = new MedicalCertification();
         }

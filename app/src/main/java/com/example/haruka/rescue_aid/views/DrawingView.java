@@ -148,6 +148,7 @@ public class DrawingView extends View {
 
         initPaint();
         paint.setTextSize((int)(TEXT_SIZE*1.2));
+        medicalCertification.getScenarioID();
         String[] questions = {"意識はありますか", "わーわーわーわーわーわーわーわーわーわーわーわーわーわーわーわーわーわーわーわーわーわーわーわー", "今日は何日ですか", "男ですか", "誰ですか"};
         String[] answers = {"Yes", "Yes", "Yes", "Yes", "No"};
         int startPos = canvas.getWidth() / 18;

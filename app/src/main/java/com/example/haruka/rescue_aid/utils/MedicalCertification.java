@@ -25,10 +25,13 @@ public class MedicalCertification implements Serializable {
     private boolean isLocationSet;
     private final int LONGITUDE = 0, LATITUDE = 1;
     private final String LOCATION_TAG = "loc";
+    private final String SCENARIO_TAG = "sce";;
+    private final String DEFAULT_ADDRESS = "徳島県阿南市見能林長青木265";
     Date startAt;
     int scenarioID;
-    List<Address> addresses;
-    Address address;
+    //List<Address> addresses;
+    //Address address;
+    String addressString;
 
     public MedicalCertification(){
         startAt = QADateFormat.getDate(QADateFormat.getInstance());
@@ -57,7 +60,7 @@ public class MedicalCertification implements Serializable {
         for (String line : array){
             Log.d("constructor MC", line);
             Record r;
-            if (null == startAt){
+            if (null == startAt) {
                 r = new Record(line);
                 startAt = QADateFormat.getDate(r.getTime());
             } else {
@@ -73,6 +76,8 @@ public class MedicalCertification implements Serializable {
                 }catch (Exception e){
                     Log.e("records location", e.toString());
                 }
+            } else if (SCENARIO_TAG.equals(r.getTag())){
+                setScenario(Integer.parseInt(r.getValue()));
             } else{
                 records.add(r);
             }
@@ -94,12 +99,13 @@ public class MedicalCertification implements Serializable {
         this.location[LONGITUDE] = location.getLongitude();
         this.location[LATITUDE] = location.getLatitude();
 
-        if(address == null) {
+        if(addressString == null) {
             try {
                 Geocoder coder = new Geocoder(context);
-                addresses = coder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-                address = addresses.get(0);
-                Log.d("Geocoder location", addresses.get(0).getLocality());
+                List<Address> addresses = coder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                Address address = addresses.get(0);
+                Log.d("Geocoder location", address.getLocality());
+                setAddressString(getAddressLine(address));
             } catch (Exception e) {
                 Log.e("Geocoder location", e.toString());
             }
@@ -165,7 +171,11 @@ public class MedicalCertification implements Serializable {
         return QADateFormat.getStringDateJapanese(startAt);
     }
 
-    public String getAddressLine() {
+    public void setAddressString(String addressString){
+        this.addressString = addressString;
+    }
+
+    public String getAddressLine(Address address) {
         String adr = "";
         adr += address.getAdminArea();
         if (address.getSubAdminArea() != null) {
@@ -184,33 +194,41 @@ public class MedicalCertification implements Serializable {
     }
 
     public String getAddress(Context context){
-        if(address == null) {
+        if(addressString == null) {
             try {
                 Geocoder coder = new Geocoder(context);
-                addresses = coder.getFromLocation(location[LATITUDE], location[LONGITUDE], 1);
-                address = addresses.get(0);
+                List<Address> addresses = coder.getFromLocation(location[LATITUDE], location[LONGITUDE], 1);
+                Address address = addresses.get(0);
+                setAddressString(getAddressLine(address));
                 Log.d("Geocoder location", addresses.get(0).getLocality());
+                return getAddressLine(address);
             } catch (Exception e) {
                 Log.e("Geocoder location", e.toString());
+                return DEFAULT_ADDRESS;
             }
-        }
-        try {
-            return getAddressLine();
-        } catch (Exception e){
-            return "";
+        } else{
+            return addressString;
         }
     }
 
     public String getAddress(){
+        if (addressString != null){
+            return addressString;
+        } else{
+            return DEFAULT_ADDRESS;
+        }
+        /*
         try {
             return getAddressLine();
         } catch (Exception e){
             return "";
         }
+        */
     }
 
     public void setScenario(int scenarioID){
         this.scenarioID = scenarioID;
+        addRecord(new Record(SCENARIO_TAG, Integer.toString(scenarioID)));
     }
 
     public int getScenarioID(){
