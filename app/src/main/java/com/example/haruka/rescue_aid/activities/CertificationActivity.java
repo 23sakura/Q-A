@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.example.haruka.rescue_aid.R;
+import com.example.haruka.rescue_aid.utils.Care;
 import com.example.haruka.rescue_aid.utils.MedicalCertification;
 import com.example.haruka.rescue_aid.utils.Question;
 import com.example.haruka.rescue_aid.utils.Utils;
@@ -42,6 +43,7 @@ public class CertificationActivity extends AppCompatActivity {
     Bitmap bitmap;
 
     ArrayList<Question> questions;
+    ArrayList<Care> cares;
 
     private void loadQuestions(int scenarioID){
         AssetManager assetManager = getResources().getAssets();
@@ -95,6 +97,41 @@ public class CertificationActivity extends AppCompatActivity {
         }
     }
 
+    private void loadCare(){
+        AssetManager assetManager = getResources().getAssets();
+
+        cares = new ArrayList<>();
+        try{
+            // CSVファイルの読み込み
+            //InputStream is = assetManager.open("scenarios/" + scenario);
+            String _careList = Utils.LIST_CARE;
+            String careList = "care/" + _careList;
+            Log.d("Care", careList);
+            InputStream is = assetManager.open(careList);
+            InputStreamReader inputStreamReader = new InputStreamReader(is);
+            BufferedReader bufferReader = new BufferedReader(inputStreamReader);
+            String line = "";
+            int _i = 0;
+            while ((line = bufferReader.readLine()) != null) {
+                StringTokenizer st = new StringTokenizer(line, ",");
+                Log.d("scenario line", line);
+                _i++;
+                String id = st.nextToken();
+                if(id == "id") continue;
+                int index = parseInt(id);
+                String name = st.nextToken();
+                Log.d("text", name);
+                Care c = new Care(index, name, "");
+                cares.add(c);
+            }
+            is.close();
+        } catch (IOException e) {
+            Log.e(CertificationActivity.this.getClass().getSimpleName(), e.toString());
+            e.printStackTrace();
+        }
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,9 +148,9 @@ public class CertificationActivity extends AppCompatActivity {
             medicalCertification = new MedicalCertification();
         }
         loadQuestions(medicalCertification.getScenarioID());
+        loadCare();
 
-
-        drawingView.setCertification(medicalCertification, questions);
+        drawingView.setCertification(medicalCertification, questions, cares);
     }
 
     View.OnClickListener deleteDrawing = new View.OnClickListener() {

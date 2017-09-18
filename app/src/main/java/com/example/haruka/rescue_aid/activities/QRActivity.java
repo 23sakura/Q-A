@@ -105,7 +105,6 @@ public class QRActivity extends AppCompatActivity {
         QRIntent.putExtra("CERTIFICATION", medicalCertification);
         Log.d("RESULT", medicalCertification.toString());
         startActivity(QRIntent);
-
     }
 
     private Camera.PreviewCallback previewCallback = new Camera.PreviewCallback() {

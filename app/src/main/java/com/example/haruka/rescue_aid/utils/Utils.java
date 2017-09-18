@@ -13,6 +13,10 @@ public class Utils {
 
     public final static String SCENARIOS_ILL = "ill/scenario_17091701.csv";
     public final static String SCENARIOS_INJURY = "injury/scenario_17091501.csv";
+    public final static String LIST_CARE = "carelist_v00.csv";
+
+    public final static String TAG_CARE = "Care";
+    public final static String TAG_END = "END";
 
     public static final long serialVersionUID_MedicalCertification = 1L;
     public static final long serialVersionUID_Question = 2L;

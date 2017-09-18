@@ -8,10 +8,12 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
 import com.example.haruka.rescue_aid.R;
+import com.example.haruka.rescue_aid.utils.Care;
 import com.example.haruka.rescue_aid.utils.MedicalCertification;
 import com.example.haruka.rescue_aid.utils.QADateFormat;
 import com.example.haruka.rescue_aid.utils.Question;
@@ -19,6 +21,9 @@ import com.example.haruka.rescue_aid.utils.Record;
 import com.example.haruka.rescue_aid.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.Date;
+
+import static java.lang.Integer.parseInt;
 
 
 /**
@@ -34,6 +39,7 @@ public class DrawingView extends View {
     private final int MIDDLE_BLANK = 30;
     private final int BIG_BLANK = 40;
     private ArrayList<Record> interviewRecords;
+    private ArrayList<Record> careRecords;
 
     public Canvas canvas;
 
@@ -151,6 +157,7 @@ public class DrawingView extends View {
         setText(canvas, "以下のような問診結果になりました", canvas.getWidth() / 20, true);
         int upper = lastHight+DEFAULT_BLANK;
         canvas.drawLine(canvas.getWidth() / 30, upper, canvas.getWidth() / 30 * 29, upper, paint);
+        setBlank();
 
         initPaint();
         paint.setTextSize((int)(TEXT_SIZE*1.2));
@@ -182,16 +189,27 @@ public class DrawingView extends View {
 
     private void setCares(Canvas canvas){
         initPaint();
-        String[] cares = {"胸骨圧迫", "AED", "胸骨圧迫"};
-        int[] time = {100, 100, 1000};
+        //String[] cares = {"胸骨圧迫", "AED", "胸骨圧迫"};
+        //int[] time = {100, 100, 1000};
         setText(canvas, "以下の処置を行いました", canvas.getWidth() / 20, true);
 
         int upper = lastHight+DEFAULT_BLANK;
         canvas.drawLine(canvas.getWidth() / 30, upper, canvas.getWidth() / 30 * 29, upper, paint);
+        setBlank();
 
 
         final int MIDDLE_LINE = canvas.getWidth() / 20 * 15;
         int startPos = canvas.getWidth() / 18;
+
+        for (Record record : careRecords){
+            paint.setTextAlign(Paint.Align.RIGHT);
+            setText(canvas, record.getValue()+"秒", canvas.getWidth() / 30 * 29 -10, false);
+
+            paint.setTextAlign(Paint.Align.LEFT);
+            setText(canvas, record.getTag(), startPos, MIDDLE_LINE, true);
+            setBlank();
+        }
+        /*
         for (int i = 0; i < 3; i++) {
             paint.setTextAlign(Paint.Align.RIGHT);
             setText(canvas, Integer.toString(time[i])+"秒", canvas.getWidth() / 30 * 29 -10, false);
@@ -200,6 +218,7 @@ public class DrawingView extends View {
             setText(canvas, cares[i], startPos, MIDDLE_LINE, true);
             setBlank();
         }
+        */
 
         canvas.drawLine(canvas.getWidth() / 30, upper, canvas.getWidth() / 30, lastHight+DEFAULT_BLANK, paint);
         canvas.drawLine(MIDDLE_LINE, upper, MIDDLE_LINE, lastHight+DEFAULT_BLANK, paint);
@@ -250,22 +269,42 @@ public class DrawingView extends View {
         invalidate();
     }
 
-    public void setCertification(MedicalCertification medicalCertification, ArrayList<Question> questions){
+    public void setCertification(MedicalCertification medicalCertification, ArrayList<Question> questions, ArrayList<Care> cares){
         interviewRecords = new ArrayList<>();
+        careRecords = new ArrayList<>();
         this.medicalCertification = medicalCertification;
 
-        for (Record r : medicalCertification.records){
+        for (int i = 0; i < medicalCertification.records.size(); i++){
+        //for (Record r : medicalCertification.records){
+            Record r = medicalCertification.records.get(i);
             try{
-                Integer.parseInt(r.getTag());
-                int index = Integer.parseInt(r.getTag());
+                //Integer.parseInt(r.getTag());
+                int index = parseInt(r.getTag());
                 Question question = questions.get(index);
                 boolean _ans = r.getValue().equals(Utils.ANSWER_SHORT_YES);
                 String answer = _ans ? Utils.ANSWER_JP_YES : Utils.ANSWER_JP_NO;
                 interviewRecords.add(new Record(question.getQuestion(), answer));
             } catch (Exception e){
+                if (r.getTag().equals(Utils.TAG_CARE)){
+                    try{
+                        Date start = QADateFormat.getDate(r.getTime());
+                        Date end = QADateFormat.getDate(medicalCertification.records.get(i+1).getTime());
+                        Log.d("care record", "start");
+                        int careIndex = Integer.parseInt(r.getValue());
+                        Care c = cares.get(careIndex);
+                        String careTitle = c.name;
+                        String time = Long.toString((end.getTime() - start.getTime())/1000);
+                        careRecords.add(new Record(careTitle, time));
 
+                    } catch (Exception e1){
+                        Log.e("care record", e1.toString());
+                    }
+                } else if (r.getTag().equals(Utils.TAG_END)){
+
+                }
             }
         }
+
     }
 
 
