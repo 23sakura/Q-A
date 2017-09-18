@@ -17,6 +17,14 @@ public class Utils {
     public static final long serialVersionUID_MedicalCertification = 1L;
     public static final long serialVersionUID_Question = 2L;
 
+    public static final String ANSWER_YES = "YES";
+    public static final String ANSWER_NO = "NO";
+    public static final String ANSWER_SHORT_YES = "Y";
+    public static final String ANSWER_SHORT_NO = "N";
+    public static final String ANSWER_JP_YES = "はい";
+    public static final String ANSWER_JP_NO = "いいえ";
+
+
     public final static int MIN_URGNECY = 1, MAX_URGENCY = 3;
     public static int[] URGENCY_COLORS = {0, Color.GREEN, Color.YELLOW, Color.RED};
     public static String[] URGENCY_WARNING = {"", "大きな問題はありません", "医療機関の受診が必要です", "緊急度が高いです"};

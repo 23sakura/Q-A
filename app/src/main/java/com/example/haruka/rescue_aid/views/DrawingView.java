@@ -14,6 +14,11 @@ import android.view.View;
 import com.example.haruka.rescue_aid.R;
 import com.example.haruka.rescue_aid.utils.MedicalCertification;
 import com.example.haruka.rescue_aid.utils.QADateFormat;
+import com.example.haruka.rescue_aid.utils.Question;
+import com.example.haruka.rescue_aid.utils.Record;
+import com.example.haruka.rescue_aid.utils.Utils;
+
+import java.util.ArrayList;
 
 
 /**
@@ -28,6 +33,7 @@ public class DrawingView extends View {
     private final int DEFAULT_BLANK = 10;
     private final int MIDDLE_BLANK = 30;
     private final int BIG_BLANK = 40;
+    private ArrayList<Record> interviewRecords;
 
     public Canvas canvas;
 
@@ -149,6 +155,16 @@ public class DrawingView extends View {
         initPaint();
         paint.setTextSize((int)(TEXT_SIZE*1.2));
         medicalCertification.getScenarioID();
+
+        int startPos = canvas.getWidth() / 18;
+        for (Record record : interviewRecords){
+            String question = record.getTag();
+            String answer = record.getValue();
+            setText(canvas, answer, MIDDLE_LINE+10, false);
+            setText(canvas, question, startPos, MIDDLE_LINE, true);
+            setBlank();
+        }
+        /*
         String[] questions = {"意識はありますか", "わーわーわーわーわーわーわーわーわーわーわーわーわーわーわーわーわーわーわーわーわーわーわーわー", "今日は何日ですか", "男ですか", "誰ですか"};
         String[] answers = {"Yes", "Yes", "Yes", "Yes", "No"};
         int startPos = canvas.getWidth() / 18;
@@ -157,6 +173,7 @@ public class DrawingView extends View {
             setText(canvas, questions[i], startPos, MIDDLE_LINE, true);
             setBlank();
         }
+        */
         canvas.drawLine(canvas.getWidth() / 30, upper, canvas.getWidth() / 30, lastHight+DEFAULT_BLANK, paint);
         canvas.drawLine(MIDDLE_LINE, upper, MIDDLE_LINE, lastHight+DEFAULT_BLANK, paint);
         canvas.drawLine(canvas.getWidth() / 30 * 29, upper, canvas.getWidth() / 30 * 29, lastHight+DEFAULT_BLANK, paint);
@@ -233,8 +250,22 @@ public class DrawingView extends View {
         invalidate();
     }
 
-    public void setCertification(MedicalCertification medicalCertification){
+    public void setCertification(MedicalCertification medicalCertification, ArrayList<Question> questions){
+        interviewRecords = new ArrayList<>();
         this.medicalCertification = medicalCertification;
+
+        for (Record r : medicalCertification.records){
+            try{
+                Integer.parseInt(r.getTag());
+                int index = Integer.parseInt(r.getTag());
+                Question question = questions.get(index);
+                boolean _ans = r.getValue().equals(Utils.ANSWER_SHORT_YES);
+                String answer = _ans ? Utils.ANSWER_JP_YES : Utils.ANSWER_JP_NO;
+                interviewRecords.add(new Record(question.getQuestion(), answer));
+            } catch (Exception e){
+
+            }
+        }
     }
 
 

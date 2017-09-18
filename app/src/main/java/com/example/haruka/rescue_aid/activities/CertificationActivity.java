@@ -1,6 +1,6 @@
 package com.example.haruka.rescue_aid.activities;
 
-import android.content.Intent;
+import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Environment;
@@ -13,12 +13,20 @@ import android.widget.ImageView;
 
 import com.example.haruka.rescue_aid.R;
 import com.example.haruka.rescue_aid.utils.MedicalCertification;
+import com.example.haruka.rescue_aid.utils.Question;
+import com.example.haruka.rescue_aid.utils.Utils;
 import com.example.haruka.rescue_aid.views.DrawingView;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.StringTokenizer;
 
+import static java.lang.Integer.parseInt;
 
 
 /**
@@ -33,6 +41,60 @@ public class CertificationActivity extends AppCompatActivity {
     Button b;
     Bitmap bitmap;
 
+    ArrayList<Question> questions;
+
+    private void loadQuestions(int scenarioID){
+        AssetManager assetManager = getResources().getAssets();
+        questions = new ArrayList<>();
+        try{
+            // CSVファイルの読み込み
+            //InputStream is = assetManager.open("scenarios/" + scenario);
+            String scenario = Utils.getScenario(scenarioID);
+            String scenario_ = "scenarios/" + scenario;
+            Log.d("Scenario", scenario_);
+            InputStream is = assetManager.open(scenario_);
+            InputStreamReader inputStreamReader = new InputStreamReader(is);
+            BufferedReader bufferReader = new BufferedReader(inputStreamReader);
+            String line = "";
+            line = bufferReader.readLine();
+            int _i = 0;
+            while ((line = bufferReader.readLine()) != null) {
+                Question q;
+                StringTokenizer st = new StringTokenizer(line, ",");
+                Log.d("scenario line", line);
+                _i++;
+                String id = st.nextToken();
+                if(id == "id") continue;
+                int index = parseInt(id);
+                String text = st.nextToken();
+                Log.d("text", text);
+                int yesIndex = parseInt(st.nextToken());
+                Log.d("yes_index", Integer.toString(yesIndex));
+                int noIndex = parseInt(st.nextToken());
+                Log.d("no_index", Integer.toString(noIndex));
+                try {
+                    int yesUrgency = parseInt(st.nextToken());
+                    Log.d("yes_urgency", Integer.toString(yesUrgency));
+                    int noUrgency = parseInt(st.nextToken());
+                    Log.d("no_urgency", Integer.toString(noUrgency));
+                    boolean[] yesCare = new boolean[Utils.NUM_CARE], noCare = new boolean[Utils.NUM_CARE];
+
+                    q = new Question(index, text, yesIndex, noIndex);
+                } catch (Exception e){
+                    q = new Question(index, text, yesIndex, noIndex);
+                }
+                questions.add(q);
+
+                Log.d(" question" , q.getQuestion());
+            }
+
+            is.close();
+        } catch (IOException e) {
+            Log.e(CertificationActivity.this.getClass().getSimpleName(), e.toString());
+            e.printStackTrace();
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,17 +104,16 @@ public class CertificationActivity extends AppCompatActivity {
         b = (Button) findViewById(R.id.delete_button);
         b.setOnClickListener(deleteDrawing);
 
-        Intent intent = getIntent();
-
         try {
             medicalCertification = (MedicalCertification) getIntent().getSerializableExtra("CERTIFICATION");
             medicalCertification.getAddress(this);
-            
         } catch (Exception e){
             medicalCertification = new MedicalCertification();
         }
+        loadQuestions(medicalCertification.getScenarioID());
 
-        drawingView.setCertification(medicalCertification);
+
+        drawingView.setCertification(medicalCertification, questions);
     }
 
     View.OnClickListener deleteDrawing = new View.OnClickListener() {

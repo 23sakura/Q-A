@@ -19,14 +19,14 @@ public class MedicalCertification implements Serializable {
 
     private static final long serialVersionUID = Utils.serialVersionUID_MedicalCertification;
 
-    ArrayList<Record> records;
+    public ArrayList<Record> records;
     //Location location;
     private double[] location;
     private boolean isLocationSet;
     private final int LONGITUDE = 0, LATITUDE = 1;
     private final String LOCATION_TAG = "loc";
     private final String SCENARIO_TAG = "sce";;
-    private final String DEFAULT_ADDRESS = "徳島県阿南市見能林長青木265";
+    private final String DEFAULT_ADDRESS = " 徳島県徳島市寺島本町西１丁目６１";
     Date startAt;
     int scenarioID;
     //List<Address> addresses;
@@ -217,13 +217,6 @@ public class MedicalCertification implements Serializable {
         } else{
             return DEFAULT_ADDRESS;
         }
-        /*
-        try {
-            return getAddressLine();
-        } catch (Exception e){
-            return "";
-        }
-        */
     }
 
     public void setScenario(int scenarioID){
