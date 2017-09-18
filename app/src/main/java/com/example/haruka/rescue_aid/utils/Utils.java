@@ -1,6 +1,7 @@
 package com.example.haruka.rescue_aid.utils;
 
 import android.graphics.Color;
+import android.util.Log;
 
 import com.example.haruka.rescue_aid.R;
 
@@ -9,6 +10,9 @@ import com.example.haruka.rescue_aid.R;
  */
 
 public class Utils {
+
+    public final static String SCENARIOS_ILL = "ill/scenario_17091701.csv";
+    public final static String SCENARIOS_INJURY = "injury/scenario_17091501.csv";
 
     public static final long serialVersionUID_MedicalCertification = 1L;
     public static final long serialVersionUID_Question = 2L;
@@ -50,5 +54,18 @@ public class Utils {
 
     public static boolean getAnswerBoolean(String answer){
         return "Y".equals(answer);
+    }
+
+    public static String getScenario(int scenarioID){
+        switch (scenarioID){
+            case 0:
+                Log.d("return", SCENARIOS_ILL);
+                return SCENARIOS_ILL;
+            case 1:
+                Log.d("return", SCENARIOS_INJURY);
+                return SCENARIOS_INJURY;
+            default:
+                return SCENARIOS_ILL;
+        }
     }
 }

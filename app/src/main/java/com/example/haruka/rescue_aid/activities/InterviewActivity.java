@@ -453,14 +453,18 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
 
         Intent intent = getIntent();
         scenario = intent.getStringExtra("SCENARIO");
-
+        int scenarioID = intent.getIntExtra("SCENARIO_ID", 0);
+        Log.d("SCENARIO_ID", Integer.toString(scenarioID));
         dictionary = ListYesNo.getDictionary();
 
         questions = new ArrayList<>();
         usedQuestions = new ArrayList<>();
-        loadQuestions();
         medicalCertification = new MedicalCertification();
+        medicalCertification.setScenario(scenarioID);
+        scenario = Utils.getScenario(scenarioID);
+        Log.d("SCENARIO", scenario + " is chosen");
 
+        loadQuestions();
         setLayout();
         setSpeechRecognizer();
 

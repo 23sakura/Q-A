@@ -26,6 +26,7 @@ public class MedicalCertification implements Serializable {
     private final int LONGITUDE = 0, LATITUDE = 1;
     private final String LOCATION_TAG = "loc";
     Date startAt;
+    int scenarioID;
     List<Address> addresses;
     Address address;
 
@@ -206,6 +207,14 @@ public class MedicalCertification implements Serializable {
         } catch (Exception e){
             return "";
         }
+    }
+
+    public void setScenario(int scenarioID){
+        this.scenarioID = scenarioID;
+    }
+
+    public int getScenarioID(){
+        return scenarioID;
     }
 
 }
