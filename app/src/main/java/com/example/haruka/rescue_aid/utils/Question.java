@@ -144,11 +144,12 @@ public class Question implements Serializable {
 
     public String getAnswerString() {
         if (answer){
-            return "YES";
+            return Utils.ANSWER_JP_YES;
         } else {
-            return "NO";
+            return Utils.ANSWER_JP_NO;
         }
     }
+
 
     public boolean[] getCares(){
         if (answer){

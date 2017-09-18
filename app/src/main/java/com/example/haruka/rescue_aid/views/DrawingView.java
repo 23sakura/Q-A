@@ -145,7 +145,7 @@ public class DrawingView extends View {
             paint.setTextAlign(Paint.Align.LEFT);
             setText(canvas, "場所：" + medicalCertification.getAddress(), canvas.getWidth() / 20, true);
         }catch (Exception e){
-            String location = "徳島県阿南市見能林長青木265";
+            String location = " - ";
             setText(canvas, "場所：" + location, canvas.getWidth() / 20, true);
         }
     }
@@ -167,7 +167,17 @@ public class DrawingView extends View {
         for (Record record : interviewRecords){
             String question = record.getTag();
             String answer = record.getValue();
-            setText(canvas, answer, MIDDLE_LINE+10, false);
+            initPaint();
+            if (answer.equals(Utils.ANSWER_JP_YES)){
+                paint.setTextSize((int)(TEXT_SIZE*1.3));
+                paint.setColor(getResources().getColor(R.color.yes));
+            } else {
+                paint.setTextSize((int)(TEXT_SIZE*1.2));
+                paint.setColor(getResources().getColor(R.color.no));
+            }
+            setText(canvas, answer, MIDDLE_LINE+8, false);
+            initPaint();
+            paint.setTextSize((int)(TEXT_SIZE*1.2));
             setText(canvas, question, startPos, MIDDLE_LINE, true);
             setBlank();
         }

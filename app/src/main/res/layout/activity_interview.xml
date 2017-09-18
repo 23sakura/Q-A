@@ -1,13 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.haruka.rescue_aid.activities.InterviewActivity">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
 
     <HorizontalScrollView
         android:layout_width="fill_parent"
@@ -27,40 +22,46 @@
     </HorizontalScrollView>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="問診をします"
+        android:id="@+id/textView"
+        android:textSize="20dp"
+        android:layout_above="@+id/interview" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
         android:id="@+id/interview"
         android:text="Interview Contents"
         android:textSize="20dp"
         android:textIsSelectable="false"
         android:textStyle="bold"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="問診をします"
-        android:id="@+id/textView"
-        android:textSize="20dp"
-        android:layout_above="@+id/interview"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="46dp" />
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="YES"
-        android:id="@+id/btn_yes"
+        android:layout_marginBottom="46dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
 
-        android:layout_alignParentBottom="true"
-        android:layout_toEndOf="@+id/textView"
-        android:layout_marginBottom="96dp" />
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="NO"
-        android:id="@+id/btn_no"
-        android:layout_alignTop="@+id/btn_yes"
-        android:layout_toStartOf="@+id/textView" />
+        <Button
+            android:id="@+id/btn_yes"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="はい"
+            android:textSize="30sp"
+            android:textStyle="bold" />
 
+        <Button
+            android:id="@+id/btn_no"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="いいえ"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+    </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

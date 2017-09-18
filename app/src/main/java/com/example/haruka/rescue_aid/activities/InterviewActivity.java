@@ -425,6 +425,10 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
         mBtnNo = (Button) findViewById(R.id.btn_no);
         mBtnYes.setOnClickListener(interAnsBtnListener);
         mBtnNo.setOnClickListener(interAnsBtnListener);
+        mBtnYes.setTextColor(getResources().getColor(R.color.yes));
+        mBtnYes.setBackgroundColor(getResources().getColor(R.color.yes_back));
+        mBtnNo.setTextColor(getResources().getColor(R.color.no));
+        mBtnNo.setBackgroundColor(getResources().getColor(R.color.no_back));
         mInterviewContent = (TextView) findViewById(interview);
 
         //mInterviewContent.setText(currentQuestion.getQuestion());

@@ -17,7 +17,6 @@ import android.widget.Toast;
 
 import com.example.haruka.rescue_aid.R;
 import com.example.haruka.rescue_aid.recognition_list.ListSymptom;
-import com.example.haruka.rescue_aid.utils.Utils;
 
 import java.util.ArrayList;
 
@@ -33,8 +32,8 @@ public class SymptomCategorizeActivity extends ReadAloudTestActivity {
 
     //final String scenarioIll = "scenario.csv";
     //final String scenarioIll = "scenario_17091501.csv";
-    final String scenarioIll = Utils.SCENARIOS_ILL; //"scenario_17091701.csv";
-    final String scenarioInjury = Utils.SCENARIOS_INJURY; //"text4.csv";
+    //final String scenarioIll = Utils.SCENARIOS_ILL; //"scenario_17091701.csv";
+    //final String scenarioInjury = Utils.SCENARIOS_INJURY; //"text4.csv";
     final int scenarioIdIll = 0;
     final int scenarioIdInjury = 1;
 
@@ -159,7 +158,7 @@ public class SymptomCategorizeActivity extends ReadAloudTestActivity {
             @Override
             public void onClick(View v) {
                 //TODO go to injury interview
-                interviewIntent.putExtra("SCENARIO", scenarioInjury);
+                //interviewIntent.putExtra("SCENARIO", scenarioInjury);
                 interviewIntent.putExtra("SCENARIO_ID", scenarioIdInjury);
                 startActivity(interviewIntent);
             }

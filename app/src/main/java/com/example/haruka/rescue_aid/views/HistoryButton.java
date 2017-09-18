@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Button;
 
+import com.example.haruka.rescue_aid.R;
 import com.example.haruka.rescue_aid.utils.Question;
 import com.example.haruka.rescue_aid.utils.Utils;
 
@@ -25,6 +26,11 @@ public class HistoryButton extends Button {
     }
 
     public void setText(Question q){
+        if(q.getAnswer()){
+            setTextColor(getResources().getColor(R.color.yes));
+        } else {
+            setTextColor(getResources().getColor(R.color.no));
+        }
         setText(q.getQuestion() + "\n" + q.getAnswerString());
         this.urgency = q.getUrgency();
         this.cares = q.getCares();

@@ -26,7 +26,8 @@ public class MedicalCertification implements Serializable {
     private final int LONGITUDE = 0, LATITUDE = 1;
     private final String LOCATION_TAG = "loc";
     private final String SCENARIO_TAG = "sce";;
-    private final String DEFAULT_ADDRESS = " 徳島県徳島市寺島本町西１丁目６１";
+    //private final String DEFAULT_ADDRESS = " 徳島県徳島市寺島本町西１丁目６１";
+    private final String DEFAULT_ADDRESS = " - ";
     Date startAt;
     int scenarioID;
     //List<Address> addresses;
