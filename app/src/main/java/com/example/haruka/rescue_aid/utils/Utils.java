@@ -11,8 +11,8 @@ import com.example.haruka.rescue_aid.R;
 
 public class Utils {
 
-    public final static String SCENARIOS_ILL = "ill/scenario_17091701.csv";
-    public final static String SCENARIOS_INJURY = "injury/scenario_17091501.csv";
+    public final static String SCENARIOS_ILL = "ill/scenario_17091801.csv";
+    public final static String SCENARIOS_INJURY = "injury/scenario_170918.csv";
     public final static String LIST_CARE = "carelist_v00.csv";
 
     public final static String TAG_CARE = "Care";
@@ -34,32 +34,6 @@ public class Utils {
     public static String[] URGENCY_WARNING = {"", "大きな問題はありません", "医療機関の受診が必要です", "緊急度が高いです"};
     public final static int NUM_CARE = 7;
 
-    public static int getCareXmlID(String xmlName){
-        int xmlID = 0;
-        switch(xmlName){
-            case "care_chest_compression":
-                xmlID = R.xml.care_chest_compression;
-                break;
-
-            case "care_bleed_stopping":
-                xmlID = R.xml.care_bleed_stopping;
-                break;
-
-            case "care_aed":
-                xmlID = R.xml.care_aed;
-                break;
-
-            case "care_recovery_position":
-                xmlID = R.xml.care_recovery_position;
-                break;
-
-            default:
-                xmlID = -1;
-        }
-
-        return xmlID;
-    }
-
     public static String getAnswerString(boolean answer){
         return (answer) ? "Y":"N";
     }
@@ -78,6 +52,18 @@ public class Utils {
                 return SCENARIOS_INJURY;
             default:
                 return SCENARIOS_ILL;
+        }
+    }
+
+    public static int getXMLID(String xml){
+        if ("care_aed".equals(xml)){
+            return R.xml.care_aed;
+        } else if ("care_chest_compression".equals(xml)){
+            return R.xml.care_chest_compression;
+        } else if ("care_bleed_stopping".equals(xml)){
+            return R.xml.care_bleed_stopping;
+        } else {
+            return R.xml.care_recovery_position;
         }
     }
 }

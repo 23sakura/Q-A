@@ -76,7 +76,8 @@ public class TestPlatformActivity extends AppCompatActivity {
             }
         });
 
-        testIntent6 = new Intent(this, ExplainActivity.class);
+        //testIntent6 = new Intent(this, ExplainActivity.class);
+        testIntent6 = new Intent(this, CareChooseActivity.class);
         gotoTestBtn6.setText("救援指示テスト");
         gotoTestBtn6.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,7 +97,7 @@ public class TestPlatformActivity extends AppCompatActivity {
 
         testIntent8 = new Intent(this, QRActivity.class);
         //testIntent8 = new Intent(this, SettingActivity.class);
-        gotoTestBtn8.setText("設定");
+        gotoTestBtn8.setText("QRコード読み込み");
         gotoTestBtn8.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

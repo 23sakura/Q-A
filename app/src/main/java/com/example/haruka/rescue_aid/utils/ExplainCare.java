@@ -31,14 +31,13 @@ public class ExplainCare {
         isActive = true;
         sub = "";
         loadXML(context, situation);
-
     }
 
     public void loadXML(Context context, String situation){
         int xmlID = 0;
         name = "";
 
-        xmlID = Utils.getCareXmlID(situation);
+        xmlID = Utils.getXMLID(situation);
         if (xmlID < 0){
             isActive = false;
         } else {

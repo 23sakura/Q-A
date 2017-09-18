@@ -145,7 +145,7 @@ public class ResultActivity extends AppCompatActivity {
     }
 
     private void addDescription(Care c){
-        int xmlID = Utils.getCareXmlID(c.xml);
+        int xmlID = Utils.getXMLID(c.xml);
         if (xmlID >= 0) {
             XmlResourceParser xpp = this.getResources().getXml(xmlID);
 
