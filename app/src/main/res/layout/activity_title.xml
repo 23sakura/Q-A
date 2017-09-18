@@ -8,30 +8,36 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.haruka.rescue_aid.activities.TitleActivity"
+
     >
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/qa_wallpaper"
-        android:id="@+id/imageView"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true" />
+        android:src="@drawable/logo_big"
+        android:layout_above="@+id/linearlayout_title"
+        android:id="@+id/imageView" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/startbtn"
-        android:text="START"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="170dp"
+        android:orientation="horizontal"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="75dp" />
+        android:id="@+id/linearlayout_title">
 
-    <Button
-        android:id="@+id/gotoTestBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_toEndOf="@+id/startbtn"
-        android:text="テスト" />
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:id="@+id/startbtn"
+            android:text="START" />
+
+        <Button
+            android:id="@+id/gotoTestBtn"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="テスト" />
+
+    </LinearLayout>
 </RelativeLayout>

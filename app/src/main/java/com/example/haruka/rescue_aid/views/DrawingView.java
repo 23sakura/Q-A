@@ -112,9 +112,9 @@ public class DrawingView extends View {
     }
 
     private void setTitle(Canvas canvas){
-        Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.logo);
-        bmp =  Bitmap.createScaledBitmap(bmp, canvas.getWidth()/6, canvas.getWidth()/6, false);
-        canvas.drawBitmap(bmp, canvas.getWidth()/12, canvas.getHeight()/14, paint);
+        Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.logo2);
+        bmp =  Bitmap.createScaledBitmap(bmp, canvas.getWidth()/3, canvas.getWidth()/6, false);
+        canvas.drawBitmap(bmp, canvas.getWidth()/15, canvas.getHeight()/20, paint);
         initPaint();
         this.paint.setTextSize(TEXT_SIZE_TITLE);
         int centerX = canvas.getWidth()/2;
