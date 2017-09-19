@@ -294,13 +294,13 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
                         break;
                     }
                 }
-                if (q_.isAnswered){
-                    addUsedQuestion(q_, true);
+                if (currentQuestion.isAnswered){
+                    addUsedQuestion(currentQuestion, true);
                 }
                 backToQuestion(i);
             }
         });
-        if(!isAnswered) {
+        //if(!isAnswered) {
             historyScrollLayout.addView(btn);
             historyScroll.post(new Runnable() {
                 @Override
@@ -308,8 +308,7 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
                     historyScroll.fullScroll(HorizontalScrollView.FOCUS_RIGHT);
                 }
             });
-
-        }
+        //}
     }
 
     private int getUrgency(){
