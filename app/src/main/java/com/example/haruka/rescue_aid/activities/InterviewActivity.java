@@ -59,7 +59,7 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
     private Question currentQuestion;
     private ArrayList<Question> usedQuestions;
     private MedicalCertification medicalCertification;
-
+    private boolean isInterviewDone;
     private ArrayList<String>[] dictionary;
 
     //private InterviewData interviewData;
@@ -251,6 +251,7 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
     private void backToQuestion(int index){ //the index given is to quote usedQuestions
         Question q = usedQuestions.remove(index);
         setNextQuestion(q);
+        isInterviewDone = false;
     }
 
     private boolean isAnswered(int index){
@@ -276,10 +277,9 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
         if (!isAnswered) {
             Record r = new Record(Integer.toString(q_.getIndex()), Utils.getAnswerString(q_.getAnswer()));
             medicalCertification.addRecord(r);
+            //TODO condider how to deal with re-answered question
         }
-        LinearLayout incLayout =(LinearLayout)inflater.inflate(R.layout.history_slide_view, null);
         final HistoryButton btn = new HistoryButton(this, q_.getIndex());
-        //btn.setText(q_.getQuestion() + "\n" + q_.getAnswer());
         btn.setText(q_);
 
         btn.setOnClickListener(new View.OnClickListener() {
@@ -300,15 +300,13 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
                 backToQuestion(i);
             }
         });
-        //if(!isAnswered) {
-            historyScrollLayout.addView(btn);
-            historyScroll.post(new Runnable() {
-                @Override
-                public void run() {
-                    historyScroll.fullScroll(HorizontalScrollView.FOCUS_RIGHT);
-                }
-            });
-        //}
+        historyScrollLayout.addView(btn);
+        historyScroll.post(new Runnable() {
+            @Override
+            public void run() {
+                historyScroll.fullScroll(HorizontalScrollView.FOCUS_RIGHT);
+            }
+        });
     }
 
     private int getUrgency(){
@@ -342,6 +340,7 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
     }
 
     private void showFinishAlart(){
+        isInterviewDone = true;
         final Intent intentCertification = new Intent(this, ResultActivity.class);
         //interviewData.setListOfQuestions(usedQuestions);
         new AlertDialog.Builder(context).setMessage("問診は終了です").setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -367,16 +366,16 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
         switch(viewID){
             case R.id.btn_yes:
                 answer = InterviewAnswers.YES;
-                //currentQuestion.isAnswered = true;
                 break;
             case R.id.btn_no:
                 answer = InterviewAnswers.NO;
-                //currentQuestion.isAnswered = true;
                 break;
         }
         currentQuestion.answer(answer);
 
-        addUsedQuestion(currentQuestion);
+        if(!isInterviewDone) {
+            addUsedQuestion(currentQuestion);
+        }
 
         nextIndex = currentQuestion.getNextIndex();
         if (nextIndex >= 0) {
@@ -430,7 +429,6 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
         mBtnNo.setBackgroundColor(getResources().getColor(R.color.no_back));
         mInterviewContent = (TextView) findViewById(interview);
 
-        //mInterviewContent.setText(currentQuestion.getQuestion());
         showReadQuestion();
 
         historyScroll = (HorizontalScrollView)findViewById(R.id.history_scroll);
@@ -470,8 +468,7 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
         loadQuestions();
         setLayout();
         setSpeechRecognizer();
-
-        //interviewData = new InterviewData(null);
+        isInterviewDone = false;
 
         mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
