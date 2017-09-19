@@ -21,7 +21,8 @@ public class MedicalCertification implements Serializable {
 
     public ArrayList<Record> records;
     //Location location;
-    private double[] location;
+    //TODO location should be back to private
+    public double[] location;
     private boolean isLocationSet;
     private final int LONGITUDE = 0, LATITUDE = 1;
     private final String LOCATION_TAG = "loc";

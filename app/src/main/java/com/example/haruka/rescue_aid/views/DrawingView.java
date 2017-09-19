@@ -143,7 +143,8 @@ public class DrawingView extends View {
         try {
             initPaint();
             paint.setTextAlign(Paint.Align.LEFT);
-            setText(canvas, "場所：" + medicalCertification.getAddress(), canvas.getWidth() / 20, true);
+            String addressText = "場所：" + medicalCertification.getAddress() + " （東経" + Utils.getDMSLocation(medicalCertification.location[0]) + "、北緯"  + Utils.getDMSLocation(medicalCertification.location[1]) + "）";
+            setText(canvas, addressText, canvas.getWidth() / 20, true);
         }catch (Exception e){
             String location = " - ";
             setText(canvas, "場所：" + location, canvas.getWidth() / 20, true);

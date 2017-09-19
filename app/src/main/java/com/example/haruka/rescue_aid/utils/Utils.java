@@ -66,4 +66,13 @@ public class Utils {
             return R.xml.care_recovery_position;
         }
     }
+
+    public static String getDMSLocation(double degree){
+        degree += 1.0/3600/2;
+        int d = (int)degree;
+        int m = (int)((degree - d) * 60);
+        int s = (int)((degree - d - m/60.0)*3600);
+
+        return Integer.toString(d) + "度" + Integer.toString(m) + "分" + Integer.toString(s) + "秒";
+    }
 }
