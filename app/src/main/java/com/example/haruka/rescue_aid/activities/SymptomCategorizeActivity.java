@@ -133,7 +133,7 @@ public class SymptomCategorizeActivity extends ReadAloudTestActivity {
     }
 
     private void askSymptom(){
-        speechText("病気ですか、怪我ですか");
+        speechText("急病ですか、怪我ですか");
     }
 
     @Override
