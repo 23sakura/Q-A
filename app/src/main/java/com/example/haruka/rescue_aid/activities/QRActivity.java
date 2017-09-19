@@ -4,10 +4,14 @@ package com.example.haruka.rescue_aid.activities;
  * Created by skriulle on 9/16/2017 AD.
  */
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.hardware.Camera.AutoFocusCallback;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.SurfaceHolder;
@@ -30,6 +34,7 @@ public class QRActivity extends AppCompatActivity {
 
     private SurfaceView mSurfaceView;
     private Camera mCamera;
+    static final int REQUEST_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +54,20 @@ public class QRActivity extends AppCompatActivity {
     private SurfaceHolder.Callback callback = new SurfaceHolder.Callback() {
         @Override
         public void surfaceCreated(SurfaceHolder holder) {
-            mCamera = Camera.open();
+            //CameraManager manager = (CameraManager) getSystemService(CAMERA_SERVICE);
+            //manager.openCamera(mCameraId, mStateCallback, mBackgroundHandler);
+
+            int permissionCheck = ContextCompat.checkSelfPermission(QRActivity.this, Manifest.permission.CAMERA);
+
+            if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+
+                if (ActivityCompat.shouldShowRequestPermissionRationale(QRActivity.this, Manifest.permission.CAMERA)) {
+                }
+
+            } else {
+            }
+            mCamera = Camera.open(0);
+            mCamera.lock();
             mCamera.setDisplayOrientation(90);
             try {
                 mCamera.setPreviewDisplay(holder);
