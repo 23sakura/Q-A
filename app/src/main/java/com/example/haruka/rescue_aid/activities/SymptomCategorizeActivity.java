@@ -12,7 +12,7 @@ import android.speech.tts.UtteranceProgressListener;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.haruka.rescue_aid.R;
@@ -26,7 +26,7 @@ import java.util.ArrayList;
 
 public class SymptomCategorizeActivity extends ReadAloudTestActivity {
 
-    Button BtnToIll, BtnToInjury;
+    ImageButton BtnToIll, BtnToInjury;
     Intent interviewIntent;
     private ArrayList<String>[] dictionary;
 
@@ -143,7 +143,7 @@ public class SymptomCategorizeActivity extends ReadAloudTestActivity {
 
         interviewIntent = new Intent(this, InterviewActivity.class);
 
-        BtnToIll = (Button)findViewById(R.id.btn_to_ill);
+        BtnToIll = (ImageButton)findViewById(R.id.btn_to_ill);
         BtnToIll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -153,7 +153,7 @@ public class SymptomCategorizeActivity extends ReadAloudTestActivity {
                 startActivity(interviewIntent);
             }
         });
-        BtnToInjury = (Button)findViewById(R.id.btn_to_injury);
+        BtnToInjury = (ImageButton)findViewById(R.id.btn_to_injury);
         BtnToInjury.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -11,17 +11,20 @@
         android:layout_height="wrap_content"
         android:text="病気ですか？怪我ですか？"
         android:textSize="28sp" />
-    <Button
+
+    <ImageButton
         android:id="@+id/btn_to_ill"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:text="病気" />
+        android:scaleType="centerCrop"
+        android:src="@drawable/symptom_button1"/>
 
-    <Button
+    <ImageButton
         android:id="@+id/btn_to_injury"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:text="ケガ・事故" />
+        android:scaleType="centerCrop"
+        android:src="@drawable/symptom_button2" />
 </LinearLayout>
