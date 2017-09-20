@@ -1,5 +1,6 @@
 package com.example.haruka.rescue_aid.activities;
 
+import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
@@ -56,7 +57,7 @@ public class ResultActivity extends AppCompatActivity {
 
 
 
-    private String[] menuTitles = null;
+    private String[] menuActivities = null;
     private DrawerLayout mDrawerLayout = null;
     private ListView mDrawerList = null;
     private ActionBarDrawerToggle mDrawerToggle = null;
@@ -273,7 +274,7 @@ public class ResultActivity extends AppCompatActivity {
         mDrawerTitle = mTitle;
 
         // ドロワーメニューのリストの値を初期化
-        menuTitles = new String[]{"QRコード", "診断書", "応急手当"};
+        menuActivities = new String[]{"QRコード", "診断書", "応急手当"};
 
         // ドロワーレイアウト、リストビューのidを取得
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_result);
@@ -281,7 +282,7 @@ public class ResultActivity extends AppCompatActivity {
 
         // リストビューとデータを関連付け
         mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-                R.layout.drawer_list_item, menuTitles));
+                R.layout.drawer_list_item, menuActivities));
 
         // 選択時のイベントを登録
         mDrawerList.setOnItemClickListener(
@@ -320,8 +321,9 @@ public class ResultActivity extends AppCompatActivity {
     }
 
 
-    // 選択後の画面のフラグメント
-    public static class PlanetFragment extends Fragment {
+
+    @SuppressLint("ValidFragment")
+    public class PlanetFragment extends Fragment {
 
         public static final String ARG_TEXT = "menu_choice";
 
@@ -338,6 +340,18 @@ public class ResultActivity extends AppCompatActivity {
             String str = getArguments().getString(ARG_TEXT);
             Log.d("ResultAct side menu", str + "is selected");
 
+            if (str.equals("QRコード")){
+                Intent intent = new Intent(ResultActivity.this, Display_qr.class);
+                intent.putExtra("RESULT", medicalCertification.toString());
+                startActivity(intent);
+            } else if (str.equals("診断書")){
+                Intent intent = new Intent(ResultActivity.this, CertificationActivity.class);
+                intent.putExtra(Utils.TAG_INTENT_CERTIFICATION, medicalCertification);
+                startActivity(intent);
+            } else if (str.equals("応急手当")){
+                Intent intent = new Intent(ResultActivity.this, CareChooseActivity.class);
+                startActivity(intent);
+            }
             //getActivity().setTitle(str);
             return rootView;
         }
@@ -347,7 +361,7 @@ public class ResultActivity extends AppCompatActivity {
         // フラグメントを生成して値を引き渡す
         Fragment fragment = new PlanetFragment();
         Bundle args = new Bundle();
-        args.putString(PlanetFragment.ARG_TEXT, menuTitles[position]);
+        args.putString(PlanetFragment.ARG_TEXT, menuActivities[position]);
         fragment.setArguments(args);
 
         // 画面切り替え
@@ -356,9 +370,6 @@ public class ResultActivity extends AppCompatActivity {
 
         // 選択状態
         mDrawerList.setItemChecked(position, true);
-
-        // タイトル変更
-        setTitle(menuTitles[position]);
 
         // ドロワーメニューを閉じる
         mDrawerLayout.closeDrawer(mDrawerList);
