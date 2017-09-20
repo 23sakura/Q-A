@@ -1,35 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<android.support.v4.widget.DrawerLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    android:id="@+id/drawer_layout_result"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:weightSum="1">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:text="hogehoge"
-        android:id="@+id/textview_notice_result"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"/>
-
-    <LinearLayout
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/layout_content_result"
         android:orientation="vertical"
-        android:id="@+id/linearlayout_result"
-        android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:layout_above="@+id/btn_start_care"
-        android:layout_below="@+id/textview_notice_result">
-    </LinearLayout>
+        android:layout_height="match_parent"
+        android:weightSum="1">
 
-    <Button
-        android:id="@+id/btn_start_care"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true" >
+        <TextView
+            android:text="hogehoge"
+            android:id="@+id/textview_notice_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"/>
 
-    </Button>
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/linearlayout_result"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_above="@+id/btn_start_care"
+            android:layout_below="@+id/textview_notice_result">
+        </LinearLayout>
 
-</RelativeLayout>
+        <Button
+            android:id="@+id/btn_start_care"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true" >
+
+        </Button>
+
+    </RelativeLayout>
+
+    <!-- The navigation drawer -->
+    <ListView android:id="@+id/left_drawer_result"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:choiceMode="singleChoice"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp"
+        android:background="#111"/>
+
+</android.support.v4.widget.DrawerLayout>

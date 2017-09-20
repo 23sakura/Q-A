@@ -1,10 +1,19 @@
 package com.example.haruka.rescue_aid.activities;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.hardware.SensorListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.haruka.rescue_aid.R;
@@ -105,9 +114,11 @@ public class ShakeTestActivity extends AppCompatActivity{
     private ShakeListener shakeListener;
     private int counter;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    private String[] mPlanetTitles;
+    private DrawerLayout mDrawerLayout;
+    private ListView mDrawerList;
+
+    private void initShake(){
         setContentView(R.layout.activity_shake);
 
         shakeResult = (TextView)findViewById(R.id.shake_result);
@@ -123,6 +134,25 @@ public class ShakeTestActivity extends AppCompatActivity{
         });
 
         counter = 0;
+
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initShake();
+
+        //mPlanetTitles = getResources().getStringArray(R.array.planets_array);
+        mPlanetTitles = new String[]{"aaa", "bbb", "ccc", "ddd"};
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+
+        // Set the adapter for the list view
+        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
+                R.layout.drawer_list_item, mPlanetTitles));
+        // Set the list's click listener
+        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+
     }
 
 
@@ -130,5 +160,53 @@ public class ShakeTestActivity extends AppCompatActivity{
         public void onShake();
     }
 
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            selectItem(position);
+        }
+    }
+
+    public static class PlanetFragment extends Fragment {
+
+        public static final String ARG_PLANET_TEXT = "planet_text";
+
+
+        public PlanetFragment() {
+            // Empty constructor required for fragment subclasses
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_result, container, false);
+
+            String str = getArguments().getString(ARG_PLANET_TEXT);
+            TextView text2 = (TextView)rootView.findViewById(R.id.text2);
+            text2.setText(str + " Selected! ");
+
+            //getActivity().setTitle(str);
+            return rootView;
+        }
+    }
+
+    private void selectItem(int position) {
+        // Create a new fragment and specify the planet to show based on position
+        Fragment fragment = new PlanetFragment();
+        Bundle args = new Bundle();
+        args.putString(PlanetFragment.ARG_PLANET_TEXT, mPlanetTitles[position]);
+        fragment.setArguments(args);
+
+        // Insert the fragment by replacing any existing fragment
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.layout_content, fragment)
+                .commit();
+
+        // Highlight the selected item, update the title, and close the drawer
+        mDrawerList.setItemChecked(position, true);
+        setTitle(mPlanetTitles[position]);
+        mDrawerLayout.closeDrawer(mDrawerList);
+    }
 
 }

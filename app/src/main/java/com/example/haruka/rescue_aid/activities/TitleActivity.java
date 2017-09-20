@@ -48,7 +48,7 @@ public class TitleActivity extends AppCompatActivity {
             Log.i("OpenCV", "Successfully build!");
         }
 
-        Log.d("Test split", "abc\ndef".split("\n")[0]);
+        
     }
 }
 

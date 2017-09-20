@@ -1,16 +1,25 @@
 package com.example.haruka.rescue_aid.activities;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.content.res.XmlResourceParser;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -44,6 +53,17 @@ public class ResultActivity extends AppCompatActivity {
     final int MATCH_P = ViewGroup.LayoutParams.MATCH_PARENT;
 
     CareList careList;
+
+
+
+    private String[] menuTitles = null;
+    private DrawerLayout mDrawerLayout = null;
+    private ListView mDrawerList = null;
+    private ActionBarDrawerToggle mDrawerToggle = null;
+
+    private CharSequence mDrawerTitle;
+    private CharSequence mTitle;
+
 
     private void setLinearLayout(){
         linearLayout = new LinearLayout(this);
@@ -243,6 +263,105 @@ public class ResultActivity extends AppCompatActivity {
         showCareList();
         setDealingBtn();
 
+        setDrawerLayout();
+
+    }
+
+    void setDrawerLayout(){
+
+        mTitle = getTitle();
+        mDrawerTitle = mTitle;
+
+        // ドロワーメニューのリストの値を初期化
+        menuTitles = new String[]{"QRコード", "診断書", "応急手当"};
+
+        // ドロワーレイアウト、リストビューのidを取得
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_result);
+        mDrawerList = (ListView) findViewById(R.id.left_drawer_result);
+
+        // リストビューとデータを関連付け
+        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
+                R.layout.drawer_list_item, menuTitles));
+
+        // 選択時のイベントを登録
+        mDrawerList.setOnItemClickListener(
+                new ListView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        selectItem(position);
+                    }
+                }
+        );
+
+        // アクションバーにhomeボタンを追加
+        // ホームボタンクリック時の動作
+        // 押下することで開閉を切り替える
+        mDrawerToggle = new ActionBarDrawerToggle(
+                this,                  /* メインアクティビティ */
+                mDrawerLayout,         /* ドロワーメニュー */
+                new Toolbar(this),  /* ドロワーアイコン */
+                R.string.open,  /* 開く */
+                R.string.close  /* 閉じる */
+        ) {
+            public void onDrawerClosed(View view) {
+                //getActionBar().setTitle(mTitle);
+                invalidateOptionsMenu(); // onPrepareOptionsMenuを呼びます
+            }
+
+            public void onDrawerOpened(View drawerView) {
+                //getActionBar().setTitle(mDrawerTitle);
+                invalidateOptionsMenu(); // onPrepareOptionsMenuを呼びます
+            }
+        };
+        // リスナーに登録
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+
+    }
+
+
+    // 選択後の画面のフラグメント
+    public static class PlanetFragment extends Fragment {
+
+        public static final String ARG_TEXT = "menu_choice";
+
+
+        public PlanetFragment() {
+            // Empty constructor required for fragment subclasses
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_result, container, false);
+
+            String str = getArguments().getString(ARG_TEXT);
+            Log.d("ResultAct side menu", str + "is selected");
+
+            //getActivity().setTitle(str);
+            return rootView;
+        }
+    }
+
+    private void selectItem(int position) {
+        // フラグメントを生成して値を引き渡す
+        Fragment fragment = new PlanetFragment();
+        Bundle args = new Bundle();
+        args.putString(PlanetFragment.ARG_TEXT, menuTitles[position]);
+        fragment.setArguments(args);
+
+        // 画面切り替え
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.layout_content_result, fragment).commit();
+
+        // 選択状態
+        mDrawerList.setItemChecked(position, true);
+
+        // タイトル変更
+        setTitle(menuTitles[position]);
+
+        // ドロワーメニューを閉じる
+        mDrawerLayout.closeDrawer(mDrawerList);
     }
 
 }
