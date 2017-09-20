@@ -12,12 +12,12 @@
         </notice_description>
     </notice>
 
-    <num>2</num>
+    <num>3</num>
     <items>
         <item>
-            <description>ひじを伸ばし、垂直に体重をかけ、成人は深さ約5cm、小児は胸の厚さの約1／3胸が沈みこむように、1分間に100～120回のテンポで強く速く胸を押します。（AEDが到着するまで）。胸を完全に元の位置に戻すために、圧迫と圧迫の間に胸壁に力がかからないようにします。</description>
+            <description>次の図を参考に胸の中央部に手を置きます。</description>
             <image>
-                explain/chest_compression/i000/img.png
+                explain/chest_compression/img/chest1.jpg
             </image>
             <duration>10000</duration>
             <button>
@@ -25,9 +25,19 @@
             </button>
         </item>
         <item>
-            <description>次の図を参考に胸の中央部に手を置きます。</description>
+            <description>ひじを伸ばし、垂直に体重をかけ、成人は深さ約5cm、小児は胸の厚さの約1／3胸が沈みこむように、メトロノームに合わせて強く胸を押します。</description>
             <image>
-                explain/chest_compression/i001/img.png
+                explain/chest_compression/img/chest2.jpg
+            </image>
+            <duration>15000</duration>
+            <button>
+                AEDが到着した
+            </button>
+        </item>
+	    <item>
+            <description>胸を完全に元の位置に戻すために、圧迫と圧迫の間に胸に力がかからないようにします。</description>
+            <image>
+                explain/chest_compression/img/chest2.jpg
             </image>
             <duration>10000</duration>
             <button>
