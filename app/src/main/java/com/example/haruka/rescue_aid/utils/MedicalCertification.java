@@ -109,7 +109,7 @@ public class MedicalCertification implements Serializable {
                 Log.d("Geocoder location", address.getLocality());
                 setAddressString(getAddressLine(address));
             } catch (Exception e) {
-                Log.e("Geocoder location", e.toString());
+                Log.e("Geocoder location2", e.toString());
             }
         }
     }
@@ -205,7 +205,7 @@ public class MedicalCertification implements Serializable {
                 Log.d("Geocoder location", addresses.get(0).getLocality());
                 return getAddressLine(address);
             } catch (Exception e) {
-                Log.e("Geocoder location", e.toString());
+                Log.e("Geocoder location1", e.toString());
                 return DEFAULT_ADDRESS;
             }
         } else{
