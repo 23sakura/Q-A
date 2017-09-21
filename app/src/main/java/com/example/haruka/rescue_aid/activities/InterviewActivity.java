@@ -163,20 +163,6 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
         showReadQuestion();
     }
 
-    private boolean[] makeCareList(String care_){
-        String[] careNums = care_.split(":");
-        boolean[] careList = new boolean[Utils.NUM_CARE];
-        for(String c : careNums){
-            try {
-                int index = Integer.parseInt(c.trim());
-                careList[index] = true;
-            } catch (Exception e){
-                Log.e("make care list", e.toString());
-            }
-        }
-        return careList;
-    }
-
     public String getCareString(boolean[] cares){
         String s = "";
         for (boolean c : cares){
@@ -222,10 +208,10 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
                     try{
                         String yesCare_ = st.nextToken();
                         Log.d("yes care", yesCare_);
-                        yesCare = makeCareList(yesCare_);
+                        yesCare = MedicalCertification.makeCareList(yesCare_);
                         String noCare_ = st.nextToken();
                         Log.d("no care", noCare_);
-                        noCare = makeCareList(noCare_);
+                        noCare = MedicalCertification.makeCareList(noCare_);
                         Log.i("Question", "has been made perfectly");
                     } catch (Exception e) {
                         Log.e("load question", e.toString());
@@ -276,7 +262,8 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
         usedQuestions.add(q_);
         if (!isAnswered) {
             Record r = new Record(Integer.toString(q_.getIndex()), Utils.getAnswerString(q_.getAnswer()));
-            medicalCertification.addRecord(r);
+            //medicalCertification.addRecord(r);
+            medicalCertification.updateRecord(r);
             //TODO condider how to deal with re-answered question
         }
         final HistoryButton btn = new HistoryButton(this, q_.getIndex());
@@ -336,7 +323,6 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
         }
 
         return cares;
-        //TODO this method must be tested
     }
 
     private void showFinishAlart(){
@@ -412,7 +398,8 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
         medicalCertification = new MedicalCertification();
         for (Question q : usedQuestions){
             Record r = new Record(Integer.toString(q.getIndex()), Boolean.toString(q.getAnswer()));
-            medicalCertification.addRecord(r);
+            medicalCertification.updateRecord(r);
+            //medicalCertification.addRecord(r);
         }
 
         medicalCertification.showRecords();

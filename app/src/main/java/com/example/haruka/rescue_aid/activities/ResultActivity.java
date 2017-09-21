@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.content.res.XmlResourceParser;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -27,12 +28,21 @@ import com.example.haruka.rescue_aid.R;
 import com.example.haruka.rescue_aid.utils.Care;
 import com.example.haruka.rescue_aid.utils.CareList;
 import com.example.haruka.rescue_aid.utils.MedicalCertification;
+import com.example.haruka.rescue_aid.utils.Question;
+import com.example.haruka.rescue_aid.utils.Record;
 import com.example.haruka.rescue_aid.utils.Utils;
 import com.example.haruka.rescue_aid.views.ResultLineLayout;
 
 import org.xmlpull.v1.XmlPullParser;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
+
+import static java.lang.Integer.parseInt;
 
 /**
  * Created by Tomoya on 9/7/2017 AD.
@@ -43,17 +53,15 @@ public class ResultActivity extends AppCompatActivity {
     private MedicalCertification medicalCertification;
     private int urgency;
     private ArrayList<Care> cares;
+    private ArrayList<Question> questions;
     LinearLayout linearLayout;
     ScrollView scrollView;
     LinearLayout inflateLayout;
     TextView textView;
     Button dealingBtn;
-
     final int MATCH_P = ViewGroup.LayoutParams.MATCH_PARENT;
 
     CareList careList;
-
-
 
     private String[] menuActivities = null;
     private DrawerLayout mDrawerLayout = null;
@@ -155,12 +163,6 @@ public class ResultActivity extends AppCompatActivity {
             }
         });
         dealingBtn.setText("応急手当開始");
-        /*
-        LinearLayout.LayoutParams buttonLayoutParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        dealingBtn.setLayoutParams(buttonLayoutParams);
-        */
-        //linearLayout.addView(dealingBtn);
     }
 
     private void addDescription(Care c){
@@ -208,12 +210,76 @@ public class ResultActivity extends AppCompatActivity {
                 Log.e("Emergency", e.toString());
             }
         }
+    }
 
+    private void loadQuestions(){
+        questions = new ArrayList<>();
+        AssetManager assetManager = getResources().getAssets();
+        try{
+            // CSVファイルの読み込み
+            //InputStream is = assetManager.open("scenarios/" + scenario);
+            String scenario = Utils.getScenario(medicalCertification.getScenarioID());
+            String scenario_ = "scenarios/" + scenario;
+            Log.d("Scenario", scenario_);
+            InputStream is = assetManager.open(scenario_);
+            InputStreamReader inputStreamReader = new InputStreamReader(is);
+            BufferedReader bufferReader = new BufferedReader(inputStreamReader);
+            String line = "";
+            line = bufferReader.readLine();
+            int _i = 0;
+            while ((line = bufferReader.readLine()) != null) {
+                Question q;
+                StringTokenizer st = new StringTokenizer(line, ",");
+                Log.d("scenario line", line);
+                _i++;
+                String id = st.nextToken();
+                if(id == "id") continue;
+                int index = parseInt(id);
+                String text = st.nextToken();
+                Log.d("text", text);
+                int yesIndex = parseInt(st.nextToken());
+                Log.d("yes_index", Integer.toString(yesIndex));
+                int noIndex = parseInt(st.nextToken());
+                Log.d("no_index", Integer.toString(noIndex));
+                try {
+                    int yesUrgency = parseInt(st.nextToken());
+                    Log.d("yes_urgency", Integer.toString(yesUrgency));
+                    int noUrgency = parseInt(st.nextToken());
+                    Log.d("no_urgency", Integer.toString(noUrgency));
+                    boolean[] yesCare = new boolean[Utils.NUM_CARE], noCare = new boolean[Utils.NUM_CARE];
+                    try{
+                        String yesCare_ = st.nextToken();
+                        Log.d("yes care", yesCare_);
+                        yesCare = MedicalCertification.makeCareList(yesCare_);
+                        String noCare_ = st.nextToken();
+                        Log.d("no care", noCare_);
+                        noCare = MedicalCertification.makeCareList(noCare_);
+                        Log.i("Question", "has been made perfectly");
+                    } catch (Exception e) {
+                        Log.e("load question", e.toString());
+                    }
+                    q = new Question(index, text, yesIndex, noIndex, yesUrgency, noUrgency, yesCare, noCare);
+                } catch (Exception e){
+                    q = new Question(index, text, yesIndex, noIndex);
+                }
+                questions.add(q);
 
+                Log.d(" question" , q.getQuestion());
+            }
 
+            is.close();
+        } catch (IOException e) {
+            Log.e(ResultActivity.this.getClass().getSimpleName(), e.toString());
+            e.printStackTrace();
+        }
     }
 
     public String getCareString(boolean[] care_boolean){
+        if (care_boolean == null){
+            //TODO get care_boolean by MedicalCertification
+            care_boolean = new boolean[7];
+        }
+
         cares = new ArrayList<>();
         String s = "";
         for (int i = 0; i < care_boolean.length; i++){
@@ -230,6 +296,34 @@ public class ResultActivity extends AppCompatActivity {
         return s;
     }
 
+    private void calcUrgency(){
+        //TODO implement calcUrgency using Medicalcertification
+        urgency = 1;
+    }
+
+    private void analyzeCertification(){
+        medicalCertification.showRecords("ResultActivity");
+
+        boolean[] cares_flag = new boolean[Utils.NUM_CARE];
+        for (Record record : medicalCertification.records){
+            try{
+                int questionIndex = Integer.parseInt(record.getTag());
+                boolean answer = Utils.getAnswerBoolean(record.getValue());
+                Question q = questions.get(questionIndex);
+                q.answer(answer);
+                boolean[] q_care = q.getCares();
+                for (int i = 0; i < q_care.length; i++){
+                    cares_flag[i] = cares_flag[i] | q_care[i];
+                }
+                urgency = Math.max(q.getUrgency(), urgency);
+                Log.d("Result", "i" + Integer.toString(questionIndex) + ", a" + Boolean.toString(answer) + ", u" +  Integer.toString(urgency) + "m " +record.getTagValue());
+            } catch (Exception e){
+
+            }
+        }
+        getCareString(cares_flag);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -242,16 +336,20 @@ public class ResultActivity extends AppCompatActivity {
         } catch (Exception e){
             medicalCertification = new MedicalCertification();
         }
-        urgency = getIntent().getIntExtra("URGENCY", 1);
+        //urgency = getIntent().getIntExtra("URGENCY", 0);
+        urgency = 0;
+        if (urgency == 0){
+            calcUrgency();
+        }
         Log.d("URGENCY", Integer.toString(urgency));
-        boolean[] _cares = getIntent().getBooleanArrayExtra("CARES");
-        Log.d("CARES", getCareString(_cares));
-        for (Care c : cares){
+        boolean[] cares_flag = getIntent().getBooleanArrayExtra("CARES");
+        Log.d("CARES", getCareString(cares_flag));
+        for (Care c : this.cares){
             Log.d("care required" , c.name);
         }
 
-        medicalCertification.showRecords("ResultActivity");
-
+        loadQuestions();
+        analyzeCertification();
 
         setScrollView();
         setLinearLayout();
@@ -316,8 +414,6 @@ public class ResultActivity extends AppCompatActivity {
 
 
     }
-
-
 
     @SuppressLint("ValidFragment")
     public class PlanetFragment extends Fragment {

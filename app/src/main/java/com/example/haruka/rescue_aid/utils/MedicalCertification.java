@@ -94,7 +94,20 @@ public class MedicalCertification implements Serializable {
     public void addRecord(Record r){
         records.add(r);
     }
-    public void remove(Record r) {}
+
+    public void updateRecord(Record r){
+        String tag = r.getTag();
+        for (Record record : records){
+            if(tag.equals(record.getTag())){
+                remove(record);
+            }
+        }
+        addRecord(r);
+    }
+
+    public void remove(Record r) {
+        records.remove(r);
+    }
 
     public void updateLocation(Location location, Context context){
         //this.location = location;
@@ -233,5 +246,19 @@ public class MedicalCertification implements Serializable {
 
     public void save(Context context){
         TempDataUtil.store(context, this);
+    }
+
+    public static boolean[] makeCareList(String care_){
+        String[] careNums = care_.split(":");
+        boolean[] careList = new boolean[Utils.NUM_CARE];
+        for(String c : careNums){
+            try {
+                int index = Integer.parseInt(c.trim());
+                careList[index] = true;
+            } catch (Exception e){
+                Log.e("make care list", e.toString());
+            }
+        }
+        return careList;
     }
 }
