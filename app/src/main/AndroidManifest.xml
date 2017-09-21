@@ -40,8 +40,10 @@
         <activity android:name=".activities.ResultActivity" />
         <activity android:name=".activities.ExplainActivity" />
         <activity android:name=".activities.QRActivity" />
+        <activity android:name=".activities.QRDisplayActivity" />
         <activity android:name=".activities.CertificationActivity" />
         <activity android:name=".activities.LoadDataActivity" />
+        <activity android:name=".activities.CertificationEditActivity" />
         <!-- Test Activities-->
         <activity android:name=".activities.ShakeTestActivity" />
         <activity android:name=".activities.VoiceRecognizeActivity" />
