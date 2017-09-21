@@ -62,8 +62,12 @@ public class Utils {
             return R.xml.care_aed;
         } else if ("care_chest_compression".equals(xml)){
             return R.xml.care_chest_compression;
-        } else if ("care_bleed_stopping".equals(xml)){
+        } else if ("care_bleed_stopping".equals(xml)) {
             return R.xml.care_bleed_stopping;
+        } else if ("care_airway_foreign_body_removal.xml".equals(xml)) {
+            return R.xml.care_airway_foreign_body_removal;
+        } else if ("care_heatstroke.xml".equals(xml)){
+            return R.xml.care_heatstroke;
         } else {
             return R.xml.care_recovery_position;
         }
