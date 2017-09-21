@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 
 import com.example.haruka.rescue_aid.R;
 import com.example.haruka.rescue_aid.utils.MedicalCertification;
@@ -56,9 +57,11 @@ public class CertificationLoadActivity extends AppCompatActivity {
     protected void onCreate(Bundle bundle){
         super.onCreate(bundle);
 
+        ScrollView scrollView = new ScrollView(this);
+        setContentView(scrollView);
         linearLayout = new LinearLayout(this);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
-        setContentView(linearLayout);
+        scrollView.addView(linearLayout);
         contextLoadDataActivity = this;
 
         setView();
