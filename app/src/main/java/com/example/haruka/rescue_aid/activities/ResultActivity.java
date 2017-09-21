@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
-import android.content.res.AssetManager;
 import android.content.res.XmlResourceParser;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -41,7 +40,6 @@ import java.util.ArrayList;
 
 public class ResultActivity extends AppCompatActivity {
 
-    private AssetManager assetManager;
     private MedicalCertification medicalCertification;
     private int urgency;
     private ArrayList<Care> cares;
@@ -216,8 +214,6 @@ public class ResultActivity extends AppCompatActivity {
     }
 
     public String getCareString(boolean[] care_boolean){
-        assetManager = this.getResources().getAssets();
-
         cares = new ArrayList<>();
         String s = "";
         for (int i = 0; i < care_boolean.length; i++){
@@ -343,7 +339,7 @@ public class ResultActivity extends AppCompatActivity {
 
             if (str.equals("QRコード")){
                 Intent intent = new Intent(ResultActivity.this, Display_qr.class);
-                intent.putExtra("RESULT", medicalCertification.toString());
+                intent.putExtra(Utils.TAG_INTENT_CERTIFICATION, medicalCertification);
                 startActivity(intent);
             } else if (str.equals("診断書")){
                 Intent intent = new Intent(ResultActivity.this, CertificationActivity.class);

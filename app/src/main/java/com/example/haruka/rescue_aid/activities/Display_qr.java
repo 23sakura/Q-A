@@ -15,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.haruka.rescue_aid.R;
+import com.example.haruka.rescue_aid.utils.MedicalCertification;
+import com.example.haruka.rescue_aid.utils.Utils;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
@@ -60,10 +62,8 @@ public class Display_qr extends FragmentActivity {
         public void onLoadFinished(Loader<Bitmap> loader, Bitmap bitmap) {
             getSupportLoaderManager().destroyLoader(0);
             if (bitmap == null) {
-                // エンコード失敗
                 Toast.makeText(getApplicationContext(), "Error.", Toast.LENGTH_SHORT).show();
             } else {
-                // エンコード成功
                 ImageView imageView = (ImageView) findViewById(R.id.result_view);
                 imageView.setImageBitmap(bitmap);
             }
@@ -81,24 +81,20 @@ public class Display_qr extends FragmentActivity {
         @Override
         public Bitmap loadInBackground() {
             try {
-                // エンコード結果を返す
                 return encode(mContents);
             } catch (Exception e) {
-                // 何らかのエラーが発生したとき
                 return null;
             }
         }
 
         private Bitmap encode(String contents) throws Exception {
             QRCodeWriter writer = new QRCodeWriter();
-            // エンコード
             BitMatrix bm = null;
             bm = writer.encode(mContents, BarcodeFormat.QR_CODE, 300, 300);
             // ピクセルを作る
             int width = bm.getWidth();
             int height = bm.getHeight();
             int[] pixels = new int[width * height];
-            // データがあるところだけ黒にする
             for (int y = 0; y < height; y++) {
                 int offset = y * width;
                 for (int x = 0; x < width; x++) {
@@ -116,8 +112,8 @@ public class Display_qr extends FragmentActivity {
         super.onResume();
 
         mGetResultIntent = getIntent();
-        mResult = mGetResultIntent.getStringExtra("RESULT");
-        // 非同期でエンコードする
+        MedicalCertification medicalCertification = (MedicalCertification) mGetResultIntent.getSerializableExtra(Utils.TAG_INTENT_CERTIFICATION);
+        mResult = medicalCertification.toString();
         Bundle bundle = new Bundle();
         bundle.putString("contents", mResult);
         getSupportLoaderManager().initLoader(0, bundle, callbacks);

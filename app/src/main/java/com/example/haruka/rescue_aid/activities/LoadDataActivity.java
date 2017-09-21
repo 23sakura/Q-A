@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 
 import com.example.haruka.rescue_aid.utils.MedicalCertification;
 import com.example.haruka.rescue_aid.utils.TempDataUtil;
+import com.example.haruka.rescue_aid.utils.Utils;
 
 /**
  * Created by Tomoya on 9/21/2017 AD.
@@ -43,7 +44,7 @@ public class LoadDataActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     MedicalCertification medicalCertification = TempDataUtil.load(contextLoadDataActivity, filename);
                     Intent intent = new Intent(contextLoadDataActivity, Display_qr.class);
-                    intent.putExtra("RESULT", medicalCertification.toString());
+                    intent.putExtra(Utils.TAG_INTENT_CERTIFICATION, medicalCertification);
                     startActivity(intent);
                 }
             });
