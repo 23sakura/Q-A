@@ -39,7 +39,6 @@
         <activity android:name=".activities.InterviewActivity" />
         <activity android:name=".activities.ResultActivity" />
         <activity android:name=".activities.ExplainActivity" />
-        <activity android:name=".activities.Display_qr" />
         <activity android:name=".activities.QRActivity" />
         <activity android:name=".activities.CertificationActivity" />
         <activity android:name=".activities.LoadDataActivity" />
@@ -53,7 +52,6 @@
         <activity android:name=".activities.LocationTestActivity" />
         <activity android:name=".activities.ReadAloudTestActivity" />
         <activity android:name=".activities.SettingActivity" />
-        <activity android:name=".activities.QRcodeReaderTestActivity" />
         <activity android:name=".activities.CareChooseActivity" />
 
     </application>
