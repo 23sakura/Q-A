@@ -42,7 +42,7 @@
         <activity android:name=".activities.QRActivity" />
         <activity android:name=".activities.QRDisplayActivity" />
         <activity android:name=".activities.CertificationActivity" />
-        <activity android:name=".activities.LoadDataActivity" />
+        <activity android:name=".activities.CertificationLoadActivity" />
         <activity android:name=".activities.CertificationEditActivity" />
         <!-- Test Activities-->
         <activity android:name=".activities.ShakeTestActivity" />

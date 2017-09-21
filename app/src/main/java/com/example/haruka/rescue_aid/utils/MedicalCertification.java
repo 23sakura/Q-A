@@ -15,14 +15,17 @@ import java.util.List;
  * Created by Tomoya on 9/5/2017 AD.
  */
 
-public class MedicalCertification implements Serializable {
+public class MedicalCertification implements Serializable, Comparable<MedicalCertification> {
 
     private static final long serialVersionUID = Utils.serialVersionUID_MedicalCertification;
+
+    public String FILENAME = "";
+    public  String name = "";
+    public long number;
 
     public ArrayList<Record> records;
     //Location location;
     //TODO location should be back to private
-    public String FILENAME = "";
     public double[] location;
     private boolean isLocationSet;
     private final int LONGITUDE = 0, LATITUDE = 1;
@@ -85,9 +88,10 @@ public class MedicalCertification implements Serializable {
         setFilename();
     }
 
-
     private void setFilename(){
-        FILENAME = QADateFormat.getInstanceFilename() + ".obj";
+        name = QADateFormat.getInstanceFilename();
+        number = Long.parseLong(name);
+        FILENAME = name + ".obj";
     }
 
 
@@ -260,5 +264,10 @@ public class MedicalCertification implements Serializable {
             }
         }
         return careList;
+    }
+
+    @Override
+    public int compareTo(MedicalCertification m){
+        return (int)(this.number - m.number);
     }
 }

@@ -5,11 +5,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.example.haruka.rescue_aid.R;
 import com.example.haruka.rescue_aid.utils.MedicalCertification;
+import com.example.haruka.rescue_aid.utils.TempDataUtil;
 import com.example.haruka.rescue_aid.utils.Utils;
 
 /**
@@ -21,6 +24,8 @@ public class CertificationEditActivity extends AppCompatActivity {
     Button button1, button2, button3, button4;
     Intent intent1, intent2, intent3;
     MedicalCertification medicalCertification;
+    EditText filenameEditText;
+    Button filenameButton;
 
     @Override
     protected void onCreate(Bundle bundle){
@@ -32,10 +37,14 @@ public class CertificationEditActivity extends AppCompatActivity {
         button2 = (Button)findViewById(R.id.btn_edit_show);
         button3 = (Button)findViewById(R.id.btn_edit_result);
         button4 = (Button)findViewById(R.id.btn_edit_delete);
+        filenameEditText = (EditText)findViewById(R.id.edit_edit_filename);
+        filenameButton = (Button)findViewById(R.id.btn_edit_filename);
+
 
         button1.setText("QRコード表示");
         button2.setText("診断書表示");
         button3.setText("結果画面表示");
+        filenameEditText.setText(medicalCertification.name);
 
         intent1 = new Intent(this, QRDisplayActivity.class);
         intent2 = new Intent(this, CertificationActivity.class);
@@ -72,6 +81,15 @@ public class CertificationEditActivity extends AppCompatActivity {
                         finish();
                     }
                 }).show();
+            }
+        });
+        filenameButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String filename = filenameEditText.getText().toString();
+                medicalCertification.name = filename;
+                Log.d("filename", filename);
+                TempDataUtil.store(CertificationEditActivity.this, medicalCertification);
             }
         });
 

@@ -18,6 +18,9 @@ import com.example.haruka.rescue_aid.utils.MedicalCertification;
 import com.example.haruka.rescue_aid.utils.TempDataUtil;
 import com.example.haruka.rescue_aid.utils.Utils;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 /**
  * Created by Tomoya on 9/21/2017 AD.
  */
@@ -30,26 +33,28 @@ public class CertificationLoadActivity extends AppCompatActivity {
 
     private void setView(){
         String[] filenames = fileList();
-        for(int i = 1; i < filenames.length; i++){
+        ArrayList<MedicalCertification> medicalCertifications = new ArrayList<>();
+        for (int i = 1; i < filenames.length; i++){
             final String filename = filenames[i];
-
-            Button b = new Button(this);
-            b.setText(filename);
-            linearLayout.addView(b);
-
             MedicalCertification medicalCertification = TempDataUtil.load(contextLoadDataActivity, filename);
-            medicalCertification.showRecords();
+            medicalCertifications.add(medicalCertification);
+        }
+        Collections.sort(medicalCertifications);
+
+        for (final MedicalCertification medicalCertification : medicalCertifications){
+            Button b = new Button(this);
+            b.setAllCaps(false);
+            b.setText(medicalCertification.name);
+            linearLayout.addView(b);
 
             b.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    MedicalCertification medicalCertification = TempDataUtil.load(contextLoadDataActivity, filename);
                     Intent intent = new Intent(contextLoadDataActivity, CertificationEditActivity.class);
                     intent.putExtra(Utils.TAG_INTENT_CERTIFICATION, medicalCertification);
                     startActivity(intent);
                 }
             });
-
         }
     }
 
