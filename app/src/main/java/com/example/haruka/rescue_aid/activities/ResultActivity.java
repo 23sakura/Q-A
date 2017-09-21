@@ -338,7 +338,7 @@ public class ResultActivity extends AppCompatActivity {
             Log.d("ResultAct side menu", str + "is selected");
 
             if (str.equals("QRコード")){
-                Intent intent = new Intent(ResultActivity.this, Display_qr.class);
+                Intent intent = new Intent(ResultActivity.this, QRDisplayActivity.class);
                 intent.putExtra(Utils.TAG_INTENT_CERTIFICATION, medicalCertification);
                 startActivity(intent);
             } else if (str.equals("診断書")){

@@ -110,7 +110,7 @@ public class QRActivity extends AppCompatActivity {
     };
 
     private void showQR(MedicalCertification medicalCertification){
-        final Intent QRIntent = new Intent(this, Display_qr.class);
+        final Intent QRIntent = new Intent(this, QRDisplayActivity.class);
 
         QRIntent.putExtra("RESULT", medicalCertification.toString());
         Log.d("RESULT", medicalCertification.toString());

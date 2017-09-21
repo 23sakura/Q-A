@@ -43,7 +43,7 @@ public class LoadDataActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     MedicalCertification medicalCertification = TempDataUtil.load(contextLoadDataActivity, filename);
-                    Intent intent = new Intent(contextLoadDataActivity, Display_qr.class);
+                    Intent intent = new Intent(contextLoadDataActivity, QRDisplayActivity.class);
                     intent.putExtra(Utils.TAG_INTENT_CERTIFICATION, medicalCertification);
                     startActivity(intent);
                 }

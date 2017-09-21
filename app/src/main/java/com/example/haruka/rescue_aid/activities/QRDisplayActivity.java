@@ -21,7 +21,7 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 
-public class Display_qr extends FragmentActivity {
+public class QRDisplayActivity extends FragmentActivity {
 
     private String mResult;
     private Intent mGetResultIntent;
