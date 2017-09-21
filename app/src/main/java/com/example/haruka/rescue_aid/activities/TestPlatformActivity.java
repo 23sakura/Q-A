@@ -3,14 +3,10 @@ package com.example.haruka.rescue_aid.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 import com.example.haruka.rescue_aid.R;
-import com.example.haruka.rescue_aid.utils.MedicalCertification;
-import com.example.haruka.rescue_aid.utils.Record;
-import com.example.haruka.rescue_aid.utils.TempDataUtil;
 
 /**
  * Created by Tomoya on 8/24/2017 AD.
@@ -18,8 +14,8 @@ import com.example.haruka.rescue_aid.utils.TempDataUtil;
 
 public class TestPlatformActivity extends AppCompatActivity {
 
-    private Button gotoTestBtn1, gotoTestBtn2, gotoTestBtn3, gotoTestBtn4, gotoTestBtn5, gotoTestBtn6, gotoTestBtn7, gotoTestBtn8;
-    private Intent testIntent1, testIntent2, testIntent3, testIntent4, testIntent5, testIntent6, testIntent7, testIntent8;
+    private Button gotoTestBtn1, gotoTestBtn2, gotoTestBtn3, gotoTestBtn4, gotoTestBtn5, gotoTestBtn6, gotoTestBtn7, gotoTestBtn8, gotoTestBtn9;
+    private Intent testIntent1, testIntent2, testIntent3, testIntent4, testIntent5, testIntent6, testIntent7, testIntent8, testIntent9;
 
     void setActivity(){
         gotoTestBtn1 = (Button)findViewById(R.id.gotoTestBtn1);
@@ -30,6 +26,7 @@ public class TestPlatformActivity extends AppCompatActivity {
         gotoTestBtn6 = (Button)findViewById(R.id.gotoTestBtn6);
         gotoTestBtn7 = (Button)findViewById(R.id.gotoTestBtn7);
         gotoTestBtn8 = (Button)findViewById(R.id.gotoTestBtn8);
+        gotoTestBtn9 = (Button)findViewById(R.id.gotoTestBtn9);
 
         testIntent1 = new Intent(this, VoiceRecognizeActivity.class);
         gotoTestBtn1.setText("音声認識テスト");
@@ -96,7 +93,6 @@ public class TestPlatformActivity extends AppCompatActivity {
         });
 
         testIntent8 = new Intent(this, QRActivity.class);
-        //testIntent8 = new Intent(this, SettingActivity.class);
         gotoTestBtn8.setText("QRコード読み込み");
         gotoTestBtn8.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,24 +101,16 @@ public class TestPlatformActivity extends AppCompatActivity {
             }
         });
 
+        testIntent9 = new Intent(this, LoadDataActivity.class);
+        gotoTestBtn9.setText("問診履歴");
+        gotoTestBtn9.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(testIntent9);
+            }
+        });
 
-    }
 
-
-    void store(MedicalCertification medicalCertification){
-        String[] filename = this.fileList();
-        for (String file : filename){
-            Log.d("saved file", file);
-        }
-        deleteFile(filename[2]);
-
-        medicalCertification.addRecord(new Record("hohoho", "bababa"));
-        TempDataUtil.store(this, medicalCertification);
-    }
-
-    void read(){
-        MedicalCertification medicalCertification = TempDataUtil.load(this);
-        medicalCertification.showRecords();
     }
 
 
@@ -132,12 +120,6 @@ public class TestPlatformActivity extends AppCompatActivity {
         setContentView(R.layout.activity_test_platform);
 
         setActivity();
-
-
-        MedicalCertification medicalCertification = new MedicalCertification();
-        store(medicalCertification);
-
-        read();
     }
 
 

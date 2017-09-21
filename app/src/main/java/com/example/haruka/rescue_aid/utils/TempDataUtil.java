@@ -6,7 +6,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
 
 /**
  * Created by Tomoya on 9/21/2017 AD.
@@ -14,14 +13,11 @@ import java.io.Serializable;
 
 public class TempDataUtil {
 
-
-    public final static String FILE_NAME = "ViewDto.obj";
-
-    public static void store(Context context, Serializable object){
+    public static void store(Context context, MedicalCertification medicalCertification){
         try {
             ObjectOutputStream out = new ObjectOutputStream(
-                    context.openFileOutput(QADateFormat.getInstance() + ".obj", Context.MODE_PRIVATE));
-            out.writeObject(object);
+                    context.openFileOutput(medicalCertification.FILENAME, Context.MODE_PRIVATE));
+            out.writeObject(medicalCertification);
             out.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -30,12 +26,11 @@ public class TempDataUtil {
         }
     }
 
-
-    public static MedicalCertification load(Context context){
+    public static MedicalCertification load(Context context, String filename){
         Object retObj = null;
         try {
             ObjectInputStream in = new ObjectInputStream(
-                    context.openFileInput(FILE_NAME)
+                    context.openFileInput(filename)
             );
             retObj = in.readObject();
             in.close();

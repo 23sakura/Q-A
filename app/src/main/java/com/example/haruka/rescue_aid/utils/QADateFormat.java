@@ -15,6 +15,7 @@ public class QADateFormat {
 
     public final static String simpleDateFormat =  "yyyy.MM.dd kk:mm:ss";
     public final static String JapaneseDateFormat =  "yyyy年MM月dd日 kk時mm分";
+    public final static String FileDateFormat = "yyyyMMddkkmmss";
 
     public static String getInstance(){
         Date date = new Date();
@@ -26,6 +27,11 @@ public class QADateFormat {
         return getStringDateJapanese(date);
     }
 
+    public static String getInstanceFilename(){
+        Date date = new Date();
+        return getStringDateFilename(date);
+    }
+
     public static String getStringDate(Date date){
         SimpleDateFormat sdf = new SimpleDateFormat(simpleDateFormat);
         return sdf.format(date);
@@ -33,6 +39,11 @@ public class QADateFormat {
 
     public static String getStringDateJapanese(Date date){
         SimpleDateFormat sdf = new SimpleDateFormat(JapaneseDateFormat);
+        return sdf.format(date);
+    }
+
+    public static String getStringDateFilename(Date date){
+        SimpleDateFormat sdf = new SimpleDateFormat(FileDateFormat);
         return sdf.format(date);
     }
 

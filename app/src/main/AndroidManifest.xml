@@ -42,6 +42,7 @@
         <activity android:name=".activities.Display_qr" />
         <activity android:name=".activities.QRActivity" />
         <activity android:name=".activities.CertificationActivity" />
+        <activity android:name=".activities.LoadDataActivity" />
         <!-- Test Activities-->
         <activity android:name=".activities.ShakeTestActivity" />
         <activity android:name=".activities.VoiceRecognizeActivity" />

@@ -266,6 +266,7 @@ public class ResultActivity extends AppCompatActivity {
 
         setDrawerLayout();
 
+        medicalCertification.save(this);
     }
 
     void setDrawerLayout(){

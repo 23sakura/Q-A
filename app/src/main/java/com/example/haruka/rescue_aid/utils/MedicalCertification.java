@@ -22,6 +22,7 @@ public class MedicalCertification implements Serializable {
     public ArrayList<Record> records;
     //Location location;
     //TODO location should be back to private
+    public String FILENAME = "";
     public double[] location;
     private boolean isLocationSet;
     private final int LONGITUDE = 0, LATITUDE = 1;
@@ -42,13 +43,8 @@ public class MedicalCertification implements Serializable {
         records.add(r);
         location = new double[2];
         isLocationSet = false;
-        /*
-        times = new String[1];
-        times[0] = r.time;
-        tags = new String[1];
-        tags[0] = r.tag;
-        values = new String[];
-        */
+
+        setFilename();
     }
 
     public MedicalCertification(String code){
@@ -85,10 +81,15 @@ public class MedicalCertification implements Serializable {
             }
         }
 
-
         showLocation();
-
+        setFilename();
     }
+
+
+    private void setFilename(){
+        FILENAME = QADateFormat.getInstanceFilename() + ".obj";
+    }
+
 
     public void addRecord(Record r){
         records.add(r);
@@ -230,4 +231,7 @@ public class MedicalCertification implements Serializable {
         return scenarioID;
     }
 
+    public void save(Context context){
+        TempDataUtil.store(context, this);
+    }
 }
