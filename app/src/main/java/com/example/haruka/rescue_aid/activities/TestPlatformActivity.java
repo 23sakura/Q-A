@@ -101,7 +101,7 @@ public class TestPlatformActivity extends AppCompatActivity {
             }
         });
 
-        testIntent9 = new Intent(this, LoadDataActivity.class);
+        testIntent9 = new Intent(this, CertificationLoadActivity.class);
         gotoTestBtn9.setText("問診履歴");
         gotoTestBtn9.setOnClickListener(new View.OnClickListener() {
             @Override

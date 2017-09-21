@@ -21,7 +21,7 @@ import com.example.haruka.rescue_aid.utils.Utils;
  * Created by Tomoya on 9/21/2017 AD.
  */
 
-public class LoadDataActivity extends AppCompatActivity {
+public class CertificationLoadActivity extends AppCompatActivity {
 
     Context contextLoadDataActivity;
     LinearLayout linearLayout;
