@@ -11,6 +11,7 @@
     <color name="yes_back">#bbffbb</color>
     <color name="no_back">#ffbbbb</color>
     <color name="unsure_back">#FFEE9B</color>
+    <color name="overlay_back">#FFEE9B</color>
 
     <color name="start">#0000ff</color>
     <color name="start_back">#aaaaff</color>

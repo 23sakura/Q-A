@@ -42,7 +42,8 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/btn_edit_filename" />
+                android:id="@+id/btn_edit_filename"
+                android:text="更新"/>
         </LinearLayout>
 
         <ScrollView
