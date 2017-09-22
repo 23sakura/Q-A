@@ -1,6 +1,7 @@
 package com.example.haruka.rescue_aid.utils;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -19,6 +20,7 @@ public class TempDataUtil {
                     context.openFileOutput(medicalCertification.FILENAME, Context.MODE_PRIVATE));
             out.writeObject(medicalCertification);
             out.close();
+            Log.d("TempDataUtil", "save is done");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -34,6 +36,7 @@ public class TempDataUtil {
             );
             retObj = in.readObject();
             in.close();
+            Log.d("TempDataUtil", "load is done");
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {

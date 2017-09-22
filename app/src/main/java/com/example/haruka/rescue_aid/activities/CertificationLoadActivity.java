@@ -6,17 +6,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
+import android.widget.ListView;
 
 import com.example.haruka.rescue_aid.R;
 import com.example.haruka.rescue_aid.utils.MedicalCertification;
 import com.example.haruka.rescue_aid.utils.TempDataUtil;
 import com.example.haruka.rescue_aid.utils.Utils;
+import com.example.haruka.rescue_aid.views.CertificationAdapter;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,19 +32,26 @@ public class CertificationLoadActivity extends AppCompatActivity {
 
     Context contextLoadDataActivity;
     LinearLayout linearLayout;
-
+    ListView listView;
+    ArrayAdapter<MedicalCertification> arrayAdapter;
 
     private void setView(){
         String[] filenames = fileList();
-        ArrayList<MedicalCertification> medicalCertifications = new ArrayList<>();
-        for (int i = 1; i < filenames.length; i++){
+        final ArrayList<MedicalCertification> medicalCertifications = new ArrayList<>();
+        Log.d("certification ", String.valueOf(filenames.length));
+        for (int i = 0; i < filenames.length; i++){
             final String filename = filenames[i];
-            MedicalCertification medicalCertification = TempDataUtil.load(contextLoadDataActivity, filename);
+            if (filename.equals("instant-run")) continue;
+            Log.d("certification filename", filename);
+            MedicalCertification medicalCertification = TempDataUtil.load(this, filename);
             medicalCertifications.add(medicalCertification);
+            Log.d("certification ", String.valueOf(medicalCertifications.size()));
+            Log.d("certification number", String.valueOf(medicalCertification.name));
+
         }
         Collections.sort(medicalCertifications);
 
-        for (final MedicalCertification medicalCertification : medicalCertifications){
+        /*for (final MedicalCertification medicalCertification : medicalCertifications){
             Button b = new Button(this);
             b.setAllCaps(false);
             b.setText(medicalCertification.name);
@@ -55,21 +65,47 @@ public class CertificationLoadActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
             });
-        }
+        }*/
+
+        CertificationAdapter certificationAdapter = new CertificationAdapter(CertificationLoadActivity.this);
+
+        certificationAdapter.setMedicalCertification(medicalCertifications);
+        listView.setAdapter(certificationAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                MedicalCertification medicalCertification = medicalCertifications.get(position);
+                Intent intent = new Intent(contextLoadDataActivity, CertificationEditActivity.class);
+                intent.putExtra(Utils.TAG_INTENT_CERTIFICATION, medicalCertification);
+                startActivity(intent);
+
+            }
+        });
     }
 
     @Override
     protected void onCreate(Bundle bundle){
         super.onCreate(bundle);
-
+        /*
         ScrollView scrollView = new ScrollView(this);
         setContentView(scrollView);
         linearLayout = new LinearLayout(this);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
         scrollView.addView(linearLayout);
+        */
         contextLoadDataActivity = this;
 
-        setView();
+        setContentView(R.layout.activity_load_certification);
+        listView = (ListView)findViewById(R.id.listview_certification);
+        //setView();
+
+        /*
+        String[] files = fileList();
+        for (String file : files){
+            deleteFile(file);
+        }
+        */
     }
 
 
@@ -105,7 +141,6 @@ public class CertificationLoadActivity extends AppCompatActivity {
     protected void onResume(){
         super.onResume();
 
-        linearLayout.removeAllViews();
         setView();
     }
 }

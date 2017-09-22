@@ -268,6 +268,6 @@ public class MedicalCertification implements Serializable, Comparable<MedicalCer
 
     @Override
     public int compareTo(MedicalCertification m){
-        return (int)(this.number - m.number);
+        return (int)(m.number - this.number);
     }
 }
