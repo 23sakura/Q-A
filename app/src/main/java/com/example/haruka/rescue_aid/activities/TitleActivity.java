@@ -72,11 +72,12 @@ public class TitleActivity extends AppCompatActivity {
                 Uri uri = Uri.parse("tel:09052793706");
                 Intent i = new Intent(Intent.ACTION_DIAL,uri);
                 startActivity(i);
+                break;
             case R.id.menu_titel_chest_compression:
                 final Intent intent = new Intent(this, ExplainActivity.class);
                 intent.putExtra("CARE_XML", "care_chest_compression");
                 startActivity(intent);
-
+                break;
         }
         return true;
     }
