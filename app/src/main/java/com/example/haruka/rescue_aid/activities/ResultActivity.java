@@ -369,7 +369,7 @@ public class ResultActivity extends AppCompatActivity {
         mDrawerTitle = mTitle;
 
         // ドロワーメニューのリストの値を初期化
-        menuActivities = new String[]{"QRコード", "診断書", "応急手当"};
+        menuActivities = new String[]{"QRコード", "診断書", "応急手当", "AEDマップ"};
 
         // ドロワーレイアウト、リストビューのidを取得
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_result);
@@ -444,6 +444,8 @@ public class ResultActivity extends AppCompatActivity {
             } else if (str.equals("応急手当")){
                 Intent intent = new Intent(ResultActivity.this, CareChooseActivity.class);
                 startActivity(intent);
+            } else if (str.equals("AEDマップ")){
+                //TODO implement AED map
             }
             //getActivity().setTitle(str);
             return rootView;
