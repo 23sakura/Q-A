@@ -18,8 +18,8 @@ import com.example.haruka.rescue_aid.views.CallOverlay;
 
 public class TitleActivity extends AppCompatActivity {
 
-    private Button gotoInterviewBtn, gotoTestBtn, historyBtn;
-    private Intent interviewIntent, testIntent, qrIntent, overlayIntent;
+    private Button gotoInterviewBtn, gotoTestBtn, gotoCareBtn, historyBtn;
+    private Intent interviewIntent, testIntent, qrIntent, careIntent, overlayIntent;
     private Context context;
 
 
@@ -62,6 +62,7 @@ public class TitleActivity extends AppCompatActivity {
         //interviewIntent = new Intent(this, InterviewActivity.class);
         interviewIntent = new Intent(this, SymptomCategorizeActivity.class);
         testIntent = new Intent(this, TestPlatformActivity.class);
+        careIntent = new Intent(this, OptionActivity.class);
         qrIntent = new Intent(this, QRActivity.class);
 
         gotoInterviewBtn = (Button)findViewById(R.id.startbtn);
@@ -71,6 +72,14 @@ public class TitleActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(interviewIntent);
+            }
+        });
+
+        gotoCareBtn = (Button)findViewById(R.id.btn_title_care);
+        gotoCareBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(careIntent);
             }
         });
 

@@ -47,6 +47,7 @@
         <activity android:name=".activities.CertificationEditActivity" />
         <!-- Test Activities-->
         <activity android:name=".activities.ShakeTestActivity" />
+        <activity android:name=".activities.OptionActivity" />
         <activity android:name=".activities.VoiceRecognizeActivity" />
         <activity android:name=".activities.TestPlatformActivity" />
         <activity android:name=".activities.CardiotachometerActivity" />
