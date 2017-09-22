@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -22,6 +23,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,6 +51,7 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
     private Context context;
     private Button mBtnYes;
     private Button mBtnNo;
+    private ImageView imageView;
     private TextView mInterviewContent;
     private HorizontalScrollView historyScroll;
     private LinearLayout historyScrollLayout;
@@ -70,20 +73,14 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
 
         @Override
         public void onBeginningOfSpeech() {
-            // TODO Auto-generated method stub
-
         }
 
         @Override
         public void onBufferReceived(byte[] buffer) {
-            // TODO Auto-generated method stub
-
         }
 
         @Override
         public void onEndOfSpeech() {
-            // TODO Auto-generated method stub
-
         }
 
         @Override
@@ -98,14 +95,10 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
 
         @Override
         public void onEvent(int eventType, Bundle params) {
-            // TODO Auto-generated method stub
-
         }
 
         @Override
         public void onPartialResults(Bundle partialResults) {
-            // TODO Auto-generated method stub
-
         }
 
         @Override
@@ -140,8 +133,6 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
 
         @Override
         public void onRmsChanged(float rmsdB) {
-            // TODO Auto-generated method stub
-
         }
 
     }
@@ -404,6 +395,19 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
 
         medicalCertification.showRecords();
     }
+    public Drawable getDrawable(String filename){
+        AssetManager assetManager = this.getAssets();
+        Drawable drawable = null;
+        try {
+            InputStream is = assetManager.open("explain/airway_removal/img/img01.jpg");
+            drawable = Drawable.createFromStream(is, null);
+        }catch (Exception e){
+            Log.e("Interview get drawable", e.toString());
+        }
+
+        return drawable;
+    }
+
 
     private void setLayout(){
         mBtnYes = (Button) findViewById(R.id.btn_yes);
@@ -415,7 +419,9 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
         mBtnNo.setTextColor(getResources().getColor(R.color.no));
         mBtnNo.setBackgroundColor(getResources().getColor(R.color.no_back));
         mInterviewContent = (TextView) findViewById(interview);
+        imageView = (ImageView)findViewById(R.id.imageview_interview);
 
+        imageView.setImageDrawable(getDrawable("hoge"));
         showReadQuestion();
 
         historyScroll = (HorizontalScrollView)findViewById(R.id.history_scroll);
