@@ -31,6 +31,7 @@ import com.example.haruka.rescue_aid.utils.MedicalCertification;
 import com.example.haruka.rescue_aid.utils.Question;
 import com.example.haruka.rescue_aid.utils.Record;
 import com.example.haruka.rescue_aid.utils.Utils;
+import com.example.haruka.rescue_aid.views.CareAdapter;
 import com.example.haruka.rescue_aid.views.ResultLineLayout;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -59,6 +60,7 @@ public class ResultActivity extends AppCompatActivity {
     LinearLayout inflateLayout;
     TextView textView;
     Button dealingBtn;
+    protected ListView listView;
     final int MATCH_P = ViewGroup.LayoutParams.MATCH_PARENT;
 
     CareList careList;
@@ -84,10 +86,20 @@ public class ResultActivity extends AppCompatActivity {
     }
 
     private void setScrollView(){
+        /*
         LinearLayout ll = (LinearLayout)findViewById(R.id.linearlayout_result);
         scrollView = new ScrollView(this);
         scrollView.setLayoutParams(new ScrollView.LayoutParams(MATCH_P, MATCH_P));
         ll.addView(scrollView);
+        */
+    }
+
+    private void setListView(){
+        listView = (ListView)findViewById(R.id.listview_care);
+        CareAdapter careAdapter = new CareAdapter(this);
+        Log.d("set listview", Integer.toString(cares.size()));
+        careAdapter.setCareList(cares);
+        listView.setAdapter(careAdapter);
     }
 
     private void setTextView(){
@@ -343,7 +355,8 @@ public class ResultActivity extends AppCompatActivity {
         }
         Log.d("URGENCY", Integer.toString(urgency));
         boolean[] cares_flag = getIntent().getBooleanArrayExtra("CARES");
-        Log.d("CARES", getCareString(cares_flag));
+        String careString = getCareString(cares_flag);
+        Log.d("CARES", careString);
         for (Care c : this.cares){
             Log.d("care required" , c.name);
         }
@@ -351,11 +364,12 @@ public class ResultActivity extends AppCompatActivity {
         loadQuestions();
         analyzeCertification();
 
-        setScrollView();
-        setLinearLayout();
+        //showCareList();
+        //setScrollView();
+        //setLinearLayout();
+        setListView();
         setTextView();
         //setInflate();
-        showCareList();
         setDealingBtn();
 
         setDrawerLayout();
@@ -368,18 +382,14 @@ public class ResultActivity extends AppCompatActivity {
         mTitle = getTitle();
         mDrawerTitle = mTitle;
 
-        // ドロワーメニューのリストの値を初期化
         menuActivities = new String[]{"QRコード", "診断書", "応急手当", "AEDマップ"};
 
-        // ドロワーレイアウト、リストビューのidを取得
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_result);
         mDrawerList = (ListView) findViewById(R.id.left_drawer_result);
 
-        // リストビューとデータを関連付け
         mDrawerList.setAdapter(new ArrayAdapter<String>(this,
                 R.layout.drawer_list_item, menuActivities));
 
-        // 選択時のイベントを登録
         mDrawerList.setOnItemClickListener(
                 new ListView.OnItemClickListener() {
                     @Override
@@ -389,9 +399,6 @@ public class ResultActivity extends AppCompatActivity {
                 }
         );
 
-        // アクションバーにhomeボタンを追加
-        // ホームボタンクリック時の動作
-        // 押下することで開閉を切り替える
         mDrawerToggle = new ActionBarDrawerToggle(
                 this,                  /* メインアクティビティ */
                 mDrawerLayout,         /* ドロワーメニュー */
@@ -409,7 +416,6 @@ public class ResultActivity extends AppCompatActivity {
                 invalidateOptionsMenu(); // onPrepareOptionsMenuを呼びます
             }
         };
-        // リスナーに登録
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
 
