@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,12 +12,10 @@ import android.widget.Button;
 
 import com.example.haruka.rescue_aid.R;
 
-import org.opencv.android.OpenCVLoader;
-
 public class TitleActivity extends AppCompatActivity {
 
-    private Button gotoInterviewBtn, gotoTestBtn;
-    private Intent interviewIntent, testIntent;
+    private Button gotoInterviewBtn, gotoTestBtn, historyBtn;
+    private Intent interviewIntent, testIntent, qrIntent;
     private Context context;
 
     @Override
@@ -30,8 +27,11 @@ public class TitleActivity extends AppCompatActivity {
         //interviewIntent = new Intent(this, InterviewActivity.class);
         interviewIntent = new Intent(this, SymptomCategorizeActivity.class);
         testIntent = new Intent(this, TestPlatformActivity.class);
+        qrIntent = new Intent(this, QRActivity.class);
 
         gotoInterviewBtn = (Button)findViewById(R.id.startbtn);
+        gotoInterviewBtn.setTextColor(getResources().getColor(R.color.start));
+        gotoInterviewBtn.setBackgroundColor(getResources().getColor(R.color.start_back));
         gotoInterviewBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -39,20 +39,22 @@ public class TitleActivity extends AppCompatActivity {
             }
         });
 
-        gotoTestBtn = (Button)findViewById(R.id.gotoTestBtn);
+        gotoTestBtn = (Button)findViewById(R.id.btn_title_qr);
         gotoTestBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                startActivity(testIntent);
+                startActivity(qrIntent);
             }
         });
 
-
-        if (!OpenCVLoader.initDebug()){
-            Log.i("OpenCV", "Failed");
-        }else{
-            Log.i("OpenCV", "Successfully build!");
-        }
+        final Intent intent = new Intent(this, TestPlatformActivity.class);
+        historyBtn =(Button) findViewById(R.id.btn_title_history);
+        historyBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(intent);
+            }
+        });
     }
 
 

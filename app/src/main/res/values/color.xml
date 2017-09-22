@@ -11,6 +11,12 @@
     <color name="yes_back">#bbffbb</color>
     <color name="no_back">#ffbbbb</color>
     <color name="unsure_back">#FFEE9B</color>
+
+    <color name="start">#0000ff</color>
+    <color name="start_back">#aaaaff</color>
+    <color name="start1">#0000ff</color>
+    <color name="start_back1">#aaaaff</color>
+
     <!-- Greyscales -->
     <color name="grey200">#EEEEEE</color>
     <color name="grey600">#757575</color>
