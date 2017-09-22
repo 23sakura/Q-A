@@ -51,6 +51,7 @@ public class CertificationAdapter  extends BaseAdapter {
 
         ((TextView)convertView.findViewById(R.id.textview_name_certification)).setText(certificationList.get(position).name);
         ((TextView)convertView.findViewById(R.id.textview_time_certification)).setText(certificationList.get(position).getStartAtJap());
+        ((TextView)convertView.findViewById(R.id.textview_address_certification)).setText(certificationList.get(position).getAddress());
 
         return convertView;
     }
