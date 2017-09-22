@@ -343,15 +343,21 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
         boolean answer = false;
         switch(viewID){
             case R.id.btn_yes:
+                currentQuestion.isUnsure = false;
                 answer = InterviewAnswers.YES;
                 break;
             case R.id.btn_no:
+                currentQuestion.isUnsure = false;
                 answer = InterviewAnswers.NO;
                 break;
             case R.id.btn_unsure:
-                int viewID_ = (currentQuestion.compareUrgency()) ? R.id.btn_yes : R.id.btn_no;
-                produceNextQuestion(viewID_);
-                return;
+                currentQuestion.isUnsure = true;
+                if (currentQuestion.compareUrgency()){
+                    answer = InterviewAnswers.YES;
+                } else {
+                    answer = InterviewAnswers.NO;
+                }
+                break;
         }
         currentQuestion.answer(answer);
 

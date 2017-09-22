@@ -19,6 +19,7 @@ public class Question implements Serializable {
     private String question;
     private boolean answer;
     public boolean isAnswered;
+    public boolean isUnsure;
 
     public Question(){
         index = -1;
@@ -31,6 +32,7 @@ public class Question implements Serializable {
         question = "This question is invalid";
         answer = false;
         isAnswered = false;
+        isUnsure = false;
     }
 
     public Question(int index, String question, int yesIndex, int noIndex){
@@ -45,6 +47,7 @@ public class Question implements Serializable {
 
         answer = false;
         isAnswered = false;
+        isUnsure = false;
     }
 
     public Question(int index, String question, int yesIndex, int noIndex, int yesUrgency, int noUrgency){
@@ -59,6 +62,7 @@ public class Question implements Serializable {
 
         answer = false;
         isAnswered = false;
+        isUnsure = false;
     }
 
     public Question(int index, String question, int yesIndex, int noIndex, int yesUrgency, int noUrgency, boolean[] yesCare, boolean[] noCare){
@@ -73,6 +77,7 @@ public class Question implements Serializable {
 
         answer = false;
         isAnswered = false;
+        isUnsure = false;
     }
 
     public String toString(){
