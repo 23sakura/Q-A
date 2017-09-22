@@ -151,6 +151,7 @@ public class SymptomCategorizeActivity extends ReadAloudTestActivity {
                 //interviewIntent.putExtra("SCENARIO", scenarioIll);
                 interviewIntent.putExtra("SCENARIO_ID", scenarioIdIll);
                 startActivity(interviewIntent);
+                finish();
             }
         });
         BtnToInjury = (ImageButton)findViewById(R.id.btn_to_injury);
@@ -161,6 +162,7 @@ public class SymptomCategorizeActivity extends ReadAloudTestActivity {
                 //interviewIntent.putExtra("SCENARIO", scenarioInjury);
                 interviewIntent.putExtra("SCENARIO_ID", scenarioIdInjury);
                 startActivity(interviewIntent);
+                finish();
             }
         });
 

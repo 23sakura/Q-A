@@ -1,6 +1,9 @@
 package com.example.haruka.rescue_aid.activities;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -9,6 +12,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
@@ -26,24 +30,8 @@ public class QRDisplayActivity extends FragmentActivity {
     private String mResult;
     private Intent mGetResultIntent;
     private Context context;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_display_qr);
-
-        context = this;
-
-        findViewById(R.id.btnToTitle).setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent mInteTotitle = new Intent(context, TitleActivity.class);
-                startActivity(mInteTotitle);
-            }
-        });
-
-
-    }
+    private MedicalCertification medicalCertification;
+    private boolean throughInterview;
 
     private LoaderCallbacks<Bitmap> callbacks = new LoaderCallbacks<Bitmap>() {
         @Override
@@ -108,14 +96,80 @@ public class QRDisplayActivity extends FragmentActivity {
     }
 
     @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_display_qr);
+
+        context = this;
+
+        findViewById(R.id.btn_qr_show_certification).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, CertificationActivity.class);
+                intent.putExtra(Utils.TAG_INTENT_CERTIFICATION, medicalCertification);
+                startActivity(intent);
+                finish();
+            }
+        });
+        findViewById(R.id.btn_qr_show_result).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ResultActivity.class);
+                intent.putExtra(Utils.TAG_INTENT_CERTIFICATION, medicalCertification);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        throughInterview = getIntent().getBooleanExtra("THROUGH_INTERVIEW", false);
+    }
+
+    @Override
     protected void onResume(){
         super.onResume();
 
         mGetResultIntent = getIntent();
-        MedicalCertification medicalCertification = (MedicalCertification) mGetResultIntent.getSerializableExtra(Utils.TAG_INTENT_CERTIFICATION);
+        medicalCertification = (MedicalCertification) mGetResultIntent.getSerializableExtra(Utils.TAG_INTENT_CERTIFICATION);
         mResult = medicalCertification.toString();
         Bundle bundle = new Bundle();
         bundle.putString("contents", mResult);
         getSupportLoaderManager().initLoader(0, bundle, callbacks);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode==KeyEvent.KEYCODE_BACK){
+            if (throughInterview) {
+                showDialog(0);
+                return true;
+            } else {
+                finish();
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public Dialog onCreateDialog(int id) {
+        switch (id) {
+
+            case 0:
+                //ダイアログの作成(AlertDialog.Builder)
+                return new AlertDialog.Builder(QRDisplayActivity.this)
+                        .setMessage("スタート画面に戻りますか？\n今回の問診データは\n「タイトル」→「問診履歴」\nから見れます")
+                        .setCancelable(false)
+                        .setPositiveButton("戻る", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                finish();
+                            }
+                        })
+                        .setNegativeButton("戻らない", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+
+                            }
+                        })
+                        .create();
+        }
+        return null;
     }
 }

@@ -1,21 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="6dp"
+    android:orientation="vertical"
     >
 
-    <Button
-        android:id="@+id/btnToTitle"
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="to TITLE"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="QRコードを読み込んでください"
+        android:textSize="20dp"
+        android:textColor="@color/black"
+        android:gravity="center"/>
+
+
     <ImageView
         android:id="@+id/result_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_above="@+id/btnToTitle" />
-</RelativeLayout>
+        android:layout_height="0dp"
+        android:layout_weight="5"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/btn_qr_show_certification"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textSize="20dp"
+            android:text="診断書を表示"/>
+        <Button
+            android:id="@+id/btn_qr_show_result"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textSize="20dp"
+            android:text="応急手当を表示"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>
