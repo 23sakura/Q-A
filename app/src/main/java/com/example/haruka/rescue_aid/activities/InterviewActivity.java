@@ -51,6 +51,7 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
     private Context context;
     private Button mBtnYes;
     private Button mBtnNo;
+    private Button mBtnUnsure;
     private ImageView imageView;
     private TextView mInterviewContent;
     private HorizontalScrollView historyScroll;
@@ -347,6 +348,10 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
             case R.id.btn_no:
                 answer = InterviewAnswers.NO;
                 break;
+            case R.id.btn_unsure:
+                int viewID_ = (currentQuestion.compareUrgency()) ? R.id.btn_yes : R.id.btn_no;
+                produceNextQuestion(viewID_);
+                return;
         }
         currentQuestion.answer(answer);
 
@@ -412,13 +417,18 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
     private void setLayout(){
         mBtnYes = (Button) findViewById(R.id.btn_yes);
         mBtnNo = (Button) findViewById(R.id.btn_no);
+        mBtnUnsure = (Button) findViewById(R.id.btn_unsure);
         mBtnYes.setOnClickListener(interAnsBtnListener);
         mBtnNo.setOnClickListener(interAnsBtnListener);
+        mBtnUnsure.setOnClickListener(interAnsBtnListener);
         mBtnYes.setTextColor(getResources().getColor(R.color.yes));
         mBtnYes.setBackgroundColor(getResources().getColor(R.color.yes_back));
         mBtnNo.setTextColor(getResources().getColor(R.color.no));
         mBtnNo.setBackgroundColor(getResources().getColor(R.color.no_back));
+        mBtnUnsure.setTextColor(getResources().getColor(R.color.unsure));
+        mBtnUnsure.setBackgroundColor(getResources().getColor(R.color.unsure_back));
         mInterviewContent = (TextView) findViewById(interview);
+        mInterviewContent.setTextColor(getResources().getColor(R.color.black));
         imageView = (ImageView)findViewById(R.id.imageview_interview);
 
         imageView.setImageDrawable(getDrawable("hoge"));

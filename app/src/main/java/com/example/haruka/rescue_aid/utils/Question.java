@@ -130,6 +130,10 @@ public class Question implements Serializable {
         }
     }
 
+    public boolean compareUrgency(){
+        return yesUrgency > noUrgency;
+    }
+
     public String getQuestion(){
         return question;
     }
