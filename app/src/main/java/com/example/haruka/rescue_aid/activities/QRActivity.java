@@ -209,6 +209,19 @@ public class QRActivity extends AppCompatActivity {
             paint.setARGB(255, 255, 0, 0);
             paint.setStyle(Paint.Style.STROKE);
             canvas.drawRect(width / 14, height / 2-width/7*3,width / 14*13, height / 2+width/7*3, paint);
+            paint = new Paint();
+            paint.setARGB(128, 255, 255, 255);
+            paint.setStyle(Paint.Style.FILL_AND_STROKE);
+            canvas.drawRect(0, height / 2-width/7*3,width / 14, height / 2+width/7*3, paint);
+            canvas.drawRect(width / 14*13, height / 2-width/7*3,width, height / 2+width/7*3, paint);
+            canvas.drawRect(0,0,width,  height / 2-width/7*3, paint);
+            canvas.drawRect(0,height / 2+width/7*3,width,  height, paint);
+            paint = new Paint();
+            paint.setStyle(Paint.Style.FILL_AND_STROKE);
+            paint.setARGB(255, 255, 0, 0);
+            paint.setTextAlign(Paint.Align.CENTER);
+            paint.setTextSize(30);
+            canvas.drawText("QRコードを真ん中に合わせてタップしてください", width/2, height/2+width/7*3+30, paint);
         }
 
     }
