@@ -52,7 +52,12 @@ public class CareList {
                 }
                 Log.d("Carelist", xml);
 
+                String description = st.nextToken();
+                String buttonText = st.nextToken();
+
                 Care c = new Care(index, name, xml);
+                c.setDescription(description);
+                c.setButtonText(buttonText);
                 careList.add(c);
             }
 

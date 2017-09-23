@@ -10,6 +10,7 @@ public class Care {
     public String name;
     public String xml;
     public String description;
+    public String buttonText;
     public static final String NULL_XML = "";
 
     public Care(int index, String name, String xml){
@@ -21,6 +22,11 @@ public class Care {
 
     public void setDescription(String text){
         description = text;
+    }
+
+
+    public void setButtonText(String text){
+        buttonText = text;
     }
 
     public String getXml(){

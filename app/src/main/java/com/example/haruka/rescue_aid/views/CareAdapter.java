@@ -50,9 +50,10 @@ public class CareAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         convertView = layoutInflater.inflate(R.layout.list_care,parent,false);
 
-        ((TextView)convertView.findViewById(R.id.textview_care_title)).setText(careList.get(position).name);
-        ((TextView)convertView.findViewById(R.id.textview_care_description)).setText(careList.get(position).description);
-        ((Button)convertView.findViewById(R.id.btn_explain_care)).setText("手当をする");
+        Care c = careList.get(position);
+        ((TextView)convertView.findViewById(R.id.textview_care_title)).setText(c.name);
+        ((TextView)convertView.findViewById(R.id.textview_care_description)).setText(c.description);
+        ((Button)convertView.findViewById(R.id.btn_explain_care)).setText(c.buttonText);
 
         return convertView;
     }
