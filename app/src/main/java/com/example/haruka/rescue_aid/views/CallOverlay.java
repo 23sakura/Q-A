@@ -24,8 +24,9 @@ public class CallOverlay extends Service {
     private View view;
     private WindowManager windowManager;
     private int dpScale ;
+    private static TextView textView;
 
-    public static String text;
+    public static String text = "hogehoge";
 
     @Override
     public void onCreate() {
@@ -49,27 +50,34 @@ public class CallOverlay extends Service {
                         | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
                 PixelFormat.TRANSLUCENT);
 
-        params.gravity=  Gravity.TOP | Gravity.RIGHT;
+        params.gravity=  Gravity.TOP | Gravity.CENTER_HORIZONTAL;
 
         view = layoutInflater.inflate(R.layout.service_layer, null);
 
         // Viewを画面上に追加
         windowManager.addView(view, params);
+
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                //windowManager.removeView(v);
-                TextView textView = (TextView) ((LinearLayout)v).getChildAt(0);
+                textView = (TextView) ((LinearLayout)view).getChildAt(0);
                 textView.setText(text);
+
             }
         });
+
+        textView = (TextView) ((LinearLayout)view).getChildAt(0);
+        textView.setText(text);
 
         return super.onStartCommand(intent, flags, startId);
     }
 
     public static void setText(String text){
         CallOverlay.text = text;
+        try {
+            textView.setText(text);
+        } catch (NullPointerException e){
+        }
     }
 
     @Override

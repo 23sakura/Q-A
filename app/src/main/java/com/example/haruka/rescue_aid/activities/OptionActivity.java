@@ -13,8 +13,6 @@ import android.view.MenuItem;
 import com.example.haruka.rescue_aid.R;
 import com.example.haruka.rescue_aid.views.CallOverlay;
 
-import static com.example.haruka.rescue_aid.activities.TitleActivity.OVERLAY_PERMISSION_REQ_CODE;
-
 /**
  * Created by Tomoya on 9/23/2017 AD.
  * AbstracyActivity implement menu and overlay
@@ -23,6 +21,7 @@ import static com.example.haruka.rescue_aid.activities.TitleActivity.OVERLAY_PER
 public class OptionActivity extends AppCompatActivity {
 
     Intent overlayIntent;
+    public static int OVERLAY_PERMISSION_REQ_CODE = 1000;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -51,6 +50,8 @@ public class OptionActivity extends AppCompatActivity {
         }
     }
 
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
@@ -75,11 +76,10 @@ public class OptionActivity extends AppCompatActivity {
             checkPermission();
         }
         overlayIntent = new Intent(getApplication(), CallOverlay.class);
+        CallOverlay.setText("意識はありますか？：はい\n吐き気はありますか？：いいえ\n息が苦しいですか？：いいえ\nのどは痛いですか？：はい\nつばが飲み込めないほど痛いですか？：はい");
         super.onCreate(savedInstanceState);
-        /*
+
         setContentView(R.layout.activity_title);
 
-        CallOverlay.setText("ほげほげ");
-        */
     }
 }
