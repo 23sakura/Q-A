@@ -2,7 +2,6 @@ package com.example.haruka.rescue_aid.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
@@ -12,7 +11,7 @@ import com.example.haruka.rescue_aid.R;
  * Created by Tomoya on 8/24/2017 AD.
  */
 
-public class TestPlatformActivity extends AppCompatActivity {
+public class TestPlatformActivity extends OptionActivity {
 
     private Button gotoTestBtn1, gotoTestBtn2, gotoTestBtn3, gotoTestBtn4, gotoTestBtn5, gotoTestBtn6, gotoTestBtn7, gotoTestBtn8, gotoTestBtn9;
     private Intent testIntent1, testIntent2, testIntent3, testIntent4, testIntent5, testIntent6, testIntent7, testIntent8, testIntent9;

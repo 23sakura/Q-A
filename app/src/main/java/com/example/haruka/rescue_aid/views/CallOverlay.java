@@ -60,9 +60,7 @@ public class CallOverlay extends Service {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                textView = (TextView) ((LinearLayout)view).getChildAt(0);
-                textView.setText(text);
-
+                ((LinearLayout)v).removeAllViews();
             }
         });
 
