@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,7 +27,7 @@ import java.util.Collections;
  * Created by Tomoya on 9/21/2017 AD.
  */
 
-public class CertificationLoadActivity extends AppCompatActivity {
+public class CertificationLoadActivity extends OptionActivity {
 
     Context contextLoadDataActivity;
     LinearLayout linearLayout;

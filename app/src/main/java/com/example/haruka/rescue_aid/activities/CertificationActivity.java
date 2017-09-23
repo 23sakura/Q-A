@@ -4,7 +4,6 @@ import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -34,7 +33,7 @@ import static java.lang.Integer.parseInt;
  * Created by skriulle on 9/17/2017 AD.
  */
 
-public class CertificationActivity extends AppCompatActivity {
+public class CertificationActivity extends OptionActivity {
 
     private MedicalCertification medicalCertification;
     private DrawingView drawingView;

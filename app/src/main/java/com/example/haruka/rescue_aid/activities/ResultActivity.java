@@ -9,7 +9,6 @@ import android.content.res.XmlResourceParser;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
@@ -49,7 +48,7 @@ import static java.lang.Integer.parseInt;
  * Created by Tomoya on 9/7/2017 AD.
  */
 
-public class ResultActivity extends AppCompatActivity {
+public class ResultActivity extends OptionActivity {
 
     private MedicalCertification medicalCertification;
     private int urgency;

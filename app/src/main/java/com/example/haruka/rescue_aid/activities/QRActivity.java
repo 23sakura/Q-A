@@ -16,7 +16,6 @@ import android.hardware.Camera.AutoFocusCallback;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -35,7 +34,7 @@ import com.google.zxing.common.HybridBinarizer;
 
 import java.util.List;
 
-public class QRActivity extends AppCompatActivity {
+public class QRActivity extends OptionActivity {
 
     private SurfaceView mSurfaceView;
     private Camera mCamera;

@@ -3,7 +3,6 @@ package com.example.haruka.rescue_aid.activities;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -25,7 +24,7 @@ import static java.lang.Integer.parseInt;
  * Created by skriulle on 9/18/2017 AD.
  */
 
-public class CareChooseActivity extends AppCompatActivity {
+public class CareChooseActivity extends OptionActivity {
 
     ArrayList<Care> cares;
 

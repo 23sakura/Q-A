@@ -4,7 +4,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.EditText;
 
@@ -14,7 +13,7 @@ import java.util.HashMap;
  * Created by Tomoya on 9/7/2017 AD.
  */
 
-public class ReadAloudTestActivity extends AppCompatActivity implements TextToSpeech.OnInitListener{
+public class ReadAloudTestActivity extends OptionActivity implements TextToSpeech.OnInitListener{
 
     protected TextToSpeech tts;
     protected EditText editor;
