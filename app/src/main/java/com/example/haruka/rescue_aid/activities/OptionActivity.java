@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -22,6 +23,7 @@ public class OptionActivity extends AppCompatActivity {
 
     Intent overlayIntent;
     public static int OVERLAY_PERMISSION_REQ_CODE = 1000;
+    protected String callNote = "";
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -51,11 +53,13 @@ public class OptionActivity extends AppCompatActivity {
     }
 
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
             case R.id.menu_call_119:
+                CallOverlay.setText(callNote);
+                Log.d("call note", callNote);
+                //CallOverlay.setText("意識はありますか？：はい\n吐き気はありますか？：いいえ\n息が苦しいですか？：いいえ\nのどは痛いですか？：はい\nつばが飲み込めないほど痛いですか？：はい");
                 Uri uri = Uri.parse("tel:09052793706");
                 startService(overlayIntent);
                 Intent i = new Intent(Intent.ACTION_DIAL,uri);
@@ -76,10 +80,24 @@ public class OptionActivity extends AppCompatActivity {
             checkPermission();
         }
         overlayIntent = new Intent(getApplication(), CallOverlay.class);
-        CallOverlay.setText("意識はありますか？：はい\n吐き気はありますか？：いいえ\n息が苦しいですか？：いいえ\nのどは痛いですか？：はい\nつばが飲み込めないほど痛いですか？：はい");
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_title);
 
     }
+
+    protected void setCallNote(String text){
+        callNote = text;
+    }
+
+    protected void resetCallNote(String text){
+
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+
+        CallOverlay.removeCallOver();
+    };
 }

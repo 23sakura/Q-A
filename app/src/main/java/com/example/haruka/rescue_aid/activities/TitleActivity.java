@@ -2,10 +2,7 @@ package com.example.haruka.rescue_aid.activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
@@ -66,34 +63,17 @@ public class TitleActivity extends OptionActivity {
             }
         });
 
-    }
 
+    }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_title, menu);
-        return true;
+    protected void onResume(){
+        super.onResume();
+
+        setCallNote("意識はありますか？：はい\n吐き気はありますか？：いいえ\n息が苦しいですか？：いいえ\nのどは痛いですか？：はい\nつばが飲み込めないほど痛いですか？：はい");
+        //setCallNote("タイトル");
     }
 
-    static String TAG = "Menu";
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()){
-            case R.id.menu_call_119:
-                Uri uri = Uri.parse("tel:09052793706");
-                Intent i = new Intent(Intent.ACTION_DIAL,uri);
-                startActivity(i);
-                break;
-            case R.id.menu_titel_chest_compression:
-                final Intent intent = new Intent(this, ExplainActivity.class);
-                intent.putExtra("CARE_XML", "care_chest_compression");
-                startActivity(intent);
-                break;
-        }
-        return true;
-    }
 
     @Override
     protected void onStop(){

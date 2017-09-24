@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.haruka.rescue_aid.R;
+import com.example.haruka.rescue_aid.listener.DragViewListener;
 
 /**
  * Created by skriulle on 9/22/2017 AD.
@@ -21,30 +22,27 @@ import com.example.haruka.rescue_aid.R;
 
 public class CallOverlay extends Service {
 
-    private View view;
-    private WindowManager windowManager;
+    private static View view;
+    private static WindowManager windowManager;
     private int dpScale ;
     private static TextView textView;
-
     public static String text = "hogehoge";
 
+    final static String notext = "　　[拡大]　　";
     @Override
     public void onCreate() {
         super.onCreate();
-
-        // dipを取得
         dpScale = (int)getResources().getDisplayMetrics().density;
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
         LayoutInflater layoutInflater = LayoutInflater.from(this);
 
         windowManager = (WindowManager)getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
         WindowManager.LayoutParams params = new WindowManager.LayoutParams(
-                WindowManager.LayoutParams.WRAP_CONTENT,
-                WindowManager.LayoutParams.WRAP_CONTENT,
+                WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.MATCH_PARENT,
                 WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
                         | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
@@ -57,24 +55,43 @@ public class CallOverlay extends Service {
         // Viewを画面上に追加
         windowManager.addView(view, params);
 
-        view.setOnClickListener(new View.OnClickListener() {
+        View close = ((LinearLayout)((LinearLayout)(((LinearLayout)view).getChildAt(0))).getChildAt(0)).getChildAt(1);
+
+        close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((LinearLayout)v).removeAllViews();
+                windowManager.removeView(view);
+                view = null;
             }
         });
+        ((LinearLayout) view).getChildAt(0).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-        textView = (TextView) ((LinearLayout)view).getChildAt(0);
+                if (!textView.getText().equals(notext)){
+                    textView.setText(notext);
+                } else {
+                    textView.setText(text);
+                }
+            }
+        });
+        DragViewListener dragViewListener = new DragViewListener(((LinearLayout) view).getChildAt(0));
+        ((LinearLayout) view).getChildAt(0).setOnTouchListener(dragViewListener);
+
+        textView = (TextView) (((LinearLayout)(((LinearLayout)view).getChildAt(0))).getChildAt(1));
         textView.setText(text);
 
         return super.onStartCommand(intent, flags, startId);
     }
+
+
 
     public static void setText(String text){
         CallOverlay.text = text;
         try {
             textView.setText(text);
         } catch (NullPointerException e){
+            Log.e("CallOverlay", e.toString());
         }
     }
 
@@ -82,7 +99,6 @@ public class CallOverlay extends Service {
     public void onDestroy() {
         super.onDestroy();
         Log.d("debug","onDestroy");
-        // Viewを削除
         windowManager.removeView(view);
     }
 
@@ -90,5 +106,16 @@ public class CallOverlay extends Service {
     public IBinder onBind(Intent intent) {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    public static void removeCallOver() {
+        try {
+            if (windowManager != null && view != null) {
+                windowManager.removeView(view);
+                view = null;
+            }
+        } catch (Exception e) {
+
+        }
     }
 }

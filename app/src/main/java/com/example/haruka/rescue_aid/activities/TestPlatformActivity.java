@@ -121,5 +121,12 @@ public class TestPlatformActivity extends OptionActivity {
         setActivity();
     }
 
+    @Override
+    protected void onResume(){
+        super.onResume();
+
+        setCallNote("Test");
+    }
+
 
 }
