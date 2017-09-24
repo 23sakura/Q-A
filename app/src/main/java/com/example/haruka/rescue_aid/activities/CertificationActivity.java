@@ -6,9 +6,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
-import android.widget.ImageView;
 
 import com.example.haruka.rescue_aid.R;
 import com.example.haruka.rescue_aid.utils.Care;
@@ -37,7 +35,6 @@ public class CertificationActivity extends OptionActivity {
 
     private MedicalCertification medicalCertification;
     private DrawingView drawingView;
-    private ImageView imageView;
     Button b;
     Bitmap bitmap;
 
@@ -134,7 +131,6 @@ public class CertificationActivity extends OptionActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_certification);
         this.drawingView = (DrawingView) findViewById(R.id.drawing_view);
         b = (Button) findViewById(R.id.delete_button);
