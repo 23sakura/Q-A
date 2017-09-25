@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
 
 import com.example.haruka.rescue_aid.R;
 import com.example.haruka.rescue_aid.views.CallOverlay;
@@ -60,7 +61,6 @@ public class OptionActivity extends AppCompatActivity {
             case R.id.menu_call_119:
                 CallOverlay.setText(callNote);
                 Log.d("call note", callNote);
-                //CallOverlay.setText("意識はありますか？：はい\n吐き気はありますか？：いいえ\n息が苦しいですか？：いいえ\nのどは痛いですか？：はい\nつばが飲み込めないほど痛いですか？：はい");
                 Uri uri = Uri.parse("tel:09052793706");
                 startService(overlayIntent);
                 intent = new Intent(Intent.ACTION_DIAL,uri);
@@ -93,9 +93,8 @@ public class OptionActivity extends AppCompatActivity {
         }
         overlayIntent = new Intent(getApplication(), CallOverlay.class);
         super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.activity_title);
-
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        //setContentView(R.layout.activity_title);
     }
 
     protected void setCallNote(String text){
