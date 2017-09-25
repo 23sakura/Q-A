@@ -2,21 +2,17 @@ package com.example.haruka.rescue_aid.activities;
 
 import android.annotation.SuppressLint;
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.content.res.XmlResourceParser;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -138,26 +134,6 @@ public class ResultActivity extends OptionActivity {
                 }
             });
         }
-
-    }
-
-    private void setInflate(){
-        inflateLayout = new LinearLayout(this);
-        inflateLayout.setOrientation(LinearLayout.VERTICAL);
-
-        inflateLayout.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT));
-        inflateLayout.removeAllViews();
-        getLayoutInflater().inflate(R.layout.inflate_result_, inflateLayout);
-        linearLayout.addView(inflateLayout);
-
-        String t = "";
-        for(Care c : cares){
-            t += c.name;
-        }
-        TextView tv = (TextView)findViewById(R.id.textview_inflate);
-        tv.setText(t);
 
     }
 
@@ -307,12 +283,8 @@ public class ResultActivity extends OptionActivity {
         return s;
     }
 
-    private void calcUrgency(){
-        //TODO implement calcUrgency using Medicalcertification
-        urgency = 1;
-    }
-
     private void analyzeCertification(){
+        urgency = 0;
         medicalCertification.showRecords("ResultActivity");
 
         boolean[] cares_flag = new boolean[Utils.NUM_CARE];
@@ -344,15 +316,9 @@ public class ResultActivity extends OptionActivity {
 
         try {
             medicalCertification = (MedicalCertification) getIntent().getSerializableExtra("CERTIFICATION");
-        } catch (Exception e){
+        } catch (Exception e) {
             medicalCertification = new MedicalCertification();
         }
-        //urgency = getIntent().getIntExtra("URGENCY", 0);
-        urgency = 0;
-        if (urgency == 0){
-            calcUrgency();
-        }
-        Log.d("URGENCY", Integer.toString(urgency));
         boolean[] cares_flag = getIntent().getBooleanArrayExtra("CARES");
         String careString = getCareString(cares_flag);
         Log.d("CARES", careString);
@@ -363,62 +329,15 @@ public class ResultActivity extends OptionActivity {
         loadQuestions();
         analyzeCertification();
 
-        //showCareList();
-        //setScrollView();
-        //setLinearLayout();
         setListView();
         setTextView();
-        //setInflate();
         setDealingBtn();
 
-        setDrawerLayout();
+        //setDrawerLayout();
 
         medicalCertification.save(this);
     }
 
-    void setDrawerLayout(){
-
-        mTitle = getTitle();
-        mDrawerTitle = mTitle;
-
-        menuActivities = new String[]{"QRコード", "診断書", "応急手当", "AEDマップ"};
-
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_result);
-        mDrawerList = (ListView) findViewById(R.id.left_drawer_result);
-
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-                R.layout.drawer_list_item, menuActivities));
-
-        mDrawerList.setOnItemClickListener(
-                new ListView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        selectItem(position);
-                    }
-                }
-        );
-
-        mDrawerToggle = new ActionBarDrawerToggle(
-                this,                  /* メインアクティビティ */
-                mDrawerLayout,         /* ドロワーメニュー */
-                new Toolbar(this),  /* ドロワーアイコン */
-                R.string.open,  /* 開く */
-                R.string.close  /* 閉じる */
-        ) {
-            public void onDrawerClosed(View view) {
-                //getActionBar().setTitle(mTitle);
-                invalidateOptionsMenu(); // onPrepareOptionsMenuを呼びます
-            }
-
-            public void onDrawerOpened(View drawerView) {
-                //getActionBar().setTitle(mDrawerTitle);
-                invalidateOptionsMenu(); // onPrepareOptionsMenuを呼びます
-            }
-        };
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
-
-
-    }
 
     @SuppressLint("ValidFragment")
     public class PlanetFragment extends Fragment {
@@ -455,24 +374,6 @@ public class ResultActivity extends OptionActivity {
             //getActivity().setTitle(str);
             return rootView;
         }
-    }
-
-    private void selectItem(int position) {
-        // フラグメントを生成して値を引き渡す
-        Fragment fragment = new PlanetFragment();
-        Bundle args = new Bundle();
-        args.putString(PlanetFragment.ARG_TEXT, menuActivities[position]);
-        fragment.setArguments(args);
-
-        // 画面切り替え
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.layout_content_result, fragment).commit();
-
-        // 選択状態
-        mDrawerList.setItemChecked(position, true);
-
-        // ドロワーメニューを閉じる
-        mDrawerLayout.closeDrawer(mDrawerList);
     }
 
 }

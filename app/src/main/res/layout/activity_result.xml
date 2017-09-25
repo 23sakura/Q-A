@@ -1,65 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.DrawerLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/drawer_layout_result"
+    android:id="@+id/layout_content_result"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/layout_content_result"
-        android:orientation="vertical"
+    <TextView
+        android:text="hogehoge"
+        android:id="@+id/textview_notice_result"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="0.6"
+        android:gravity="center"/>
 
-        <TextView
-            android:text="hogehoge"
-            android:id="@+id/textview_notice_result"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.6"
-            android:gravity="center"/>
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:background="@drawable/frame_listview"
+        android:id="@+id/listview_care">
 
-        <!-- LinearLayout
-            android:orientation="vertical"
-            android:id="@+id/linearlayout_result"
-            android:layout_height="match_parent"
-            android:layout_width="match_parent"
-            android:layout_above="@+id/btn_start_care"
-            android:layout_below="@+id/textview_notice_result">
-        </LinearLayout -->
+    </ListView>
 
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="4"
-            android:background="@drawable/frame_listview"
-            android:id="@+id/listview_care">
+    <Button
+        android:layout_weight="1"
+        android:textColor="@color/start"
+        android:background="@color/start_back"
+        android:id="@+id/btn_start_care"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:textSize="40dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true" >
 
-        </ListView>
+    </Button>
 
-        <Button
-            android:layout_weight="1"
-            android:id="@+id/btn_start_care"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_gravity="center"
-            android:textSize="40dp"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true" >
-
-        </Button>
-
-    </LinearLayout>
-
-    <!-- The navigation drawer -->
-    <ListView android:id="@+id/left_drawer_result"
-        android:layout_width="240dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:choiceMode="singleChoice"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="0dp"
-        android:background="#111"/>
-
-</android.support.v4.widget.DrawerLayout>
+</LinearLayout>

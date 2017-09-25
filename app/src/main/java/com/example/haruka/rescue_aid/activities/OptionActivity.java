@@ -55,6 +55,7 @@ public class OptionActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        final Intent intent;
         switch(item.getItemId()){
             case R.id.menu_call_119:
                 CallOverlay.setText(callNote);
@@ -62,13 +63,24 @@ public class OptionActivity extends AppCompatActivity {
                 //CallOverlay.setText("意識はありますか？：はい\n吐き気はありますか？：いいえ\n息が苦しいですか？：いいえ\nのどは痛いですか？：はい\nつばが飲み込めないほど痛いですか？：はい");
                 Uri uri = Uri.parse("tel:09052793706");
                 startService(overlayIntent);
-                Intent i = new Intent(Intent.ACTION_DIAL,uri);
-                startActivity(i);
+                intent = new Intent(Intent.ACTION_DIAL,uri);
+                startActivity(intent);
                 break;
-            case R.id.menu_titel_chest_compression:
-                final Intent intent = new Intent(this, ExplainActivity.class);
+            case R.id.menu_title_chest_compression:
+                intent = new Intent(this, ExplainActivity.class);
                 intent.putExtra("CARE_XML", "care_chest_compression");
                 startActivity(intent);
+                break;
+            case R.id.menu_title_QR:
+                intent = new Intent(this, QRActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.menu_title_care_list:
+                intent = new Intent(this, CareChooseActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.menu_title_AED:
+                //TODO go to AED map
                 break;
         }
         return true;
