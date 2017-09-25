@@ -1,16 +1,19 @@
 package com.example.haruka.rescue_aid.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.haruka.rescue_aid.R;
-import com.example.haruka.rescue_aid.utils.EmergencyExplanation;
-import com.example.haruka.rescue_aid.utils.EmergencySituation;
+import com.example.haruka.rescue_aid.utils.ExplainCare;
+import com.example.haruka.rescue_aid.utils.MedicalCertification;
+import com.example.haruka.rescue_aid.utils.Record;
+import com.example.haruka.rescue_aid.utils.Utils;
 
 import java.util.ArrayList;
 
@@ -22,24 +25,26 @@ import jp.fsoriented.cactusmetronome.lib.Metronome;
  * Created by Tomoya on 9/2/2017 AD.
  */
 
-public class ExplainActivity extends AppCompatActivity {
+public class ExplainActivity extends ReadAloudTestActivity {
+
+    MedicalCertification medicalCertification;
 
     Metronome mMetronome;
-    boolean isMetronomeRequired;
     Button explainButton;
-    EmergencyExplanation emergencyExplanation;
+    Button finishButton;
+    ExplainCare mainEmergencyExplanation, subEmergencyExplanation;
 
     TextView textView;
     ImageView imageView;
 
     int explainIndex;
     Handler _handler;
-    int[] explainTime;
+    boolean useSwitchTimer;
 
 
     private static class BpmUtil {
         public static int getSampleLength(double bpm) {
-            // 1beatあたりの長さ（sample）
+            // 1beatあたりの長さ（care_sample）
             return (int)(60 * Metronome.FREQUENCY / bpm);
         }
     }
@@ -87,7 +92,7 @@ public class ExplainActivity extends AppCompatActivity {
     }
 
     public void startMetronome() {
-        mMetronome.finish();
+        stopMetronome();
 
         int tempo = 100;
 
@@ -103,31 +108,104 @@ public class ExplainActivity extends AppCompatActivity {
         mMetronome.setPattern(list, samples * beatsPerMeasure);
     }
 
+    public void stopMetronome() {
+        try{
+            mMetronome.finish();
+        }catch (Exception e){
+            Log.i("stop metronome", e.toString());
+        }
 
+    }
+
+    void setTextView(String text){
+        textView.setText(text);
+        speechText(text);
+    }
 
     void nextExplanation(){
-        explainIndex = (explainIndex+1) % 2;
+        explainIndex = (explainIndex+1) % mainEmergencyExplanation.numSituation;
         setExplain(explainIndex);
+
         _handler.removeCallbacksAndMessages(null);
         _handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                nextExplanation();
+                if (useSwitchTimer) {
+                    nextExplanation();
+                }
             }
-        }, explainTime[explainIndex]);
+        }, mainEmergencyExplanation.getDuration(explainIndex));
 
     }
 
-    void AEDExplaination(){
-        mMetronome.finish();
-        _handler.removeCallbacksAndMessages(null);
+    public void setExplain(int index){
+        setTextView(mainEmergencyExplanation.getText(index));
+        imageView.setImageDrawable(mainEmergencyExplanation.getImage(index));
+        explainButton.setText(mainEmergencyExplanation.getButtonText(index));
+        finishButton.setText(mainEmergencyExplanation.getButton2Text(index));
+    }
 
-        EmergencySituation AEDSituation = new EmergencySituation("AED");
-        AEDSituation.setAssetManager(this.getAssets());
-        textView.setText(AEDSituation.getText());
-        imageView.setImageDrawable(AEDSituation.getImage());
-        textView.setText(AEDSituation.getText());
-        imageView.setImageDrawable(AEDSituation.getImage());
+    void mainExplain(){
+
+        //medicalCertification.addRecord(new Record("Care", mainEmergencyExplanation.name));
+        Log.d("Care", Integer.toString(mainEmergencyExplanation.id_));
+        Record r = new Record("Care", Integer.toString(mainEmergencyExplanation.id_));
+        medicalCertification.addRecord(r);
+
+        _handler.removeCallbacksAndMessages(null);
+        stopMetronome();
+        if (mainEmergencyExplanation.isMetronomeRequired){
+            startMetronome();
+        }else{
+            stopMetronome();
+        }
+
+        explainIndex = 0;
+        setExplain(explainIndex);
+
+        explainButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("sub medical care", (subEmergencyExplanation != null) ? "exist" : "null");
+                if (subEmergencyExplanation != null){
+                    subExplaination();
+                }else{
+                    //TODO implement behavior when there is no sub explain.
+                    //finish operation
+                }
+            }
+        });
+
+
+        _handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (useSwitchTimer) {
+                    nextExplanation();
+                }
+            }
+        }, mainEmergencyExplanation.getDuration(0));
+
+    }
+
+    void setSubExplanation(int index){
+        setTextView(subEmergencyExplanation.getText(index));
+        imageView.setImageDrawable(subEmergencyExplanation.getImage(index));
+        explainButton.setText(subEmergencyExplanation.getButtonText(index));
+        finishButton.setText(subEmergencyExplanation.getButton2Text(index));
+    }
+
+    void subExplaination(){
+        medicalCertification.addRecord(new Record(Utils.TAG_CARE, subEmergencyExplanation.name));
+
+        _handler.removeCallbacksAndMessages(null);
+        stopMetronome();
+        if (subEmergencyExplanation.isMetronomeRequired){
+            startMetronome();
+        }
+
+
+        setSubExplanation(0);
 
         explainButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,29 +213,54 @@ public class ExplainActivity extends AppCompatActivity {
                 explainButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        AEDExplaination();
-
+                        subExplaination();
                     }
                 });
-                if(isMetronomeRequired) {
-                    startMetronome();
-                }
+                mainExplain();
                 nextExplanation();
+            }
+        });
+    }
+
+    void finishRescue(){
+        stopMetronome();
+        _handler.removeCallbacksAndMessages(null);
+        ExplainCare recover = new ExplainCare(this, "care_recovery_position");
+
+        setTextView(recover.getText(0));
+        imageView.setImageDrawable(recover.getImage(0));
+        explainButton.setText(recover.getButtonText(0));
+        finishButton.setText(recover.getButton2Text(0));
+
+        final Intent QRIntent = new Intent(this, QRDisplayActivity.class);
+        QRIntent.putExtra("THROUGH_INTERVIEW", true);
+        QRIntent.putExtra(Utils.TAG_INTENT_CERTIFICATION, medicalCertification);
+        finishButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                medicalCertification.addRecord(new Record(Utils.TAG_END, "_"));
+                Log.d("RESULT", medicalCertification.toString());
+
+                startActivity(QRIntent);
+                finish();
+            }
+        });
+        explainButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("RESULT", medicalCertification.toString());
+
+                startActivity(QRIntent);
+                finish();
             }
         });
     }
 
 
     public void onStopClick(View view) {
-        mMetronome.finish();
+        stopMetronome();
     }
-
-    public void setExplain(int id){
-        textView.setText(emergencyExplanation.getText(explainIndex));
-        imageView.setImageDrawable(emergencyExplanation.getImage(explainIndex));
-
-    }
-
 
 
     @Override
@@ -165,53 +268,72 @@ public class ExplainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_explain);
 
+        try {
+            medicalCertification = (MedicalCertification) getIntent().getSerializableExtra("CERTIFICATION");
+        }catch (Exception e){
+            Log.e("ExplainActivity", e.toString());
+        }
+        if(medicalCertification == null){
+            Log.i("medical certification", "is null");
+            medicalCertification = new MedicalCertification();
+        }
+        String careXML = getIntent().getStringExtra("CARE_XML");
 
-        textView = (TextView)findViewById(R.id.textview_explain_heart_massage);
-        imageView = (ImageView)findViewById(R.id.imageview_explain_heart_massage);
-        explainButton = (Button)findViewById(R.id.btn_explain);
-        explainButton.setText("AEDが到着した");
-        explainButton.setOnClickListener(new View.OnClickListener() {
+        textView = (TextView) findViewById(R.id.textview_explain_heart_massage);
+        imageView = (ImageView) findViewById(R.id.imageview_explain_heart_massage);
+        imageView.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View v) {
-                AEDExplaination();
+            public void onClick(View v){
+                if (!useSwitchTimer) {
+                    nextExplanation();
+                }
             }
         });
-
-        emergencyExplanation = new EmergencyExplanation(this, "chest_compression");
-        explainTime = new int[emergencyExplanation.getProcesses()];
-        explainTime[0] = 1000;
-        explainTime[1] = 3000;
-        explainIndex = 0;
-        setExplain(explainIndex);
-        _handler = new Handler();
-        _handler.postDelayed(new Runnable() {
+        explainButton = (Button) findViewById(R.id.btn_explain);
+        explainButton.setText("");
+        finishButton = (Button)findViewById(R.id.btn_finish);
+        finishButton.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void run() {
-                nextExplanation();
+            public void onClick(View v){
+                finishRescue();
+                medicalCertification.showRecords();
             }
-        }, explainTime[explainIndex]);
-
+        });
+        finishButton.setText("");
         mMetronome = new Metronome();
-        isMetronomeRequired = true;
-        if(isMetronomeRequired){
-            startMetronome();
-        }else{
-            mMetronome.finish();
+        _handler = new Handler();
+
+        mainEmergencyExplanation = new ExplainCare(this, careXML);
+        //mainEmergencyExplanation = new ExplainCare(this, "care_bleed_stopping");
+
+        if (mainEmergencyExplanation.sub.equals("")) {
+            subEmergencyExplanation = null;
+        } else {
+            subEmergencyExplanation = new ExplainCare(this, mainEmergencyExplanation.sub);
+            if (!subEmergencyExplanation.isActive) {
+                subEmergencyExplanation = null;
+            }
         }
 
+        mainExplain();
+        useSwitchTimer = true;
+
+        medicalCertification.save(this);
     }
 
     @Override
     protected void onPause(){
         super.onPause();
 
-        mMetronome.finish();
+        stopMetronome();
+        _handler.removeCallbacksAndMessages(null);
     }
 
     @Override
     protected void onResume(){
         super.onResume();
 
+        /*
         explainIndex = 0;
         setExplain(explainIndex);
 
@@ -223,6 +345,7 @@ public class ExplainActivity extends AppCompatActivity {
                 nextExplanation();
             }
         }, explainTime[explainIndex]);
+        */
     }
 
 
