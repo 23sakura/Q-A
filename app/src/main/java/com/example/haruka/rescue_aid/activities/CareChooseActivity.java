@@ -5,11 +5,13 @@ import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.LinearLayout;
+import android.widget.AdapterView;
+import android.widget.ListView;
 
+import com.example.haruka.rescue_aid.R;
 import com.example.haruka.rescue_aid.utils.Care;
 import com.example.haruka.rescue_aid.utils.Utils;
+import com.example.haruka.rescue_aid.views.CareListAdapter;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -70,14 +72,30 @@ public class CareChooseActivity extends OptionActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        LinearLayout linearLayout = new LinearLayout(this);
-        linearLayout.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT));
-        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        setContentView(R.layout.activity_choose_care);
+        ListView listView = (ListView)findViewById(R.id.listview_carelist);
+
+
+        loadCare();
+
+        ArrayList<Care> cares1 = (ArrayList<Care>)cares.clone();
+        cares1.remove(0);
+        cares1.remove(0);
+        CareListAdapter careListAdapter = new CareListAdapter(this);
+        careListAdapter.setCareList(cares1);
+        listView.setAdapter(careListAdapter);
 
         final Intent intent = new Intent(this, ExplainActivity.class);
-        loadCare();
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Care care = cares.get(position+2);
+                intent.putExtra("CARE_XML", care.getXml());
+                startActivity(intent);
+            }
+        });
+
 
         /*
         Button[] buttons = new Button[cares.size()];
@@ -101,26 +119,6 @@ public class CareChooseActivity extends OptionActivity {
         }
         */
 
-        for (final Care care : cares){
-            final Button button = new Button(this);
-            button.setLayoutParams(new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT)
-            );
-            button.setText(care.name);
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Log.d("Care button", care.name);
-                    Log.d("Care button", care.getXml());
-                    intent.putExtra("CARE_XML", care.getXml());
-                    startActivity(intent);
-                }
-            });
-            linearLayout.addView(button);
-            Log.d("button", care.name);
-        }
 
-        setContentView(linearLayout);
     }
 }

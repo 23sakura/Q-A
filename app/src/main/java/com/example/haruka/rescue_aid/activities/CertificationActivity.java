@@ -146,6 +146,7 @@ public class CertificationActivity extends OptionActivity {
         loadCare();
 
         drawingView.setCertification(medicalCertification, questions, cares);
+        medicalCertification.save(this);
     }
 
     View.OnClickListener deleteDrawing = new View.OnClickListener() {

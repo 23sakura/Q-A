@@ -25,6 +25,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.Toast;
 
 import com.example.haruka.rescue_aid.utils.MedicalCertification;
+import com.example.haruka.rescue_aid.utils.Utils;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.MultiFormatReader;
 import com.google.zxing.PlanarYUVLuminanceSource;
@@ -136,9 +137,15 @@ public class QRActivity extends OptionActivity {
     private void showCertification(MedicalCertification medicalCertification) {
         final Intent QRIntent = new Intent(this, CertificationActivity.class);
 
-        QRIntent.putExtra("CERTIFICATION", medicalCertification);
+        QRIntent.putExtra(Utils.TAG_INTENT_CERTIFICATION, medicalCertification);
         Log.d("RESULT", medicalCertification.toString());
         startActivity(QRIntent);
+    }
+
+    private void showCertificationLoadActivity(MedicalCertification medicalCertification){
+        final Intent intent = new Intent(this, CertificationEditActivity.class);
+        intent.putExtra(Utils.TAG_INTENT_CERTIFICATION, medicalCertification);
+        startActivity(intent);
     }
 
     private Camera.PreviewCallback previewCallback = new Camera.PreviewCallback() {
@@ -162,7 +169,8 @@ public class QRActivity extends OptionActivity {
                 Log.i("medical certification", "read");
                 medicalCertification.showRecords();
                 //showQR(medicalCertification);
-                showCertification(medicalCertification);
+                //showCertification(medicalCertification);
+                showCertificationLoadActivity(medicalCertification);
             } catch (Exception e) {
                 Log.e("QR reader", e.toString());
                 Toast.makeText(getApplicationContext(), "Not Found", Toast.LENGTH_SHORT).show();

@@ -50,22 +50,6 @@ public class CertificationLoadActivity extends OptionActivity {
         }
         Collections.sort(medicalCertifications);
 
-        /*for (final MedicalCertification medicalCertification : medicalCertifications){
-            Button b = new Button(this);
-            b.setAllCaps(false);
-            b.setText(medicalCertification.name);
-            linearLayout.addView(b);
-
-            b.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(contextLoadDataActivity, CertificationEditActivity.class);
-                    intent.putExtra(Utils.TAG_INTENT_CERTIFICATION, medicalCertification);
-                    startActivity(intent);
-                }
-            });
-        }*/
-
         CertificationAdapter certificationAdapter = new CertificationAdapter(CertificationLoadActivity.this);
 
         certificationAdapter.setMedicalCertification(medicalCertifications);

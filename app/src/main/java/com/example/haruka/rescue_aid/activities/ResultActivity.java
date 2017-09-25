@@ -1,16 +1,10 @@
 package com.example.haruka.rescue_aid.activities;
 
-import android.annotation.SuppressLint;
-import android.app.Fragment;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.content.res.XmlResourceParser;
 import android.os.Bundle;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -52,42 +46,11 @@ public class ResultActivity extends OptionActivity {
     private ArrayList<Question> questions;
     LinearLayout linearLayout;
     ScrollView scrollView;
-    LinearLayout inflateLayout;
     TextView textView;
     Button dealingBtn;
     protected ListView listView;
-    final int MATCH_P = ViewGroup.LayoutParams.MATCH_PARENT;
 
     CareList careList;
-
-    private String[] menuActivities = null;
-    private DrawerLayout mDrawerLayout = null;
-    private ListView mDrawerList = null;
-    private ActionBarDrawerToggle mDrawerToggle = null;
-
-    private CharSequence mDrawerTitle;
-    private CharSequence mTitle;
-
-
-    private void setLinearLayout(){
-        linearLayout = new LinearLayout(this);
-        linearLayout.setOrientation(LinearLayout.VERTICAL);
-
-        linearLayout.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT));
-        linearLayout.setGravity(Gravity.CENTER_HORIZONTAL);
-        scrollView.addView(linearLayout);
-    }
-
-    private void setScrollView(){
-        /*
-        LinearLayout ll = (LinearLayout)findViewById(R.id.linearlayout_result);
-        scrollView = new ScrollView(this);
-        scrollView.setLayoutParams(new ScrollView.LayoutParams(MATCH_P, MATCH_P));
-        ll.addView(scrollView);
-        */
-    }
 
     private void setListView(){
         listView = (ListView)findViewById(R.id.listview_care);
@@ -336,44 +299,6 @@ public class ResultActivity extends OptionActivity {
         //setDrawerLayout();
 
         medicalCertification.save(this);
-    }
-
-
-    @SuppressLint("ValidFragment")
-    public class PlanetFragment extends Fragment {
-
-        public static final String ARG_TEXT = "menu_choice";
-
-
-        public PlanetFragment() {
-            // Empty constructor required for fragment subclasses
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_result, container, false);
-
-            String str = getArguments().getString(ARG_TEXT);
-            Log.d("ResultAct side menu", str + "is selected");
-
-            if (str.equals("QRコード")){
-                Intent intent = new Intent(ResultActivity.this, QRDisplayActivity.class);
-                intent.putExtra(Utils.TAG_INTENT_CERTIFICATION, medicalCertification);
-                startActivity(intent);
-            } else if (str.equals("診断書")){
-                Intent intent = new Intent(ResultActivity.this, CertificationActivity.class);
-                intent.putExtra(Utils.TAG_INTENT_CERTIFICATION, medicalCertification);
-                startActivity(intent);
-            } else if (str.equals("応急手当")){
-                Intent intent = new Intent(ResultActivity.this, CareChooseActivity.class);
-                startActivity(intent);
-            } else if (str.equals("AEDマップ")){
-                //TODO implement AED map
-            }
-            //getActivity().setTitle(str);
-            return rootView;
-        }
     }
 
 }

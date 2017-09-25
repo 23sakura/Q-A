@@ -25,7 +25,7 @@ public class TitleActivity extends OptionActivity {
         //interviewIntent = new Intent(this, InterviewActivity.class);
         interviewIntent = new Intent(this, SymptomCategorizeActivity.class);
         testIntent = new Intent(this, TestPlatformActivity.class);
-        careIntent = new Intent(this, OptionActivity.class);
+        careIntent = new Intent(this, CareChooseActivity.class);
         qrIntent = new Intent(this, QRActivity.class);
 
         gotoInterviewBtn = (Button)findViewById(R.id.startbtn);
@@ -71,7 +71,6 @@ public class TitleActivity extends OptionActivity {
         super.onResume();
 
         setCallNote("意識はありますか？：はい\n吐き気はありますか？：いいえ\n息が苦しいですか？：いいえ\nのどは痛いですか？：はい\nつばが飲み込めないほど痛いですか？：はい");
-        //setCallNote("タイトル");
     }
 
 
