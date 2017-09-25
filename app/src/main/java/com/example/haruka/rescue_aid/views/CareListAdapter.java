@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.haruka.rescue_aid.R;
@@ -51,7 +52,7 @@ public class CareListAdapter extends BaseAdapter {
 
         Care c = careList.get(position);
         ((TextView)convertView.findViewById(R.id.textview_carelist_title)).setText(c.name);
-
+        ((ImageView)convertView.findViewById(R.id.imageview_carelist)).setImageDrawable(c.drawable);
         return convertView;
     }
 }

@@ -1,5 +1,7 @@
 package com.example.haruka.rescue_aid.utils;
 
+import android.graphics.drawable.Drawable;
+
 /**
  * Created by Tomoya on 9/15/2017 AD.
  */
@@ -12,6 +14,7 @@ public class Care {
     public String description;
     public String buttonText;
     public static final String NULL_XML = "";
+    public Drawable drawable;
 
     public Care(int index, String name, String xml){
         this.index = index;
@@ -37,6 +40,11 @@ public class Care {
         }
     }
 
+    public void setDrawable(Drawable drawable){
+        this.drawable = drawable;
+    }
 
-
+    public Drawable getDrawable(){
+        return drawable;
+    }
 }

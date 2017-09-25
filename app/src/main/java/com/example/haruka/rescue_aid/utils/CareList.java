@@ -2,6 +2,7 @@ package com.example.haruka.rescue_aid.utils;
 
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -35,18 +36,15 @@ public class CareList {
             String line = "";
             while ((line = bufferReader.readLine()) != null) {
                 StringTokenizer st = new StringTokenizer(line, ",");
-                //Log.i("Carelist", "String Tokenizer is made");
+                Log.i("Carelist", "String Tokenizer is made : " + line);
 
                 String _index = st.nextToken();
-                //Log.d("Carelist", _index);
                 int index = Integer.parseInt(_index);
-                //Log.d("Carelist", Integer.toString(index));
                 String name = st.nextToken();
-                //Log.d("Carelist", name);
                 String xml = "";
                 try {
                     xml = st.nextToken();
-                } catch (NoSuchElementException ne){
+                } catch (NoSuchElementException ne) {
                     Log.e("Carelist", ne.toString());
                     xml = Care.NULL_XML;
                 }
@@ -59,6 +57,17 @@ public class CareList {
                 c.setDescription(description);
                 c.setButtonText(buttonText);
                 careList.add(c);
+
+                try {
+                    String drawableFilename = st.nextToken();
+                    Log.d("drawable filename", drawableFilename);
+                    Drawable drawable = Drawable.createFromStream(assetManager.open(drawableFilename.trim()), null);
+                    c.setDrawable(drawable);
+                } catch (Exception e){
+                    Drawable drawable = Drawable.createFromStream(assetManager.open("icon.png"),null);
+                    c.setDrawable(drawable);
+                    Log.e("creating Carelist", e.toString());
+                }
             }
 
             is.close();
