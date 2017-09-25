@@ -25,7 +25,7 @@
             </button>
         </item>
         <item>
-            <description>ひじを伸ばし、垂直に体重をかけ、成人は深さ約5cm、小児は胸の厚さの約1／3胸が沈みこむように、メトロノームに合わせて強く胸を押します。</description>
+            <description>胸が5cmくらい沈むよう、ひじを伸ばして垂直に体重をかけ、メトロノームに合わせて強く胸を押します。</description>
             <image>
                 explain/chest_compression/img/chest2.jpg
             </image>
@@ -35,7 +35,7 @@
             </button>
         </item>
 	    <item>
-            <description>胸を完全に元の位置に戻すために、圧迫と圧迫の間に胸に力がかからないようにします。</description>
+            <description>圧迫と圧迫の間に胸に力がかからないようにします。</description>
             <image>
                 explain/chest_compression/img/chest2.jpg
             </image>
