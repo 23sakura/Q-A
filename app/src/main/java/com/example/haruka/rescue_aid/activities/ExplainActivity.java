@@ -1,9 +1,12 @@
 package com.example.haruka.rescue_aid.activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -30,8 +33,10 @@ public class ExplainActivity extends ReadAloudTestActivity {
     MedicalCertification medicalCertification;
 
     Metronome mMetronome;
-    Button explainButton;
-    Button finishButton;
+    //Button explainButton;
+    //Button finishButton;
+    Button finishBtn, aedBtn;
+    ImageView  forwardBtn, backBtn;
     ExplainCare mainEmergencyExplanation, subEmergencyExplanation;
 
     TextView textView;
@@ -130,9 +135,20 @@ public class ExplainActivity extends ReadAloudTestActivity {
         _handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (useSwitchTimer) {
-                    nextExplanation();
-                }
+                nextExplanation();
+            }
+        }, mainEmergencyExplanation.getDuration(explainIndex));
+    }
+
+    void previousExplanation(){
+        explainIndex = (explainIndex+mainEmergencyExplanation.numSituation-1) % mainEmergencyExplanation.numSituation;
+        setExplain(explainIndex);
+
+        _handler.removeCallbacksAndMessages(null);
+        _handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                nextExplanation();
             }
         }, mainEmergencyExplanation.getDuration(explainIndex));
 
@@ -141,8 +157,8 @@ public class ExplainActivity extends ReadAloudTestActivity {
     public void setExplain(int index){
         setTextView(mainEmergencyExplanation.getText(index));
         imageView.setImageDrawable(mainEmergencyExplanation.getImage(index));
-        explainButton.setText(mainEmergencyExplanation.getButtonText(index));
-        finishButton.setText(mainEmergencyExplanation.getButton2Text(index));
+        //explainButton.setText(mainEmergencyExplanation.getButtonText(index));
+        //finishButton.setText(mainEmergencyExplanation.getButton2Text(index));
     }
 
     void mainExplain(){
@@ -163,20 +179,6 @@ public class ExplainActivity extends ReadAloudTestActivity {
         explainIndex = 0;
         setExplain(explainIndex);
 
-        explainButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("sub medical care", (subEmergencyExplanation != null) ? "exist" : "null");
-                if (subEmergencyExplanation != null){
-                    subExplaination();
-                }else{
-                    //TODO implement behavior when there is no sub explain.
-                    //finish operation
-                }
-            }
-        });
-
-
         _handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -191,8 +193,8 @@ public class ExplainActivity extends ReadAloudTestActivity {
     void setSubExplanation(int index){
         setTextView(subEmergencyExplanation.getText(index));
         imageView.setImageDrawable(subEmergencyExplanation.getImage(index));
-        explainButton.setText(subEmergencyExplanation.getButtonText(index));
-        finishButton.setText(subEmergencyExplanation.getButton2Text(index));
+        //explainButton.setText(subEmergencyExplanation.getButtonText(index));
+        //finishButton.setText(subEmergencyExplanation.getButton2Text(index));
     }
 
     void subExplaination(){
@@ -205,21 +207,23 @@ public class ExplainActivity extends ReadAloudTestActivity {
         }
 
 
+        aedBtn.setText("胸骨圧迫を\n再開する");
         setSubExplanation(0);
-
-        explainButton.setOnClickListener(new View.OnClickListener() {
+        aedBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                explainButton.setOnClickListener(new View.OnClickListener() {
+                aedBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         subExplaination();
                     }
                 });
                 mainExplain();
-                nextExplanation();
+                aedBtn.setText("AEDが到着した");
+                //nextExplanation();
             }
         });
+
     }
 
     void finishRescue(){
@@ -229,12 +233,13 @@ public class ExplainActivity extends ReadAloudTestActivity {
 
         setTextView(recover.getText(0));
         imageView.setImageDrawable(recover.getImage(0));
-        explainButton.setText(recover.getButtonText(0));
-        finishButton.setText(recover.getButton2Text(0));
+        //explainButton.setText(recover.getButtonText(0));
+        //finishButton.setText(recover.getButton2Text(0));
 
         final Intent QRIntent = new Intent(this, QRDisplayActivity.class);
         QRIntent.putExtra("THROUGH_INTERVIEW", true);
         QRIntent.putExtra(Utils.TAG_INTENT_CERTIFICATION, medicalCertification);
+        /*
         finishButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -255,6 +260,7 @@ public class ExplainActivity extends ReadAloudTestActivity {
                 finish();
             }
         });
+        */
     }
 
 
@@ -266,7 +272,6 @@ public class ExplainActivity extends ReadAloudTestActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_explain);
 
         try {
             medicalCertification = (MedicalCertification) getIntent().getSerializableExtra("CERTIFICATION");
@@ -279,8 +284,29 @@ public class ExplainActivity extends ReadAloudTestActivity {
         }
         String careXML = getIntent().getStringExtra("CARE_XML");
 
-        textView = (TextView) findViewById(R.id.textview_explain_heart_massage);
-        imageView = (ImageView) findViewById(R.id.imageview_explain_heart_massage);
+        if(!careXML.equals("care_chest_compression")) {
+            setContentView(R.layout.activity_explain);
+            textView = (TextView) findViewById(R.id.textview_explain_heart_massage);
+            imageView = (ImageView) findViewById(R.id.imageview_explain_heart_massage);
+            finishBtn = (Button) findViewById(R.id.btn_explain_finish);
+            backBtn = (ImageView) findViewById(R.id.btn_explain_back);
+            forwardBtn = (ImageView) findViewById(R.id.btn_explain_next);
+        } else {
+            setContentView(R.layout.activity_explain_2);
+            textView = (TextView) findViewById(R.id.textview_explain_heart_massage2);
+            imageView = (ImageView) findViewById(R.id.imageview_explain_heart_massage2);
+            finishBtn = (Button) findViewById(R.id.btn_explain_finish2);
+            backBtn = (ImageView) findViewById(R.id.btn_explain_back2);
+            forwardBtn = (ImageView) findViewById(R.id.btn_explain_next2);
+            aedBtn = (Button)findViewById(R.id.btn_explain_aed);
+            aedBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    subExplaination();
+                }
+            });
+        }
+        /*
         imageView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -289,9 +315,14 @@ public class ExplainActivity extends ReadAloudTestActivity {
                 }
             }
         });
-        explainButton = (Button) findViewById(R.id.btn_explain);
-        explainButton.setText("");
-        finishButton = (Button)findViewById(R.id.btn_finish);
+        */
+
+        //linearLayout.removeAllViews();
+
+        //explainButton = (Button) findViewById(R.id.btn_explain);
+        //explainButton.setText("");
+        //finishButton = (Button)findViewById(R.id.btn_finish);
+        /*
         finishButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -299,7 +330,44 @@ public class ExplainActivity extends ReadAloudTestActivity {
                 medicalCertification.showRecords();
             }
         });
-        finishButton.setText("");
+        */
+        //finishButton.setText("");
+        /*
+        finishBtn = new Button(this);
+        finishBtn.setText("hogehoge");
+        linearLayout.addView(finishBtn);
+        backBtn = new Button(this);
+        backBtn.setText("◁");
+        linearLayout.addView(backBtn);
+        forwardBtn = new Button(this);
+        forwardBtn.setText("▷");
+        linearLayout.addView(forwardBtn);
+        */
+
+        finishBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(ExplainActivity.this).setMessage("応急手当を終了しますか").setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                }).show();
+            }
+        });
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                previousExplanation();
+            }
+        });
+        forwardBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                nextExplanation();
+            }
+        });
+
         mMetronome = new Metronome();
         _handler = new Handler();
 
@@ -319,7 +387,22 @@ public class ExplainActivity extends ReadAloudTestActivity {
         useSwitchTimer = true;
 
         medicalCertification.save(this);
+
     }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode==KeyEvent.KEYCODE_BACK){
+            new AlertDialog.Builder(ExplainActivity.this).setMessage("応急手当を終了しますか").setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                }
+            }).show();
+            return true;
+        }
+        return false;
+    }
+
 
     @Override
     protected void onPause(){
