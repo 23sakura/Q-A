@@ -413,7 +413,8 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
         AssetManager assetManager = this.getAssets();
         Drawable drawable = null;
         try {
-            InputStream is = assetManager.open("explain/airway_removal/img/img01.jpg");
+            //InputStream is = assetManager.open("explain/airway_removal/img/img01.jpg");
+            InputStream is = assetManager.open(filename);
             drawable = Drawable.createFromStream(is, null);
         }catch (Exception e){
             Log.e("Interview get drawable", e.toString());
@@ -440,7 +441,7 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
         mInterviewContent.setTextColor(getResources().getColor(R.color.black));
         imageView = (ImageView)findViewById(R.id.imageview_interview);
 
-        imageView.setImageDrawable(getDrawable("hoge"));
+        imageView.setImageDrawable(getDrawable("icons/ill/icon00.jpg"));
         showReadQuestion();
 
         historyScroll = (HorizontalScrollView)findViewById(R.id.history_scroll);
