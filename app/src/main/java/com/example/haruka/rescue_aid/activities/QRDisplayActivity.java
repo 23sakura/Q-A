@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
@@ -30,7 +29,7 @@ import com.google.zxing.qrcode.QRCodeWriter;
  * You can share the certification with others
  */
 
-public class QRDisplayActivity extends FragmentActivity {
+public class QRDisplayActivity extends OptionActivity {
 
     private String mResult;
     private Intent mGetResultIntent;
