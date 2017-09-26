@@ -2,6 +2,7 @@ package com.example.haruka.rescue_aid.activities;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -94,7 +95,7 @@ public class OptionActivity extends AppCompatActivity {
         overlayIntent = new Intent(getApplication(), CallOverlay.class);
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        //setContentView(R.layout.activity_title);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     }
 
     protected void setCallNote(String text){
