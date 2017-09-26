@@ -46,7 +46,15 @@ import java.util.StringTokenizer;
 import static com.example.haruka.rescue_aid.R.id.interview;
 import static java.lang.Integer.parseInt;
 
+
+/**
+ * This is a main interview activity, using text speech, voice recognition and location listener.
+ * You can read or listen questions and tap button or just say "yes/no" to answer.
+ * It gives you next question. After 3 to 5 qquestions, you will get the result
+ */
+
 public class InterviewActivity extends ReadAloudTestActivity implements LocationListener{
+
     private Context context;
     private Button mBtnYes;
     private Button mBtnNo;
@@ -165,8 +173,6 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
     private void loadQuestions(){
         AssetManager assetManager = this.context.getResources().getAssets();
         try{
-            // CSVファイルの読み込み
-            //InputStream is = assetManager.open("scenarios/" + scenario);
             String scenario_ = "scenarios/" + scenario;
             Log.d("Scenario", scenario_);
             InputStream is = assetManager.open(scenario_);
@@ -254,7 +260,6 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
             Record r = new Record(Integer.toString(q_.getIndex()), Utils.getAnswerString(q_.getAnswer()));
             //medicalCertification.addRecord(r);
             medicalCertification.updateRecord(r);
-            //TODO condider how to deal with re-answered question
         }
         final HistoryButton btn = new HistoryButton(this, q_.getIndex());
         btn.setText(q_);

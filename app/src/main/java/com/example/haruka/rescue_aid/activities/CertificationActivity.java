@@ -29,6 +29,9 @@ import static java.lang.Integer.parseInt;
 
 /**
  * Created by skriulle on 9/17/2017 AD.
+ * This is an activity to show your certification after the interview or care.
+ * It shows not only contents of interview and care, but time and location.
+ * Showing it to your family, friends or doctor make it easier to tell the situation
  */
 
 public class CertificationActivity extends OptionActivity {
@@ -45,7 +48,6 @@ public class CertificationActivity extends OptionActivity {
         AssetManager assetManager = getResources().getAssets();
         questions = new ArrayList<>();
         try{
-            // CSVファイルの読み込み
             //InputStream is = assetManager.open("scenarios/" + scenario);
             String scenario = Utils.getScenario(scenarioID);
             String scenario_ = "scenarios/" + scenario;
@@ -98,7 +100,6 @@ public class CertificationActivity extends OptionActivity {
 
         cares = new ArrayList<>();
         try{
-            // CSVファイルの読み込み
             //InputStream is = assetManager.open("scenarios/" + scenario);
             String _careList = Utils.LIST_CARE;
             String careList = "care/" + _careList;
@@ -166,7 +167,6 @@ public class CertificationActivity extends OptionActivity {
     public Bitmap getViewCapture(View view) {
         view.setDrawingCacheEnabled(true);
 
-        // Viewのキャッシュを取得
         Bitmap cache = view.getDrawingCache();
         Bitmap screenShot = Bitmap.createBitmap(cache);
         view.setDrawingCacheEnabled(false);
@@ -175,7 +175,6 @@ public class CertificationActivity extends OptionActivity {
     }
 
     public void saveCapture(View view) {
-        // キャプチャを撮る
         File file = new File(Environment.getExternalStorageDirectory().getPath() + "/capture.jpg");
         //File file = new File(getFilesDir().getPath() + "/capture.jpg");
         //File file = new File("/storage/emulated/0/Download" + "/capture.jpg");
@@ -186,9 +185,6 @@ public class CertificationActivity extends OptionActivity {
             fos = new FileOutputStream(file);
             capture.compress(Bitmap.CompressFormat.JPEG, 100, fos);
             fos.flush();
-            Log.d("success oooo", Integer.toString((int) Environment.getExternalStorageDirectory().length()));
-            Log.d("save ", "success " + getFilesDir());
-            Log.d("save ", "success " + Environment.getExternalStorageState());
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

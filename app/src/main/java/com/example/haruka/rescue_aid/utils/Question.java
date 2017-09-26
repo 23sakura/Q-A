@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 /**
  * Created by Tomoya on 8/29/2017 AD.
+ * This is a question class
  */
 
 public class Question implements Serializable {

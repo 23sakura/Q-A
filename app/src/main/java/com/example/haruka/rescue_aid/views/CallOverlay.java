@@ -18,6 +18,7 @@ import com.example.haruka.rescue_aid.listener.DragViewListener;
 
 /**
  * Created by skriulle on 9/22/2017 AD.
+ * This is call when you open phone app to call ambulance
  */
 
 public class CallOverlay extends Service {
@@ -104,7 +105,6 @@ public class CallOverlay extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        // TODO Auto-generated method stub
         return null;
     }
 

@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 /**
  * Created by Tomoya on 9/25/2017 AD.
+ * This is the adapter used by CareChooseActivity
  */
 
 public class CareListAdapter extends BaseAdapter {

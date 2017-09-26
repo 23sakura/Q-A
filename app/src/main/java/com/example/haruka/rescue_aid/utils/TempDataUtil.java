@@ -10,6 +10,7 @@ import java.io.ObjectOutputStream;
 
 /**
  * Created by Tomoya on 9/21/2017 AD.
+ * This is a helper class to load and save
  */
 
 public class TempDataUtil {

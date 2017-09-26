@@ -7,6 +7,7 @@ import com.example.haruka.rescue_aid.R;
 
 /**
  * Created by Tomoya on 9/15/2017 AD.
+ * This is the util to be used in any cases
  */
 
 public class Utils {

@@ -1,12 +1,13 @@
 package com.example.haruka.rescue_aid.utils;
 
-/**
- * Created by Tomoya on 9/1/2017 AD.
- */
-
 import android.content.Context;
 import android.media.MediaPlayer;
 
+
+/**
+ * Created by Tomoya on 9/1/2017 AD.
+ * Metronome class
+ */
 
 class Metronome
 {

@@ -25,6 +25,8 @@ import java.util.Collections;
 
 /**
  * Created by Tomoya on 9/21/2017 AD.
+ * This is an activity to show the list of certifications you've got ever.
+ * You tap a certification and go to CertficationEditActivity
  */
 
 public class CertificationLoadActivity extends OptionActivity {

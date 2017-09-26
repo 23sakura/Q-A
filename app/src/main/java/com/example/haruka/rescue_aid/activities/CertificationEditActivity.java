@@ -16,6 +16,10 @@ import com.example.haruka.rescue_aid.utils.Utils;
 
 /**
  * Created by Tomoya on 9/21/2017 AD.
+ * This is an activity to edit your certifications.
+ * You can change the name to take note.
+ * You can see the certification, result of the interview and QR code to share.
+ * Also, you can delete the Certification if you want
  */
 
 public class CertificationEditActivity extends OptionActivity {

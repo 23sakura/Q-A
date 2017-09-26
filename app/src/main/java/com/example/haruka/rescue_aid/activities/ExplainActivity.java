@@ -26,6 +26,9 @@ import jp.fsoriented.cactusmetronome.lib.Metronome;
 
 /**
  * Created by Tomoya on 9/2/2017 AD.
+ * This is a main explain activity to help care.
+ * It shows text, image and read it.
+ * It has function to play metronome to keep tempo when you go on a chest compression care.
  */
 
 public class ExplainActivity extends ReadAloudTestActivity {
@@ -59,26 +62,20 @@ public class ExplainActivity extends ReadAloudTestActivity {
         BASIC_4(new double[]{0}, 1.0/8),
         BASIC_8(new double[]{0, 0.5}, 1.0/8);
 
-        // 4分音符の長さを0..1としたときに、クリックがどこにあるかを表す
-        // Clickを作るもとになる
 
-        /** いつ発音するか */
         private final double[] beats;
-        /** 音の長さ */
         private final double length;
 
-        /** コンストラクタ */
         private NoteEnum(double[] beats, double length) {
             this.beats = beats;
             this.length = length;
         }
 
         /**
-         * 指定されたリストに、この{@code NoteEnum}が表す音を追加する。
          *
-         * @param destination Clickの書き込み先
-         * @param lengthOfQuarter 4分音符の長さ（サンプル）
-         * @param index 何個目の4分音符か。0はじまり。
+         * @param destination
+         * @param lengthOfQuarter
+         * @param index
          */
         public void addNewClicks(ArrayList<Click> destination, int lengthOfQuarter, int index) {
             for (int i=0; i<beats.length; i++) {

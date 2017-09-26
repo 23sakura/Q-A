@@ -4,6 +4,8 @@ import android.graphics.drawable.Drawable;
 
 /**
  * Created by Tomoya on 9/15/2017 AD.
+ * This class represents each care
+ * It has the information of index, name, xml file, description
  */
 
 public class Care {

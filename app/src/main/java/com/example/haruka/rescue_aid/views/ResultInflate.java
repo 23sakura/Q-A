@@ -13,10 +13,11 @@ import com.example.haruka.rescue_aid.R;
 import static android.R.attr.width;
 import static android.R.attr.x;
 import static android.R.attr.y;
-import static android.support.v7.appcompat.R.attr.height;
+import static android.R.attr.height;
 
 /**
  * Created by Tomoya on 9/16/2017 AD.
+ * This is the inflate layout in ResultActivity
  */
 
 public class ResultInflate extends View {

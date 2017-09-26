@@ -9,6 +9,7 @@ import java.util.Date;
 
 /**
  * Created by Tomoya on 8/29/2017 AD.
+ * This class is the date format
  */
 
 public class QADateFormat {

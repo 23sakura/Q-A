@@ -14,6 +14,7 @@ import java.util.StringTokenizer;
 
 /**
  * Created by Tomoya on 9/15/2017 AD.
+ * This class loads the list of care
  */
 
 public class CareList {

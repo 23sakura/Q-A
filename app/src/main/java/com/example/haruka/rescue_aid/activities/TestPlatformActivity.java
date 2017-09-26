@@ -9,6 +9,7 @@ import com.example.haruka.rescue_aid.R;
 
 /**
  * Created by Tomoya on 8/24/2017 AD.
+ * This is an activity for test
  */
 
 public class TestPlatformActivity extends OptionActivity {

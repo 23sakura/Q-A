@@ -5,6 +5,7 @@ import java.util.Date;
 
 /**
  * Created by Tomoya on 9/5/2017 AD.
+ * This represents a record consisted by time, tag, value
  */
 
 public class Record implements Serializable {

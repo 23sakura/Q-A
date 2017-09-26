@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 /**
  * Created by Tomoya on 9/22/2017 AD.
+ * This is the adapter used by CertificationLoadActivity
  */
 
 public class CertificationAdapter  extends BaseAdapter {

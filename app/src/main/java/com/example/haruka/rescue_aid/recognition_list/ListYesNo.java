@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 /**
  * Created by Tomoya on 8/23/2017 AD.
+ * This is a lists of the answer, either "Yes" or "No"
  */
 
 public class ListYesNo {

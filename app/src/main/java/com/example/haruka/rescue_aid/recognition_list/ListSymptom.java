@@ -4,11 +4,13 @@ import java.util.ArrayList;
 
 /**
  * Created by Tomoya on 9/16/2017 AD.
+ * This is a lists of the answer, either "急病" or "ケガ"
  */
 
 public class ListSymptom {
     private static String[] ill = {
-            "病気", "容器", " 陽気", "猟奇", "リョーキ", "妖気"
+            //"病気", "容器", " 陽気", "猟奇", "リョーキ", "妖気"
+            "急病", "9秒", "10秒", "9票", "給料", "ちゅうびょう", "救急病院", "種苗", " 休業", "急病を"
     };
     private static String[] injury = {
             "怪我", "気が", "けが", " ケガ", "ギガ", "ティーガー", "映画", "慶賀", "経過", "兄が", "giga"

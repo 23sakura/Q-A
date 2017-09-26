@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 /**
  * Created by Tomoya on 9/1/2017 AD.
+ * This class represents each explain of care
  */
 
 public class ExplainCare {

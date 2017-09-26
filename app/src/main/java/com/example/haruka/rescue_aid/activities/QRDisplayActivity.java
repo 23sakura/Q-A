@@ -25,6 +25,11 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 
+/**
+ * This is an activity to display QR code.
+ * You can share the certification with others
+ */
+
 public class QRDisplayActivity extends FragmentActivity {
 
     private String mResult;
@@ -79,7 +84,7 @@ public class QRDisplayActivity extends FragmentActivity {
             QRCodeWriter writer = new QRCodeWriter();
             BitMatrix bm = null;
             bm = writer.encode(mContents, BarcodeFormat.QR_CODE, 300, 300);
-            // ピクセルを作る
+
             int width = bm.getWidth();
             int height = bm.getHeight();
             int[] pixels = new int[width * height];
@@ -154,7 +159,6 @@ public class QRDisplayActivity extends FragmentActivity {
         switch (id) {
 
             case 0:
-                //ダイアログの作成(AlertDialog.Builder)
                 return new AlertDialog.Builder(QRDisplayActivity.this)
                         .setMessage("スタート画面に戻りますか？\n今回の問診データは\n「タイトル」→「問診履歴」\nから見れます")
                         .setCancelable(false)

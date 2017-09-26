@@ -13,6 +13,8 @@ import java.util.List;
 
 /**
  * Created by Tomoya on 9/5/2017 AD.
+ * This class is the certification of this application.
+ * It has information of time, location, interview and cares.
  */
 
 public class MedicalCertification implements Serializable, Comparable<MedicalCertification> {
@@ -31,7 +33,7 @@ public class MedicalCertification implements Serializable, Comparable<MedicalCer
     private final int LONGITUDE = 0, LATITUDE = 1;
     private final String LOCATION_TAG = "loc";
     private final String SCENARIO_TAG = "sce";;
-    //private final String DEFAULT_ADDRESS = " 徳島県徳島市寺島本町西１丁目６１";
+    //private final String DEFAULT_ADDRESS = " 徳島県阿南市見能林町青木";
     public final static String DEFAULT_ADDRESS = " ー ";
     Date startAt;
     int scenarioID;

@@ -22,6 +22,7 @@ import java.util.ArrayList;
 
 /**
  * Created by Tomoya on 9/13/2017 AD.
+ * This is an activity to categorize the symptoms.
  */
 
 public class SymptomCategorizeActivity extends ReadAloudTestActivity {
@@ -30,10 +31,6 @@ public class SymptomCategorizeActivity extends ReadAloudTestActivity {
     Intent interviewIntent;
     private ArrayList<String>[] dictionary;
 
-    //final String scenarioIll = "scenario.csv";
-    //final String scenarioIll = "scenario_17091501.csv";
-    //final String scenarioIll = Utils.SCENARIOS_ILL; //"scenario_17091701.csv";
-    //final String scenarioInjury = Utils.SCENARIOS_INJURY; //"text4.csv";
     final int scenarioIdIll = 0;
     final int scenarioIdInjury = 1;
 

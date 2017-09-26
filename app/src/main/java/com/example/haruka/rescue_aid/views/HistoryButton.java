@@ -10,6 +10,7 @@ import com.example.haruka.rescue_aid.utils.Utils;
 
 /**
  * Created by Tomoya on 9/14/2017 AD.
+ * This Button is used in InterviewActivity to show the history of interview
  */
 
 public class HistoryButton extends Button {

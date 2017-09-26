@@ -28,6 +28,7 @@ import static java.lang.Integer.parseInt;
 
 /**
  * Created by Tomoya on 9/17/2017 AD.
+ * This is the viewer of Certification
  */
 
 public class DrawingView extends View {

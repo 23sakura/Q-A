@@ -11,6 +11,8 @@ import java.util.HashMap;
 
 /**
  * Created by Tomoya on 9/7/2017 AD.
+ * This is an abstract activity which is able to seech text
+ * You just extend the activity and use speechText method
  */
 
 public class ReadAloudTestActivity extends OptionActivity implements TextToSpeech.OnInitListener{
@@ -72,21 +74,18 @@ public class ReadAloudTestActivity extends OptionActivity implements TextToSpeec
         }
     }
 
-    // 読み上げのスピード
     protected void setSpeechRate(float rate){
         if (null != tts) {
             tts.setSpeechRate(rate);
         }
     }
 
-    // 読み上げのピッチ
     protected void setSpeechPitch(float pitch){
         if (null != tts) {
             tts.setPitch(pitch);
         }
     }
 
-    // 読み上げの始まりと終わりを取得
     protected void setTtsListener(){
         // android version more than 15th
         if (Build.VERSION.SDK_INT >= 15)

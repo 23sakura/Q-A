@@ -6,7 +6,6 @@ import android.content.res.XmlResourceParser;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -21,7 +20,6 @@ import com.example.haruka.rescue_aid.utils.Question;
 import com.example.haruka.rescue_aid.utils.Record;
 import com.example.haruka.rescue_aid.utils.Utils;
 import com.example.haruka.rescue_aid.views.CareAdapter;
-import com.example.haruka.rescue_aid.views.ResultLineLayout;
 
 import org.xmlpull.v1.XmlPullParser;
 
@@ -36,6 +34,8 @@ import static java.lang.Integer.parseInt;
 
 /**
  * Created by Tomoya on 9/7/2017 AD.
+ * This is an activity to show the result of it after the interview
+ * You will get the list of the care which you should do
  */
 
 public class ResultActivity extends OptionActivity {
@@ -74,30 +74,6 @@ public class ResultActivity extends OptionActivity {
         textView.setLayoutParams(textLayoutParams);
         */
         //linearLayout.addView(textView);
-    }
-
-    private void showCareList(){
-        for (final Care c : cares){
-            ResultLineLayout resultLineLayout = new ResultLineLayout(this);
-            addDescription(c);
-            resultLineLayout.setTitle(c.name);
-            resultLineLayout.setDescription(c.description);
-            resultLineLayout.setView();
-            linearLayout.addView(resultLineLayout);
-            android.view.ViewGroup.LayoutParams layoutParams = resultLineLayout.getLayoutParams();
-            layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-            layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
-            resultLineLayout.setLayoutParams(layoutParams);
-
-            resultLineLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    final int i = c.index;
-                    Log.d("result line", Integer.toString(i));
-                }
-            });
-        }
-
     }
 
     private void setDealingBtn(){
@@ -166,8 +142,6 @@ public class ResultActivity extends OptionActivity {
         questions = new ArrayList<>();
         AssetManager assetManager = getResources().getAssets();
         try{
-            // CSVファイルの読み込み
-            //InputStream is = assetManager.open("scenarios/" + scenario);
             String scenario = Utils.getScenario(medicalCertification.getScenarioID());
             String scenario_ = "scenarios/" + scenario;
             Log.d("Scenario", scenario_);

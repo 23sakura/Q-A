@@ -8,6 +8,10 @@ import android.widget.Button;
 
 import com.example.haruka.rescue_aid.R;
 
+
+/**
+ * This is a title activity
+ */
 public class TitleActivity extends OptionActivity {
 
     private Button gotoInterviewBtn, gotoTestBtn, gotoCareBtn, historyBtn;

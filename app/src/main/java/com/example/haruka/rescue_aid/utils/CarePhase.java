@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 
 /**
  * Created by Tomoya on 9/2/2017 AD.
+ * This class represents each page of explain
  */
 
 
