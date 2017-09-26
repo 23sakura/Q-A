@@ -1,13 +1,13 @@
 package com.example.haruka.rescue_aid.activities;
 
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.content.res.XmlResourceParser;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.example.haruka.rescue_aid.R;
@@ -42,10 +42,8 @@ public class ResultActivity extends OptionActivity {
     private int urgency;
     private ArrayList<Care> cares;
     private ArrayList<Question> questions;
-    LinearLayout linearLayout;
-    ScrollView scrollView;
     TextView textView;
-    Button dealingBtn;
+    Button qrBtn, certificationBtn;
     protected ListView listView;
 
     CareList careList;
@@ -74,6 +72,26 @@ public class ResultActivity extends OptionActivity {
     }
 
     private void setDealingBtn(){
+        qrBtn = (Button)findViewById(R.id.btn_result_qr_display);
+        qrBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ResultActivity.this, QRDisplayActivity.class);
+                intent.putExtra(Utils.TAG_INTENT_CERTIFICATION, medicalCertification);
+                startActivity(intent);
+                finish();
+            }
+        });
+        certificationBtn = (Button)findViewById(R.id.btn_result_certification);
+        certificationBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ResultActivity.this, CertificationActivity.class);
+                intent.putExtra(Utils.TAG_INTENT_CERTIFICATION, medicalCertification);
+                startActivity(intent);
+                finish();
+            }
+        });
         /*
         final Intent intent = new Intent(this, ExplainActivity.class);
 
