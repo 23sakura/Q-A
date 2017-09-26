@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.os.IBinder;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -14,7 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.haruka.rescue_aid.R;
-import com.example.haruka.rescue_aid.listener.DragViewListener;
+import com.example.haruka.rescue_aid.listener.DragViewListener2;
 
 /**
  * Created by skriulle on 9/22/2017 AD.
@@ -42,14 +41,14 @@ public class CallOverlay extends Service {
 
         windowManager = (WindowManager)getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
         WindowManager.LayoutParams params = new WindowManager.LayoutParams(
-                WindowManager.LayoutParams.MATCH_PARENT,
-                WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.WRAP_CONTENT,
+                WindowManager.LayoutParams.WRAP_CONTENT,
                 WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
                         | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
                 PixelFormat.TRANSLUCENT);
 
-        params.gravity=  Gravity.TOP | Gravity.CENTER_HORIZONTAL;
+        //params.gravity=  Gravity.TOP | Gravity.CENTER_HORIZONTAL;
 
         view = layoutInflater.inflate(R.layout.service_layer, null);
 
@@ -65,6 +64,7 @@ public class CallOverlay extends Service {
                 view = null;
             }
         });
+        /*
         ((LinearLayout) view).getChildAt(0).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,8 +76,11 @@ public class CallOverlay extends Service {
                 }
             }
         });
-        DragViewListener dragViewListener = new DragViewListener(((LinearLayout) view).getChildAt(0));
-        ((LinearLayout) view).getChildAt(0).setOnTouchListener(dragViewListener);
+        */
+        DragViewListener2 dragViewListener = new DragViewListener2(windowManager, view, params);
+        (view).setOnTouchListener(dragViewListener);
+        //DragViewListener dragViewListener = new DragViewListener(((LinearLayout) view).getChildAt(0));
+        //((LinearLayout) view).getChildAt(0).setOnTouchListener(dragViewListener);
 
         textView = (TextView) (((LinearLayout)(((LinearLayout)view).getChildAt(0))).getChildAt(1));
         textView.setText(text);
