@@ -42,7 +42,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:textSize="20dp"
-            android:text="QRコードを表示"
+            android:text="QRコード表示"
             android:id="@+id/btn_result_qr_display"/>
 
         <Button
@@ -50,7 +50,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:textSize="20dp"
-            android:text="診断書を表示"
+            android:text="診断書表示"
             android:id="@+id/btn_result_certification"/>
 
     </LinearLayout>

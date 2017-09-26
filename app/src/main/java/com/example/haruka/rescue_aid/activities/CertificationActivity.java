@@ -134,8 +134,8 @@ public class CertificationActivity extends OptionActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_certification);
         this.drawingView = (DrawingView) findViewById(R.id.drawing_view);
-        b = (Button) findViewById(R.id.delete_button);
-        b.setOnClickListener(deleteDrawing);
+        //b = (Button) findViewById(R.id.delete_button);
+        //b.setOnClickListener(deleteDrawing);
 
         try {
             medicalCertification = (MedicalCertification) getIntent().getSerializableExtra("CERTIFICATION");

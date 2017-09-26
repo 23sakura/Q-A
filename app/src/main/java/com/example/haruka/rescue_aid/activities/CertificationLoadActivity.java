@@ -1,13 +1,9 @@
 package com.example.haruka.rescue_aid.activities;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -95,6 +91,14 @@ public class CertificationLoadActivity extends OptionActivity {
 
 
     @Override
+    protected void onResume(){
+        super.onResume();
+
+        setView();
+    }
+
+    /*
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_load_data, menu);
         return true;
@@ -120,11 +124,6 @@ public class CertificationLoadActivity extends OptionActivity {
         }
         return true;
     }
+*/
 
-    @Override
-    protected void onResume(){
-        super.onResume();
-
-        setView();
-    }
 }
