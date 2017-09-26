@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.example.haruka.rescue_aid.R;
 import com.example.haruka.rescue_aid.views.CallOverlay;
@@ -54,6 +55,9 @@ public class OptionActivity extends AppCompatActivity {
         }
     }
 
+    protected void QRDisplay(){
+        Toast.makeText(this, "QRコードで表示するデータがありません", Toast.LENGTH_LONG).show();
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -68,10 +72,15 @@ public class OptionActivity extends AppCompatActivity {
                 intent = new Intent(Intent.ACTION_DIAL,uri);
                 startActivity(intent);
                 break;
+            /*
             case R.id.menu_title_chest_compression:
                 intent = new Intent(this, ExplainActivity.class);
                 intent.putExtra("CARE_XML", "care_chest_compression");
                 startActivity(intent);
+                break;
+            */
+            case R.id.menu_title_QR_display:
+                QRDisplay();
                 break;
             case R.id.menu_title_QR:
                 intent = new Intent(this, QRActivity.class);
@@ -82,7 +91,8 @@ public class OptionActivity extends AppCompatActivity {
                 startActivity(intent);
                 break;
             case R.id.menu_title_AED:
-                //TODO go to AED map
+                Intent i = new Intent(Intent.ACTION_VIEW,Uri.parse("http://aedm.jp"));
+                startActivity(i);
                 break;
         }
         return true;

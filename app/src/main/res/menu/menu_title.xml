@@ -6,9 +6,15 @@
         android:id="@+id/menu_call_119"
         android:title="119番通報"
         app:showAsAction="always"/>
+    <!--
     <item
         android:id="@+id/menu_title_chest_compression"
         android:title="胸骨圧迫"
+        app:showAsAction="ifRoom"/>
+        -->
+    <item
+        android:id="@+id/menu_title_QR_display"
+        android:title="QRコード表示"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu_title_QR"
