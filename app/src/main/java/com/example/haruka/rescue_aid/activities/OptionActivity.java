@@ -62,7 +62,8 @@ public class OptionActivity extends AppCompatActivity {
             case R.id.menu_call_119:
                 CallOverlay.setText(callNote);
                 Log.d("call note", callNote);
-                Uri uri = Uri.parse("tel:09052793706");
+                //Uri uri = Uri.parse("tel:09052793706");
+                Uri uri = Uri.parse("tel:119");
                 startService(overlayIntent);
                 intent = new Intent(Intent.ACTION_DIAL,uri);
                 startActivity(intent);

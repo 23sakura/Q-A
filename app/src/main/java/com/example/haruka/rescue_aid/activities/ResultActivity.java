@@ -1,11 +1,9 @@
 package com.example.haruka.rescue_aid.activities;
 
-import android.content.Intent;
 import android.content.res.AssetManager;
 import android.content.res.XmlResourceParser;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -63,7 +61,6 @@ public class ResultActivity extends OptionActivity {
     private void setTextView(){
         textView = (TextView)findViewById(R.id.textview_notice_result); //
         //textView = new TextView(this);
-        textView.setTextSize(30);
 
         textView.setTextColor(Utils.URGENCY_COLORS[urgency]);
         textView.setText(Utils.URGENCY_WARNING[urgency]);
@@ -77,6 +74,7 @@ public class ResultActivity extends OptionActivity {
     }
 
     private void setDealingBtn(){
+        /*
         final Intent intent = new Intent(this, ExplainActivity.class);
 
         dealingBtn = (Button)findViewById(R.id.btn_start_care); //new Button(this);
@@ -89,6 +87,7 @@ public class ResultActivity extends OptionActivity {
             }
         });
         dealingBtn.setText("応急手当開始");
+        */
     }
 
     private void addDescription(Care c){

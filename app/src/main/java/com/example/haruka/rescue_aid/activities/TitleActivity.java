@@ -74,7 +74,7 @@ public class TitleActivity extends OptionActivity {
     protected void onResume(){
         super.onResume();
 
-        setCallNote("意識はありますか？：はい\n吐き気はありますか？：いいえ\n息が苦しいですか？：いいえ\nのどは痛いですか？：はい\nつばが飲み込めないほど痛いですか？：はい\n\n徳島県阿南市見能林町青木");
+        setCallNote("意識はありますか？：はい\n吐き気はありますか？：いいえ\n息が苦しいですか？：いいえ\nのどは痛いですか？：はい\n\n徳島県阿南市見能林町青木");
     }
 
 

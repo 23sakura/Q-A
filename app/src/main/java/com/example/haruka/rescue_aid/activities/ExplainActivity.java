@@ -280,7 +280,9 @@ public class ExplainActivity extends ReadAloudTestActivity {
             medicalCertification = new MedicalCertification();
         }
         String careXML = getIntent().getStringExtra("CARE_XML");
-
+        if (careXML == null){
+            careXML = "";
+        }
         if(!careXML.equals("care_chest_compression")) {
             setContentView(R.layout.activity_explain);
             textView = (TextView) findViewById(R.id.textview_explain_heart_massage);

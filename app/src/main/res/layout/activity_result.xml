@@ -10,8 +10,16 @@
         android:text="hogehoge"
         android:id="@+id/textview_notice_result"
         android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textSize="30dp"/>
+    <TextView
+        android:text="以下の応急手当を行ってください。\nボタンを押すとガイドが始まります"
+        android:id="@+id/textview_notice_result1"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.6"
+        android:layout_weight="0.5"
         android:gravity="center"/>
 
     <ListView
@@ -23,6 +31,28 @@
 
     </ListView>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textSize="20dp"
+            android:text="QRコードを表示"/>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textSize="20dp"
+            android:text="診断書を表示"/>
+
+    </LinearLayout>
+    <!--
     <Button
         android:layout_weight="1"
         android:textColor="@color/start"
@@ -36,5 +66,5 @@
         android:layout_alignParentBottom="true" >
 
     </Button>
-
+    -->
 </LinearLayout>
