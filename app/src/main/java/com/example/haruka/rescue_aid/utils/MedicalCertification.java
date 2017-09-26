@@ -69,6 +69,7 @@ public class MedicalCertification implements Serializable, Comparable<MedicalCer
             } else {
                 r = new Record(startAt, line);
             }
+            records.add(r);
             if (LOCATION_TAG.equals(r.getTag())){
                 try {
                     String[] loc = r.getValue().split(":");
@@ -82,16 +83,18 @@ public class MedicalCertification implements Serializable, Comparable<MedicalCer
             } else if (SCENARIO_TAG.equals(r.getTag())){
                 setScenario(Integer.parseInt(r.getValue()));
             } else{
-                records.add(r);
             }
+            //records.add(r);
         }
 
+        Log.d("is location set", Boolean.toString(isLocationSet));
         showLocation();
         setFilename();
     }
 
     private void setFilename(){
-        name = QADateFormat.getInstanceFilename();
+        name = QADateFormat.getStringDateFilename(startAt);
+        //name = QADateFormat.getInstanceFilename();
         number = Long.parseLong(name);
         FILENAME = name + ".obj";
     }
@@ -113,6 +116,20 @@ public class MedicalCertification implements Serializable, Comparable<MedicalCer
 
     public void remove(Record r) {
         records.remove(r);
+    }
+
+    public void updateLocation(Context context) {
+        if (addressString == null) {
+            try {
+                Geocoder coder = new Geocoder(context);
+                List<Address> addresses = coder.getFromLocation(this.location[LATITUDE], this.location[LONGITUDE], 1);
+                Address address = addresses.get(0);
+                Log.d("Geocoder location", address.getLocality());
+                setAddressString(getAddressLine(address));
+            } catch (Exception e) {
+                Log.e("Geocoder location2", e.toString());
+            }
+        }
     }
 
     public void updateLocation(Location location, Context context){
@@ -219,6 +236,7 @@ public class MedicalCertification implements Serializable, Comparable<MedicalCer
         if(addressString == null) {
             try {
                 Geocoder coder = new Geocoder(context);
+                Log.d("getAddress", Double.toString(location[LATITUDE]) + " " + Double.toString(location[LONGITUDE]));
                 List<Address> addresses = coder.getFromLocation(location[LATITUDE], location[LONGITUDE], 1);
                 Address address = addresses.get(0);
                 setAddressString(getAddressLine(address));

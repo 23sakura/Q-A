@@ -15,6 +15,7 @@ import java.util.Date;
 public class QADateFormat {
 
     public final static String simpleDateFormat =  "yyyy.MM.dd kk:mm:ss";
+    public final static String simpleDateFormat2 =  "yyyy.MM.dd kk.mm.ss";
     public final static String JapaneseDateFormat =  "yyyy年MM月dd日 kk時mm分";
     public final static String FileDateFormat = "yyyyMMddkkmmss";
 
@@ -49,7 +50,7 @@ public class QADateFormat {
     }
 
     public static Date getDate(String dateFormat) {
-        DateFormat df = new SimpleDateFormat(simpleDateFormat);
+        DateFormat df = new SimpleDateFormat(simpleDateFormat2);
         Date date = null;
         try {
             Log.d("Date format", dateFormat);

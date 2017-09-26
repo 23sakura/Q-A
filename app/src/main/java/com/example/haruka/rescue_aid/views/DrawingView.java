@@ -210,7 +210,7 @@ public class DrawingView extends View {
         initPaint();
         //String[] cares = {"胸骨圧迫", "AED", "胸骨圧迫"};
         //int[] time = {100, 100, 1000};
-        setText(canvas, "以下の処置を行いました", canvas.getWidth() / 20, true);
+        setText(canvas, "以下の応急手当を行いました", canvas.getWidth() / 20, true);
 
         int upper = lastHight+DEFAULT_BLANK;
         canvas.drawLine(canvas.getWidth() / 30, upper, canvas.getWidth() / 30 * 29, upper, paint);
@@ -293,9 +293,17 @@ public class DrawingView extends View {
         careRecords = new ArrayList<>();
         this.medicalCertification = medicalCertification;
 
+
+        for (Record r : medicalCertification.records){
+            Log.d("hogehoge", r.getTagValue());
+        }
+
+
         for (int i = 0; i < medicalCertification.records.size(); i++){
-        //for (Record r : medicalCertification.records){
+
             Record r = medicalCertification.records.get(i);
+            Log.d("hogehoge", Integer.toString(i+1)+r.getTagValue());
+        //for (Record r : medicalCertification.records){
             try{
                 //Integer.parseInt(r.getTag());
                 int index = parseInt(r.getTag());
@@ -308,15 +316,15 @@ public class DrawingView extends View {
                     try{
                         Date start = QADateFormat.getDate(r.getTime());
                         Date end = QADateFormat.getDate(medicalCertification.records.get(i+1).getTime());
-                        Log.d("care record", "start");
+                        Log.d("carerecord", "start");
                         int careIndex = Integer.parseInt(r.getValue());
                         Care c = cares.get(careIndex);
                         String careTitle = c.name;
-                        String time = Long.toString((end.getTime() - start.getTime())/1000);
+                        String time = Long.toString((end.getTime() - start.getTime()));
                         careRecords.add(new Record(careTitle, time));
 
                     } catch (Exception e1){
-                        Log.e("care record", e1.toString());
+                        Log.e("carerecord", e1.toString());
                     }
                 } else if (r.getTag().equals(Utils.TAG_END)){
 

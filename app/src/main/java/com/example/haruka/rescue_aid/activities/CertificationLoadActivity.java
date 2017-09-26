@@ -89,12 +89,76 @@ public class CertificationLoadActivity extends OptionActivity {
         */
     }
 
+    private void setView2(){
+        String[] text = {
+                "2017.09.01 12.53.26,start,\n" +
+                        "0,loc,134.562286:34.065508",
+                "2017.09.19 19.03.22,start,\n" +
+                        "0,0,N\n" +
+                        "0,2,Y\n" +
+                        "0,5,N\n" +
+                        "0,"+Utils.TAG_CARE+",2\n" +
+                        "1,"+Utils.TAG_CARE+",1\n" +
+                        "0,"+Utils.TAG_CARE+",2\n" +
+                        "3,"+Utils.TAG_CARE+",1\n" +
+                        "4,"+Utils.TAG_CARE+",2\n" +
+                        "300,"+Utils.TAG_END+", \n" +
+                        "0,loc,134.667686:33.898343\n",
+                "2017.09.20 09.20.51,start,\n" +
+                        "0,loc,999999:33.898343",
+                "2017.09.20 18.09.10,start,\n" +
+                        "0,loc,134.608678:34.179186",
+                "2017.09.22 10.42.41,start,\n" +
+                        "0,loc,134.607412:34.182434",
+                "2017.09.25 22.01.36,start,\n" +
+                        "0,loc,134.601447:34.137024",
+        };
+
+        String[] names = {
+                "",
+                "",
+                "",
+                "お父さん　高熱",
+                "50代女性　転倒",
+                "先生　救急搬送",
+        };
+
+
+        final ArrayList<MedicalCertification> medicalCertifications = new ArrayList<>();
+        for (int i = 0; i < text.length; i++){
+            String t = text[i];
+            MedicalCertification medicalCertification = new MedicalCertification(t);
+            if(!names[i].equals(""))
+                medicalCertification.name = names[i];
+            Log.d("GetAddress", medicalCertification.getAddress(this));
+            medicalCertifications.add(medicalCertification);
+        }
+        Collections.sort(medicalCertifications);
+
+
+
+        CertificationAdapter certificationAdapter = new CertificationAdapter(CertificationLoadActivity.this);
+        certificationAdapter.setMedicalCertification(medicalCertifications);
+        listView.setAdapter(certificationAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                MedicalCertification medicalCertification = medicalCertifications.get(position);
+                Intent intent = new Intent(contextLoadDataActivity, CertificationEditActivity.class);
+                intent.putExtra(Utils.TAG_INTENT_CERTIFICATION, medicalCertification);
+                startActivity(intent);
+
+            }
+        });
+
+    }
+
 
     @Override
     protected void onResume(){
         super.onResume();
 
-        setView();
+        setView2();
     }
 
     /*
