@@ -19,7 +19,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
@@ -57,7 +56,6 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
     private HorizontalScrollView historyScroll;
     private LinearLayout historyScrollLayout;
     //TODO check ListView
-    private LayoutInflater inflater;
 
     private ArrayList<Question> questions;
     private Question currentQuestion;
@@ -442,7 +440,6 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
 
         historyScroll = (HorizontalScrollView)findViewById(R.id.history_scroll);
         historyScrollLayout = (LinearLayout) findViewById(R.id.history_scroll_layout);
-        inflater = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     private void setSpeechRecognizer(){
