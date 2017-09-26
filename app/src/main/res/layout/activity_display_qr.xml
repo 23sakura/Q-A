@@ -28,6 +28,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="horizontal">
+
         <Button
             android:id="@+id/btn_qr_show_certification"
             android:layout_width="0dp"
