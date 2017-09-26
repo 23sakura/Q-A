@@ -28,5 +28,9 @@
         android:id="@+id/menu_title_AED"
         android:title="AEDマップ表示"
         app:showAsAction="never"/>
+    <item
+        android:id="@+id/menu_title_title"
+        android:title="タイトル画面に戻る"
+        app:showAsAction="never" />
 
 </menu>

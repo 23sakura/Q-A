@@ -94,6 +94,9 @@ public class OptionActivity extends AppCompatActivity {
                 Intent i = new Intent(Intent.ACTION_VIEW,Uri.parse("http://aedm.jp"));
                 startActivity(i);
                 break;
+            case R.id.menu_title_title:
+                //TODO back to Title
+                break;
         }
         return true;
     }
