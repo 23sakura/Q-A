@@ -9,7 +9,6 @@ import java.util.ArrayList;
 
 public class ListSymptom {
     private static String[] ill = {
-            //"病気", "容器", " 陽気", "猟奇", "リョーキ", "妖気"
             "急病", "9秒", "10秒", "9票", "給料", "ちゅうびょう", "救急病院", "種苗", " 休業", "急病を"
     };
     private static String[] injury = {

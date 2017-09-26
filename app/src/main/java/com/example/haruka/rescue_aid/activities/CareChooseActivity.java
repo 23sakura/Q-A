@@ -14,7 +14,7 @@ import com.example.haruka.rescue_aid.views.CareListAdapter;
 import java.util.ArrayList;
 
 /**
- * Created by skriulle on 9/18/2017 AD.
+ * Created by Tomoya on 9/18/2017 AD.
  * This is an activity to show the list of cares.
  * When you tap choose a care, you will see the explain of the care
  */

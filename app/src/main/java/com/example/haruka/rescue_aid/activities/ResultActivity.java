@@ -63,7 +63,7 @@ public class ResultActivity extends OptionActivity {
     private void setTextView(){
         textView = (TextView)findViewById(R.id.textview_notice_result); //
         //textView = new TextView(this);
-        textView.setTextSize(34);
+        textView.setTextSize(30);
 
         textView.setTextColor(Utils.URGENCY_COLORS[urgency]);
         textView.setText(Utils.URGENCY_WARNING[urgency]);
@@ -253,6 +253,7 @@ public class ResultActivity extends OptionActivity {
 
         try {
             medicalCertification = (MedicalCertification) getIntent().getSerializableExtra("CERTIFICATION");
+            medicalCertification.save(this);
         } catch (Exception e) {
             medicalCertification = new MedicalCertification();
         }
@@ -272,7 +273,6 @@ public class ResultActivity extends OptionActivity {
 
         //setDrawerLayout();
 
-        medicalCertification.save(this);
     }
 
 }

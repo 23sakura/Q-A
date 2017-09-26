@@ -112,10 +112,9 @@ public class CertificationLoadActivity extends OptionActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         String[] filenames = fileList();
                         for (String filename : filenames){
-
                             deleteFile(filename);
-                            linearLayout.removeAllViews();
                         }
+                        setView();
                     }
                 }).show();
         }

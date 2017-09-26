@@ -1,9 +1,5 @@
 package com.example.haruka.rescue_aid.activities;
 
-/**
- * Created by skriulle on 9/16/2017 AD.
- */
-
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
