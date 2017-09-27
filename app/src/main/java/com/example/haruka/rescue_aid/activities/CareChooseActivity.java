@@ -30,6 +30,7 @@ public class CareChooseActivity extends OptionActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
+        setTitle("応急手当");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_care);
         ListView listView = (ListView)findViewById(R.id.listview_carelist);

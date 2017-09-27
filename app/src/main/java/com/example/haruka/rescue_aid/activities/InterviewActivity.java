@@ -460,6 +460,7 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTitle("問診");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_interview);
         context = this;

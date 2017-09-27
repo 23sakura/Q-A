@@ -44,6 +44,7 @@ public class QRActivity extends OptionActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTitle("QRコード");
         super.onCreate(savedInstanceState);
         mSurfaceView = new SurfaceView(this);
         mSurfaceView.setOnClickListener(onClickListener);

@@ -131,11 +131,19 @@ public class CertificationActivity extends OptionActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTitle("診断書");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_certification);
         this.drawingView = (DrawingView) findViewById(R.id.drawing_view);
         //b = (Button) findViewById(R.id.delete_button);
         //b.setOnClickListener(deleteDrawing);
+
+        Button QRButton, resultButton;
+        QRButton = (Button)findViewById(R.id.btn_result_qr_display);
+        resultButton = (Button)findViewById(R.id.btn_result_certification);
+
+        QRButton.setText(getString(R.string.gotoQR));
+        resultButton.setText(getString(R.string.gotoResult));
 
         try {
             medicalCertification = (MedicalCertification) getIntent().getSerializableExtra("CERTIFICATION");

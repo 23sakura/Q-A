@@ -67,6 +67,7 @@ public class CertificationLoadActivity extends OptionActivity {
 
     @Override
     protected void onCreate(Bundle bundle){
+        setTitle("問診履歴");
         super.onCreate(bundle);
         /*
         ScrollView scrollView = new ScrollView(this);

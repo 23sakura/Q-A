@@ -82,6 +82,7 @@ public class ResultActivity extends OptionActivity {
                 finish();
             }
         });
+        qrBtn.setText(getString(R.string.gotoQR));
         certificationBtn = (Button)findViewById(R.id.btn_result_certification);
         certificationBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,6 +93,7 @@ public class ResultActivity extends OptionActivity {
                 finish();
             }
         });
+        certificationBtn.setText(getString(R.string.gotoCertification));
         /*
         final Intent intent = new Intent(this, ExplainActivity.class);
 
@@ -263,6 +265,7 @@ public class ResultActivity extends OptionActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTitle("問診結果");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
         careList = new CareList(this);

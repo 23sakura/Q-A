@@ -268,6 +268,7 @@ public class ExplainActivity extends ReadAloudTestActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTitle("応急手当");
         super.onCreate(savedInstanceState);
 
         try {

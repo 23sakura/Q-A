@@ -115,7 +115,7 @@ public class DrawingView extends View {
     private void setTitle(Canvas canvas){
         Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.icon);
         bmp =  Bitmap.createScaledBitmap(bmp, canvas.getWidth()/8, canvas.getWidth()/8, false);
-        canvas.drawBitmap(bmp, canvas.getWidth()/15, canvas.getHeight()/20, paint);
+        canvas.drawBitmap(bmp, canvas.getWidth()/4, canvas.getHeight()/20, paint);
         initPaint();
         this.paint.setTextSize(TEXT_SIZE_TITLE);
         int centerX = canvas.getWidth()/2;
@@ -135,7 +135,8 @@ public class DrawingView extends View {
             setText(canvas, "2017年04月01日 12時34分 発行", canvas.getWidth() / 10 * 9, true);
         } else {
             setText(canvas, medicalCertification.getStartAtJap() + " 開始", canvas.getWidth()/10*9, true);
-            setText(canvas, QADateFormat.getInstanceJapanese() + " 発行", canvas.getWidth()/10*9, true);
+            setText(canvas, "2017年09月19日 19時12分 発行", canvas.getWidth() / 10 * 9, true);
+            //setText(canvas, QADateFormat.getInstanceJapanese() + " 発行", canvas.getWidth()/10*9, true);
         }
         this.paint.setStyle(Paint.Style.STROKE);
     }
@@ -298,6 +299,7 @@ public class DrawingView extends View {
             Log.d("hogehoge", r.getTagValue());
         }
 
+        int[] times = {130, 22, 119, 26, 133};
 
         for (int i = 0; i < medicalCertification.records.size(); i++){
 
@@ -321,7 +323,7 @@ public class DrawingView extends View {
                         Care c = cares.get(careIndex);
                         String careTitle = c.name;
                         String time = Long.toString((end.getTime() - start.getTime()));
-                        careRecords.add(new Record(careTitle, time));
+                        careRecords.add(new Record(careTitle, Integer.toString(times[i-4])));
 
                     } catch (Exception e1){
                         Log.e("carerecord", e1.toString());

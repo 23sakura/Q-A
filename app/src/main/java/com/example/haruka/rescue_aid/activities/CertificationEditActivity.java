@@ -32,6 +32,7 @@ public class CertificationEditActivity extends OptionActivity {
 
     @Override
     protected void onCreate(Bundle bundle){
+        setTitle("問診履歴");
         super.onCreate(bundle);
         setContentView(R.layout.activity_edit_certification);
         medicalCertification = (MedicalCertification)getIntent().getSerializableExtra(Utils.TAG_INTENT_CERTIFICATION);
@@ -60,6 +61,7 @@ public class CertificationEditActivity extends OptionActivity {
                 startActivity(intent1);
             }
         });
+        button1.setText(getString(R.string.gotoQR));
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,6 +69,7 @@ public class CertificationEditActivity extends OptionActivity {
                 startActivity(intent2);
             }
         });
+        button2.setText(getString(R.string.gotoCertification));
         button3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,6 +77,7 @@ public class CertificationEditActivity extends OptionActivity {
                 startActivity(intent3);
             }
         });
+        button3.setText(getString(R.string.gotoResult));
         button4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

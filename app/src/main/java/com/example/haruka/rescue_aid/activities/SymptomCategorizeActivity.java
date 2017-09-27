@@ -135,6 +135,7 @@ public class SymptomCategorizeActivity extends ReadAloudTestActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTitle("問診");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_symptom_categorize);
 

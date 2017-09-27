@@ -14,6 +14,7 @@ import android.support.v4.content.Loader;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -101,12 +102,15 @@ public class QRDisplayActivity extends OptionActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTitle("QRコード");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_qr);
 
         context = this;
 
-        findViewById(R.id.btn_qr_show_certification).setOnClickListener(new OnClickListener() {
+        Button b1, b2;
+        b1 = (Button)findViewById(R.id.btn_qr_show_certification);
+        b1.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, CertificationActivity.class);
@@ -115,7 +119,9 @@ public class QRDisplayActivity extends OptionActivity {
                 finish();
             }
         });
-        findViewById(R.id.btn_qr_show_result).setOnClickListener(new OnClickListener() {
+        b1.setText(getString(R.string.gotoCertification));
+        b2 = (Button)findViewById(R.id.btn_qr_show_result);
+        b2.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, ResultActivity.class);
@@ -124,6 +130,7 @@ public class QRDisplayActivity extends OptionActivity {
                 finish();
             }
         });
+        b2.setText(getString(R.string.gotoResult));
 
         throughInterview = getIntent().getBooleanExtra("THROUGH_INTERVIEW", false);
     }
