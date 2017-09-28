@@ -107,9 +107,14 @@ public class MedicalCertification implements Serializable, Comparable<MedicalCer
 
     public void updateRecord(Record r){
         String tag = r.getTag();
-        for (Record record : records){
+        Log.d("RECORD TAG", r.getTagValue());
+        //for (Record record : records){
+        for(int i = 0; i < records.size(); i++){
+            Record record = records.get(i);
+            Log.d("RECORD TAG", record.getTagValue());
             if(tag.equals(record.getTag())){
                 remove(record);
+                break;
             }
         }
         addRecord(r);
