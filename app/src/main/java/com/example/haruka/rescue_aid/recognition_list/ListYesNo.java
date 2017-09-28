@@ -15,16 +15,24 @@ public class ListYesNo {
       "いいえ", "イイエ", "家", "イエ", "言え", "No", "ノー", "脳", "能", "膿", "ea"
     };
 
+    private static String[] unsure = {
+            "わからない", "分からない", "わかんない", "分かんない", "ワカラナイ", "和姦ない", "稚内", "わからん", "分からん"
+    };
+
     public static ArrayList<String>[] getDictionary(){
-        ArrayList<String>[] Dictionay = new ArrayList[2];
+        ArrayList<String>[] Dictionay = new ArrayList[3];
         Dictionay[0] = new ArrayList<String>();
         Dictionay[1] = new ArrayList<String>();
+        Dictionay[2] = new ArrayList<String>();
 
         for(String y : yes){
             Dictionay[0].add(y);
         }
         for(String n : no){
             Dictionay[1].add(n);
+        }
+        for(String u : unsure){
+            Dictionay[2].add(u);
         }
 
         return Dictionay;

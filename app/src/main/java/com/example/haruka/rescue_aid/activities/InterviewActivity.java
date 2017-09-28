@@ -12,6 +12,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
+import android.os.Handler;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
@@ -74,6 +75,7 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
 
     //private InterviewData interviewData;
     private LocationManager mLocationManager;
+    Handler _handler;
 
     String scenario;
     class SpeechListener implements RecognitionListener {
@@ -116,14 +118,16 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
         private void voiceAnswer(ArrayList<String> candidates){
             int yes = 0;
 
-            for(yes = 0; yes < 2; yes++){
+            for(yes = 0; yes < 3; yes++){
                 for(int index = 0; index < dictionary[yes].size(); index++){
                     if(dictionary[yes].get(index).equals(candidates.get(0))){
                         Toast.makeText(getApplicationContext(), (yes == 0) ?"Yes":"No" , Toast.LENGTH_SHORT).show();
-                        if(yes == 0){
+                        if (yes == 0){
                             mBtnYes.callOnClick();
-                        }else{
+                        } else if (yes == 1){
                             mBtnNo.callOnClick();
+                        } else {
+                            mBtnUnsure.callOnClick();
                         }
                         break;
                     }
@@ -322,23 +326,34 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
 
     private void showFinishAlart(){
         isInterviewDone = true;
+
+        int urgency = getUrgency();
+        boolean[] cares = getCares();
+        Log.d("CERTIFICATION", Integer.toString(urgency));
         final Intent intentCertification = new Intent(this, ResultActivity.class);
+        intentCertification.putExtra("URGENCY", urgency);
+        intentCertification.putExtra("CARES", cares);
+        intentCertification.putExtra("CERTIFICATION", medicalCertification);
+        medicalCertification.showRecords("InterviewActivity");
         //interviewData.setListOfQuestions(usedQuestions);
         new AlertDialog.Builder(context).setMessage("問診は終了です").setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                int urgency = getUrgency();
-                boolean[] cares = getCares();
-                Log.d("CERTIFICATION", Integer.toString(urgency));
+
+                _handler.removeCallbacksAndMessages(null);
                 //makeMedicalCertification();
-                intentCertification.putExtra("URGENCY", urgency);
-                intentCertification.putExtra("CARES", cares);
-                intentCertification.putExtra("CERTIFICATION", medicalCertification);
-                medicalCertification.showRecords("InterviewActivity");
                 startActivity(intentCertification);
                 finish();
             }
         }).show();
+        _handler = new Handler();
+        _handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                startActivity(intentCertification);
+                finish();
+            }
+        }, 2000);
     }
 
     private void produceNextQuestion(int viewID){
