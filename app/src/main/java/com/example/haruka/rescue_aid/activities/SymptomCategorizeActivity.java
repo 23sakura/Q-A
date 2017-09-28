@@ -148,6 +148,11 @@ public class SymptomCategorizeActivity extends ReadAloudTestActivity {
                 //TODO go to ill interview
                 //interviewIntent.putExtra("SCENARIO", scenarioIll);
                 interviewIntent.putExtra("SCENARIO_ID", scenarioIdIll);
+                try {
+                    sr.cancel();
+                }catch (Exception e){
+
+                }
                 startActivity(interviewIntent);
                 finish();
             }
@@ -159,6 +164,12 @@ public class SymptomCategorizeActivity extends ReadAloudTestActivity {
                 //TODO go to injury interview
                 //interviewIntent.putExtra("SCENARIO", scenarioInjury);
                 interviewIntent.putExtra("SCENARIO_ID", scenarioIdInjury);
+                try {
+                    sr.cancel();
+                }catch (Exception e){
+
+                }
+                startActivity(interviewIntent);
                 startActivity(interviewIntent);
                 finish();
             }
@@ -169,7 +180,7 @@ public class SymptomCategorizeActivity extends ReadAloudTestActivity {
 
     }
 
-
+    @Override
     protected void setTtsListener(){
         // android version more than 15th
         if (Build.VERSION.SDK_INT >= 15)

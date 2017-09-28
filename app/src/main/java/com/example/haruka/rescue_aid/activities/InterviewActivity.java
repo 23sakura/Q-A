@@ -11,11 +11,14 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
+import android.speech.tts.TextToSpeech;
+import android.speech.tts.UtteranceProgressListener;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -121,14 +124,18 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
             for(yes = 0; yes < 3; yes++){
                 for(int index = 0; index < dictionary[yes].size(); index++){
                     if(dictionary[yes].get(index).equals(candidates.get(0))){
-                        Toast.makeText(getApplicationContext(), (yes == 0) ?"Yes":"No" , Toast.LENGTH_SHORT).show();
+                        String message = "";
                         if (yes == 0){
                             mBtnYes.callOnClick();
+                            message = "YES";
                         } else if (yes == 1){
                             mBtnNo.callOnClick();
+                            message = "NO";
                         } else {
                             mBtnUnsure.callOnClick();
+                            message = "UNSURE";
                         }
+                        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
                         break;
                     }
                 }
@@ -357,6 +364,11 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
     }
 
     private void produceNextQuestion(int viewID){
+        try {
+            sr.cancel();
+        }catch (Exception e){
+
+        }
         int nextIndex = 0;
         boolean answer = false;
         switch(viewID){
@@ -403,11 +415,12 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
                 currentQuestion.isAnswered = true;
                 setNextQuestion(questions.get(nextIndex));
 
-
+                /*
                 Intent intent_listener = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
                 intent_listener.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
                 intent_listener.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
                 sr.startListening(intent_listener);
+                */
             }
         }else {
             showFinishAlart();
@@ -469,7 +482,7 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
-        //sr.startListening(intent);
+        sr.startListening(intent);
     }
 
 
@@ -495,7 +508,6 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
 
         loadQuestions();
         setLayout();
-        setSpeechRecognizer();
         isInterviewDone = false;
 
         mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
@@ -557,6 +569,51 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
             }
             mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
         }
+    }
+
+    @Override
+    protected void setTtsListener(){
+        // android version more than 15th
+        if (Build.VERSION.SDK_INT >= 15)
+        {
+            int listenerResult = tts.setOnUtteranceProgressListener(new UtteranceProgressListener()
+            {
+
+                public void onDone(String utteranceId) {
+                    Log.d(TAG,"progress on Done " + utteranceId);
+                    InterviewActivity.this.runOnUiThread(new Runnable() {
+
+                        @Override
+                        public void run() {
+
+                            Log.d(TAG,"Done listen start");
+                            setSpeechRecognizer();
+                        }
+                    });
+                }
+
+                @Override
+                public void onError(String utteranceId)
+                {
+                    Log.d(TAG,"progress on Error " + utteranceId);
+                }
+
+                @Override
+                public void onStart(String utteranceId)
+                {
+                    Log.d(TAG,"progress on Start " + utteranceId);
+                }
+
+            });
+            if (listenerResult != TextToSpeech.SUCCESS)
+            {
+                Log.e(TAG, "failed to add utterance progress listener");
+            }
+        }
+        else {
+            Log.e(TAG, "Build VERSION is less than API 15");
+        }
+
     }
 
     @Override
