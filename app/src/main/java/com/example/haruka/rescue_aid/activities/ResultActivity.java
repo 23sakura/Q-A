@@ -49,6 +49,20 @@ public class ResultActivity extends OptionActivity {
     CareList careList;
 
 
+    private void startCare(Care care){
+        String tag = care.name;
+        if (tag.equals("119番通報")){
+            call119();
+        } else if (tag.equals("AED使用")){
+            showAEDmap();
+        } else {
+            Intent intent = new Intent(this, ExplainActivity.class);
+            intent.putExtra("CERTIFICATION", medicalCertification);
+            intent.putExtra("CARE_XML", care.getXml());
+            startActivity(intent);
+        }
+    }
+
     private void setListView(){
         CareListView listView = (CareListView)findViewById(R.id.listview_care);
         CareAdapter careAdapter = new CareAdapter(this);
@@ -64,6 +78,7 @@ public class ResultActivity extends OptionActivity {
                 switch(view.getId()){
                     case R.id.btn_explain_care:
                         Toast.makeText(ResultActivity.this, care.name , Toast.LENGTH_SHORT).show();
+                        startCare(care);
                         break;
                 }
             }

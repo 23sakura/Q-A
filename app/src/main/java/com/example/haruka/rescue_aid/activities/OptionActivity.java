@@ -59,18 +59,27 @@ public class OptionActivity extends AppCompatActivity {
         Toast.makeText(this, "QRコードで表示するデータがありません", Toast.LENGTH_LONG).show();
     }
 
+    protected void call119(){
+        CallOverlay.setText(callNote);
+        Log.d("call note", callNote);
+        //Uri uri = Uri.parse("tel:09052793706");
+        Uri uri = Uri.parse("tel:119");
+        startService(overlayIntent);
+        Intent intent = new Intent(Intent.ACTION_DIAL,uri);
+        startActivity(intent);
+    }
+
+    protected void showAEDmap(){
+        Intent i = new Intent(Intent.ACTION_VIEW,Uri.parse("http://aedm.jp"));
+        startActivity(i);
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         final Intent intent;
         switch(item.getItemId()){
             case R.id.menu_call_119:
-                CallOverlay.setText(callNote);
-                Log.d("call note", callNote);
-                //Uri uri = Uri.parse("tel:09052793706");
-                Uri uri = Uri.parse("tel:119");
-                startService(overlayIntent);
-                intent = new Intent(Intent.ACTION_DIAL,uri);
-                startActivity(intent);
+                call119();
                 break;
             /*
             case R.id.menu_title_chest_compression:
@@ -91,8 +100,7 @@ public class OptionActivity extends AppCompatActivity {
                 startActivity(intent);
                 break;
             case R.id.menu_title_AED:
-                Intent i = new Intent(Intent.ACTION_VIEW,Uri.parse("http://aedm.jp"));
-                startActivity(i);
+                showAEDmap();
                 break;
             case R.id.menu_title_title:
                 //TODO back to Title
