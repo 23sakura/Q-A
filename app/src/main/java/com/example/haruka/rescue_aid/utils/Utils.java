@@ -27,10 +27,14 @@ public class Utils {
 
     public static final String ANSWER_YES = "YES";
     public static final String ANSWER_NO = "NO";
+    public static final String ANSWER_UNSURE = "UNSURE";
     public static final String ANSWER_SHORT_YES = "Y";
     public static final String ANSWER_SHORT_NO = "N";
+    public static final String ANSWER_SHORT_UNSURE = "U";
     public static final String ANSWER_JP_YES = "はい";
     public static final String ANSWER_JP_NO = "いいえ";
+    public static final String ANSWER_JP_UNSURE = "わからない";
+
 
 
     public final static int MIN_URGNECY = 1, MAX_URGENCY = 3;
@@ -42,9 +46,33 @@ public class Utils {
     public static String getAnswerString(boolean answer){
         return (answer) ? "Y":"N";
     }
+    public static String getAnswerString(Question q){
+        String answer = (q.getAnswer()) ? "Y":"N";
+        if(q.isUnsure){
+            answer += "U";
+        }
+        return answer;
+    }
+    public static String getAnswerString(String value){
+        if (value.substring(1).equals("U")){
+            return ANSWER_JP_UNSURE;
+        } else {
+            if (value.equals(ANSWER_SHORT_YES)){
+                return ANSWER_JP_YES;
+            } else {
+                return ANSWER_JP_NO;
+            }
+        }
+    }
 
+    /*
     public static boolean getAnswerBoolean(String answer){
         return "Y".equals(answer);
+    }
+    */
+    public static boolean getAnswerBoolean(String answer){
+        String a = answer.substring(0, 1);
+        return "Y".equals(a);
     }
 
     public static String getScenario(int scenarioID){

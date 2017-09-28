@@ -161,7 +161,7 @@ public class DrawingView extends View {
     }
 
     private void setSymptoms(Canvas canvas) {
-        final int MIDDLE_LINE = canvas.getWidth() / 20 * 17;
+        final int MIDDLE_LINE = canvas.getWidth() / 4 * 3;
         initPaint();
 
         setText(canvas, "以下のような問診結果になりました", canvas.getWidth() / 20, true);
@@ -177,13 +177,17 @@ public class DrawingView extends View {
         for (Record record : interviewRecords){
             String question = record.getTag();
             String answer = record.getValue();
+            Log.d("Answer", answer);
             initPaint();
             if (answer.equals(Utils.ANSWER_JP_YES)){
                 paint.setTextSize((int)(TEXT_SIZE*1.3));
                 paint.setColor(getResources().getColor(R.color.yes));
-            } else {
+            } else if (answer.equals(Utils.ANSWER_JP_NO)){
                 paint.setTextSize((int)(TEXT_SIZE*1.2));
                 paint.setColor(getResources().getColor(R.color.no));
+            } else {
+                paint.setTextSize((int)(TEXT_SIZE*1.2));
+                paint.setColor(getResources().getColor(R.color.unsure));
             }
             setText(canvas, answer, MIDDLE_LINE+8, false);
             initPaint();
@@ -311,7 +315,8 @@ public class DrawingView extends View {
                 int index = parseInt(r.getTag());
                 Question question = questions.get(index);
                 boolean _ans = r.getValue().equals(Utils.ANSWER_SHORT_YES);
-                String answer = _ans ? Utils.ANSWER_JP_YES : Utils.ANSWER_JP_NO;
+                String answer = Utils.getAnswerString(r.getValue());
+                //String answer = _ans ? Utils.ANSWER_JP_YES : Utils.ANSWER_JP_NO;
                 interviewRecords.add(new Record(question.getQuestion(), answer));
             } catch (Exception e){
                 if (r.getTag().equals(Utils.TAG_CARE)){

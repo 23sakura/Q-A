@@ -269,7 +269,15 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
         final Question q_ = q;
         usedQuestions.add(q_);
         if (!isAnswered) {
-            Record r = new Record(Integer.toString(q_.getIndex()), Utils.getAnswerString(q_.getAnswer()));
+            Record r = new Record(Integer.toString(q_.getIndex()), Utils.getAnswerString(q_));
+            Log.d("Unsure Record", r.getTagValue());
+    /*
+            if(q_.isUnsure){
+                r = new Record(Integer.toString(q_.getIndex()), "U");
+            } else {
+                r = new Record(Integer.toString(q_.getIndex()), Utils.getAnswerString(q_.getAnswer()));
+            }
+    */
             //medicalCertification.addRecord(r);
             medicalCertification.updateRecord(r);
         }
