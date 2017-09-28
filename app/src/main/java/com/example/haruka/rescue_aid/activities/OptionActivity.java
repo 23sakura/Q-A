@@ -1,12 +1,14 @@
 package com.example.haruka.rescue_aid.activities;
 
 import android.annotation.TargetApi;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -103,7 +105,24 @@ public class OptionActivity extends AppCompatActivity {
                 showAEDmap();
                 break;
             case R.id.menu_title_title:
-                //TODO back to Title
+                if(!this.getClass().getSimpleName().equals(TitleActivity.class.getSimpleName())) {
+
+                    new AlertDialog.Builder(this)
+                            .setTitle("終了")
+                            .setMessage("タイトルに戻りますか")
+                            .setPositiveButton("はい", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Intent _intent = new Intent(OptionActivity.this, TitleActivity.class);
+                                    _intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(_intent);
+                                }
+                            })
+                            .setNegativeButton("いいえ", null)
+                            .show();
+
+                    return true;
+                }
                 break;
         }
         return true;
