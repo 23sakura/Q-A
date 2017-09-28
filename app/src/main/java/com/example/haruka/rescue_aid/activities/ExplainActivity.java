@@ -42,7 +42,7 @@ public class ExplainActivity extends ReadAloudTestActivity {
     ImageView  forwardBtn, backBtn;
     ExplainCare mainEmergencyExplanation, subEmergencyExplanation;
 
-    TextView textView;
+    TextView textView, pageText;
     ImageView imageView;
 
     int explainIndex;
@@ -124,9 +124,16 @@ public class ExplainActivity extends ReadAloudTestActivity {
         speechText(text);
     }
 
+    void setPage(){
+        String page = Integer.toString(explainIndex+1) + "/" + Integer.toString(mainEmergencyExplanation.numSituation);
+        pageText.setText(page);
+    }
+
     void nextExplanation(){
+
         explainIndex = (explainIndex+1) % mainEmergencyExplanation.numSituation;
         setExplain(explainIndex);
+        setPage();
 
         _handler.removeCallbacksAndMessages(null);
         _handler.postDelayed(new Runnable() {
@@ -140,6 +147,7 @@ public class ExplainActivity extends ReadAloudTestActivity {
     void previousExplanation(){
         explainIndex = (explainIndex+mainEmergencyExplanation.numSituation-1) % mainEmergencyExplanation.numSituation;
         setExplain(explainIndex);
+        setPage();
 
         _handler.removeCallbacksAndMessages(null);
         _handler.postDelayed(new Runnable() {
@@ -291,6 +299,7 @@ public class ExplainActivity extends ReadAloudTestActivity {
             finishBtn = (Button) findViewById(R.id.btn_explain_finish);
             backBtn = (ImageView) findViewById(R.id.btn_explain_back);
             forwardBtn = (ImageView) findViewById(R.id.btn_explain_next);
+            pageText = (TextView)findViewById(R.id.explain_page);
         } else {
             setContentView(R.layout.activity_explain_2);
             textView = (TextView) findViewById(R.id.textview_explain_heart_massage2);
@@ -298,6 +307,7 @@ public class ExplainActivity extends ReadAloudTestActivity {
             finishBtn = (Button) findViewById(R.id.btn_explain_finish2);
             backBtn = (ImageView) findViewById(R.id.btn_explain_back2);
             forwardBtn = (ImageView) findViewById(R.id.btn_explain_next2);
+            pageText = (TextView)findViewById(R.id.explain_page2);
             aedBtn = (Button)findViewById(R.id.btn_explain_aed);
             aedBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -374,6 +384,8 @@ public class ExplainActivity extends ReadAloudTestActivity {
         mainEmergencyExplanation = new ExplainCare(this, careXML);
         //mainEmergencyExplanation = new ExplainCare(this, "care_bleed_stopping");
 
+        setPage();
+
         if (mainEmergencyExplanation.sub.equals("")) {
             subEmergencyExplanation = null;
         } else {
@@ -382,7 +394,6 @@ public class ExplainActivity extends ReadAloudTestActivity {
                 subEmergencyExplanation = null;
             }
         }
-
         mainExplain();
         useSwitchTimer = true;
 
