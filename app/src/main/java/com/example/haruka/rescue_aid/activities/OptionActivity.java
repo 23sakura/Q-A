@@ -62,11 +62,12 @@ public class OptionActivity extends AppCompatActivity {
     }
 
     protected void call119(){
-        CallOverlay.setText(callNote);
-        Log.d("call note", callNote);
-        //Uri uri = Uri.parse("tel:09052793706");
+        if (!callNote.equals("")) {
+            CallOverlay.setText(callNote);
+            Log.d("call note", callNote);
+            startService(overlayIntent);
+        }
         Uri uri = Uri.parse("tel:119");
-        startService(overlayIntent);
         Intent intent = new Intent(Intent.ACTION_DIAL,uri);
         startActivity(intent);
     }
@@ -152,5 +153,5 @@ public class OptionActivity extends AppCompatActivity {
         super.onResume();
 
         CallOverlay.removeCallOver();
-    };
+    }
 }
