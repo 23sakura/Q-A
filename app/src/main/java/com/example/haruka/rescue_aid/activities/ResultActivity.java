@@ -6,9 +6,11 @@ import android.content.res.XmlResourceParser;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.haruka.rescue_aid.R;
 import com.example.haruka.rescue_aid.utils.Care;
@@ -44,16 +46,29 @@ public class ResultActivity extends OptionActivity {
     private ArrayList<Question> questions;
     TextView textView;
     Button qrBtn, certificationBtn;
-    protected ListView listView;
-
     CareList careList;
 
+
     private void setListView(){
-        listView = (ListView)findViewById(R.id.listview_care);
+        ListView listView = (ListView)findViewById(R.id.listview_care);
         CareAdapter careAdapter = new CareAdapter(this);
         Log.d("set listview", Integer.toString(cares.size()));
         careAdapter.setCareList(cares);
         listView.setAdapter(careAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Log.d("adapter", Integer.toString(position));
+                Care care = cares.get(position);
+                switch(view.getId()){
+                    case R.id.btn_explain_care:
+                        Toast.makeText(ResultActivity.this, care.name , Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
     }
 
     private void setTextView(){
@@ -262,6 +277,7 @@ public class ResultActivity extends OptionActivity {
         }
         getCareString(cares_flag);
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

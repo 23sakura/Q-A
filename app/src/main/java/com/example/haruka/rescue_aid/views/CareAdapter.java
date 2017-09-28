@@ -1,6 +1,8 @@
 package com.example.haruka.rescue_aid.views;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,14 +49,22 @@ public class CareAdapter extends BaseAdapter {
         return (long)careList.get(position).index;
     }
 
+    public void call119(){
+        Intent intent;
+        Uri uri = Uri.parse("tel:119");
+        intent = new Intent(Intent.ACTION_DIAL,uri);
+        context.startActivity(intent);
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         convertView = layoutInflater.inflate(R.layout.list_care,parent,false);
 
-        Care c = careList.get(position);
+        final Care c = careList.get(position);
         ((TextView)convertView.findViewById(R.id.textview_care_title)).setText(c.name);
         ((TextView)convertView.findViewById(R.id.textview_care_description)).setText(c.description);
         ((Button)convertView.findViewById(R.id.btn_explain_care)).setText(c.buttonText);
+
 
         return convertView;
     }
