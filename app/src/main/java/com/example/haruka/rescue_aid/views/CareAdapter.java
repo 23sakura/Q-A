@@ -57,14 +57,20 @@ public class CareAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         convertView = layoutInflater.inflate(R.layout.list_care,parent,false);
+        final CareListView listView = (CareListView)parent;
 
         final Care c = careList.get(position);
         ((TextView)convertView.findViewById(R.id.textview_care_title)).setText(c.name);
         ((TextView)convertView.findViewById(R.id.textview_care_description)).setText(c.description);
         ((Button)convertView.findViewById(R.id.btn_explain_care)).setText(c.buttonText);
-
+        convertView.findViewById(R.id.btn_explain_care).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listView.performItemClick(v, position, 0);
+            }
+        });
 
         return convertView;
     }

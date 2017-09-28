@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +19,7 @@ import com.example.haruka.rescue_aid.utils.Question;
 import com.example.haruka.rescue_aid.utils.Record;
 import com.example.haruka.rescue_aid.utils.Utils;
 import com.example.haruka.rescue_aid.views.CareAdapter;
+import com.example.haruka.rescue_aid.views.CareListView;
 
 import org.xmlpull.v1.XmlPullParser;
 
@@ -50,13 +50,12 @@ public class ResultActivity extends OptionActivity {
 
 
     private void setListView(){
-        ListView listView = (ListView)findViewById(R.id.listview_care);
+        CareListView listView = (CareListView)findViewById(R.id.listview_care);
         CareAdapter careAdapter = new CareAdapter(this);
         Log.d("set listview", Integer.toString(cares.size()));
         careAdapter.setCareList(cares);
         listView.setAdapter(careAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
