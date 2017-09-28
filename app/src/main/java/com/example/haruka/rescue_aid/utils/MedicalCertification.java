@@ -69,7 +69,6 @@ public class MedicalCertification implements Serializable, Comparable<MedicalCer
             } else {
                 r = new Record(startAt, line);
             }
-            records.add(r);
             if (LOCATION_TAG.equals(r.getTag())){
                 try {
                     String[] loc = r.getValue().split(":");
@@ -77,14 +76,16 @@ public class MedicalCertification implements Serializable, Comparable<MedicalCer
                     location[LONGITUDE] = Double.parseDouble(loc[LONGITUDE]);
                     location[LATITUDE] = Double.parseDouble(loc[LATITUDE]);
                     isLocationSet = true;
+                    continue;
                 }catch (Exception e){
                     Log.e("records location", e.toString());
                 }
             } else if (SCENARIO_TAG.equals(r.getTag())){
                 setScenario(Integer.parseInt(r.getValue()));
+                continue;
             } else{
             }
-            //records.add(r);
+            records.add(r);
         }
 
         Log.d("is location set", Boolean.toString(isLocationSet));
@@ -180,6 +181,7 @@ public class MedicalCertification implements Serializable, Comparable<MedicalCer
         if (isLocationSet){
             Log.d("records", "location : " + Double.toString(location[LONGITUDE]) + ", " + Double.toString(location[LATITUDE]));
         }
+        Log.d("records", "is location set " + Boolean.toString(isLocationSet));
     }
 
     public String toString(){
@@ -203,6 +205,7 @@ public class MedicalCertification implements Serializable, Comparable<MedicalCer
             res += "0," + r.getTagValue();
         }
 
+        Log.d("records", "toString : " + res);
         return res;
     }
 

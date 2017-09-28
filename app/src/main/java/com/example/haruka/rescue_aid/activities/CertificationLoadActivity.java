@@ -159,7 +159,7 @@ public class CertificationLoadActivity extends OptionActivity {
     protected void onResume(){
         super.onResume();
 
-        setView2();
+        setView();
     }
 
     /*

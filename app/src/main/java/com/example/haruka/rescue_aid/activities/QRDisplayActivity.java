@@ -59,6 +59,7 @@ public class QRDisplayActivity extends OptionActivity {
             } else {
                 ImageView imageView = (ImageView) findViewById(R.id.result_view);
                 imageView.setImageBitmap(bitmap);
+                medicalCertification.showRecords();
             }
         }
     };
