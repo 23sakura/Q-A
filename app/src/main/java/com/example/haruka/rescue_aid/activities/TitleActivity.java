@@ -1,8 +1,11 @@
 package com.example.haruka.rescue_aid.activities;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 
@@ -82,5 +85,26 @@ public class TitleActivity extends OptionActivity {
     protected void onStop(){
         super.onStop();
     }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode==KeyEvent.KEYCODE_BACK){
+            new AlertDialog.Builder(TitleActivity.this)
+                    .setTitle("終了")
+                    .setMessage("救&援を終了しますか")
+                    .setPositiveButton("はい", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finishAndRemoveTask();
+                        }
+                    })
+                    .setNegativeButton("いいえ", null)
+                    .show();
+
+            return true;
+        }
+        return false;
+    }
+
 }
 

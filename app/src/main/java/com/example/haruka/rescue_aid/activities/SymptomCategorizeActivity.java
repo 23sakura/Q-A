@@ -1,6 +1,7 @@
 package com.example.haruka.rescue_aid.activities;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -10,7 +11,9 @@ import android.speech.SpeechRecognizer;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -229,4 +232,30 @@ public class SymptomCategorizeActivity extends ReadAloudTestActivity {
 
         askSymptom();
     }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode==KeyEvent.KEYCODE_BACK){
+            new AlertDialog.Builder(SymptomCategorizeActivity.this)
+                    .setTitle("終了")
+                    .setMessage("問診を終了しますか")
+                    .setPositiveButton("はい", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            try {
+                                sr.cancel();
+                            }catch (Exception e){
+
+                            }
+                            finish();
+                        }
+                    })
+                    .setNegativeButton("いいえ", null)
+                    .show();
+
+            return true;
+        }
+        return false;
+    }
+
 }
