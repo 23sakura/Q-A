@@ -26,7 +26,6 @@ public class CertificationEditActivity extends OptionActivity {
 
     Button button1, button2, button3, button4;
     Intent intent1, intent2, intent3;
-    MedicalCertification medicalCertification;
     EditText filenameEditText;
     Button filenameButton;
 
