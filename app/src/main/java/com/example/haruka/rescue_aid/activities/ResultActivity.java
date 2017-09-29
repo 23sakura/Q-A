@@ -72,6 +72,13 @@ public class ResultActivity extends OptionActivity {
         CareAdapter careAdapter = new CareAdapter(this);
         Log.d("set listview", Integer.toString(cares.size()));
         careAdapter.setCareList(cares);
+        if (urgency == 1 || urgency == 0) {
+            listView.setBackgroundResource(R.drawable.frame_listview1);
+        } else if (urgency == 2) {
+            listView.setBackgroundResource(R.drawable.frame_listview2);
+        } else if (urgency == 3) {
+            listView.setBackgroundResource(R.drawable.frame_listview3);
+        }
         listView.setAdapter(careAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -93,8 +100,13 @@ public class ResultActivity extends OptionActivity {
         textView = (TextView)findViewById(R.id.textview_notice_result); //
         //textView = new TextView(this);
 
-        textView.setTextColor(Utils.URGENCY_COLORS[urgency]);
-        textView.setText(Utils.URGENCY_WARNING[urgency]);
+        if (urgency != 0) {
+            textView.setTextColor(getResources().getColor(Utils.URGENCY_COLORS[urgency], null));
+            textView.setText(Utils.URGENCY_WARNING[urgency]);
+        } else {
+            textView.setTextColor(getResources().getColor(Utils.URGENCY_COLORS[1], null));
+            textView.setText("問診は行っていません");
+        }
         /*
         LinearLayout.LayoutParams textLayoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,

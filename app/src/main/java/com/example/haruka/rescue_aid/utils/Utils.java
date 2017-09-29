@@ -1,6 +1,5 @@
 package com.example.haruka.rescue_aid.utils;
 
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
@@ -39,7 +38,12 @@ public class Utils {
 
 
     public final static int MIN_URGNECY = 1, MAX_URGENCY = 3;
-    public static int[] URGENCY_COLORS = {0, Color.GREEN, Color.argb(255, 255, 165, 000), Color.RED};
+    public static int[] URGENCY_COLORS = {
+            0,
+            R.color.urgency1,
+            R.color.urgency2,
+            R.color.urgency3,
+    };
     public static Drawable[] URGENCY_STYLE = {};
     public static String[] URGENCY_WARNING = {"", "大きな問題はありません", "医療機関の受診が必要です", "緊急度が高いです"};
     public final static int NUM_CARE = 7;

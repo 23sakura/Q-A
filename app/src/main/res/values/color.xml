@@ -13,10 +13,14 @@
     <color name="unsure_back">#FFEE9B</color>
     <color name="overlay_back">#FFEE9B</color>
 
+    <color name="urgency1">#00c000</color>
+    <color name="urgency2">#ffa500</color>
+    <color name="urgency3">#ff0000</color>
+
     <color name="start">#0000ff</color>
     <color name="start_back">#aaaaff</color>
     <color name="start1">#0000ff</color>
-    <color name="start_back1">#aaaaff</color>
+    <color name="start_back1">#ccccff</color>
 
     <!-- Greyscales -->
     <color name="grey200">#EEEEEE</color>

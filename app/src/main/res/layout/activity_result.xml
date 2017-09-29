@@ -26,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="4"
-        android:background="@drawable/frame_listview"
+        android:background="@drawable/frame_listview3"
         android:id="@+id/listview_care">
 
     </com.example.haruka.rescue_aid.views.CareListView>
