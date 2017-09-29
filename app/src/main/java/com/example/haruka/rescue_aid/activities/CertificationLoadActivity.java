@@ -9,8 +9,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.haruka.rescue_aid.R;
 import com.example.haruka.rescue_aid.utils.MedicalCertification;
@@ -34,7 +36,7 @@ public class CertificationLoadActivity extends OptionActivity {
     ListView listView;
     ArrayAdapter<MedicalCertification> arrayAdapter;
 
-    private void setView(){
+    public void setListView(){
         String[] filenames = fileList();
         final ArrayList<MedicalCertification> medicalCertifications = new ArrayList<>();
         Log.d("certification ", String.valueOf(filenames.length));
@@ -68,15 +70,47 @@ public class CertificationLoadActivity extends OptionActivity {
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener(){
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-
-                new AlertDialog.Builder(contextLoadDataActivity).setMessage("この問診データを消去しますか").setPositiveButton("はい", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        MedicalCertification medicalCertification = medicalCertifications.get(position);
-                        deleteFile(medicalCertification.FILENAME);
-                        setView();
-                    }
-                }).show();
+                final EditText editView = new EditText(CertificationLoadActivity.this);
+                final String[] items = {"名前変更", "削除"};
+                new AlertDialog.Builder(contextLoadDataActivity)
+                        .setTitle(medicalCertifications.get(position).name)
+                        .setItems(items, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Log.d("which", Integer.toString(which));
+                                if (which == 0){
+                                    new AlertDialog.Builder(contextLoadDataActivity)
+                                            .setTitle("ファイル名を変更する")
+                                            .setView(editView)
+                                            .setPositiveButton("決定", new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int whichButton) {
+                                                    MedicalCertification medicalCertification = medicalCertifications.get(position);
+                                                    medicalCertification.name = editView.getText().toString();
+                                                    medicalCertification.save(contextLoadDataActivity);
+                                                    
+                                                    Toast.makeText(contextLoadDataActivity,
+                                                            "ファイル名を\"" + medicalCertification.name + "\"に変更しました",
+                                                            Toast.LENGTH_LONG).show();
+                                                }
+                                            })
+                                            .setNegativeButton("キャンセル", new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int whichButton) {
+                                                }
+                                            })
+                                            .show();
+                                } else {
+                                    new AlertDialog.Builder(contextLoadDataActivity).setMessage("この問診データを消去しますか").setPositiveButton("はい", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            MedicalCertification medicalCertification = medicalCertifications.get(position);
+                                            deleteFile(medicalCertification.FILENAME);
+                                            setListView();
+                                        }
+                                    }).show();
+                                }
+                            }
+                        })
+                        .show();
 
                 return true;
             }
@@ -98,7 +132,6 @@ public class CertificationLoadActivity extends OptionActivity {
 
         setContentView(R.layout.activity_load_certification);
         listView = (ListView)findViewById(R.id.listview_certification);
-        //setView();
 
         /*
         String[] files = fileList();
@@ -108,7 +141,7 @@ public class CertificationLoadActivity extends OptionActivity {
         */
     }
 
-    private void setView2(){
+    private void setListView2(){
         String[] text = {
                 "2017.09.01 12.53.26,start,\n" +
                         "0,loc,134.562286:34.065508",
@@ -167,36 +200,8 @@ public class CertificationLoadActivity extends OptionActivity {
     protected void onResume(){
         super.onResume();
         medicalCertification = null;
-        setView();
+        setListView();
     }
 
-    /*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_load_data, menu);
-        return true;
-    }
-
-    static String TAG = "Menu";
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()){
-            case R.id.menu_delete_certification:
-                new AlertDialog.Builder(contextLoadDataActivity).setMessage("すべての問診履歴を消去します\nよろしいですか").setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String[] filenames = fileList();
-                        for (String filename : filenames){
-                            deleteFile(filename);
-                        }
-                        setView();
-                    }
-                }).show();
-        }
-        return true;
-    }
-*/
 
 }
