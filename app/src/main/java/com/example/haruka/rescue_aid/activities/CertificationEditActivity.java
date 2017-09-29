@@ -1,13 +1,17 @@
 package com.example.haruka.rescue_aid.activities;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.example.haruka.rescue_aid.R;
 import com.example.haruka.rescue_aid.utils.MedicalCertification;
@@ -29,6 +33,19 @@ public class CertificationEditActivity extends OptionActivity {
     EditText filenameEditText;
     Button filenameButton;
 
+    InputMethodManager inputMethodManager;
+    private LinearLayout linearLayout;
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+
+        inputMethodManager.hideSoftInputFromWindow(linearLayout.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        linearLayout.requestFocus();
+
+        return true;
+
+    }
+
     @Override
     protected void onCreate(Bundle bundle){
         setTitle("問診履歴");
@@ -43,11 +60,14 @@ public class CertificationEditActivity extends OptionActivity {
         filenameEditText = (EditText)findViewById(R.id.edit_edit_filename);
         filenameButton = (Button)findViewById(R.id.btn_edit_filename);
 
+        linearLayout = (LinearLayout)findViewById(R.id.linearlayout_edit_certification);
+        inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
 
         button1.setText("QRコード表示");
         button2.setText("診断書表示");
         button3.setText("結果画面表示");
         filenameEditText.setText(medicalCertification.name);
+        filenameEditText.clearFocus();
 
         intent1 = new Intent(this, QRDisplayActivity.class);
         intent2 = new Intent(this, CertificationActivity.class);
