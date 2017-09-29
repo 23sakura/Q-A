@@ -195,7 +195,7 @@ public class QRActivity extends OptionActivity {
             paint.setStyle(Paint.Style.STROKE);
             canvas.drawRect(width / 14, height / 2-width/7*3,width / 14*13, height / 2+width/7*3, paint);
             paint = new Paint();
-            paint.setARGB(128, 255, 255, 255);
+            paint.setARGB(192, 255, 255, 255);
             paint.setStyle(Paint.Style.FILL_AND_STROKE);
             canvas.drawRect(0, height / 2-width/7*3,width / 14, height / 2+width/7*3, paint);
             canvas.drawRect(width / 14*13, height / 2-width/7*3,width, height / 2+width/7*3, paint);
