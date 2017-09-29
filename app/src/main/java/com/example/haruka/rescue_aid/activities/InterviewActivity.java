@@ -81,6 +81,7 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
     private LocationManager mLocationManager;
     Handler _handler;
 
+
     String scenario;
     class SpeechListener implements RecognitionListener {
 
@@ -353,7 +354,7 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
         //interviewData.setListOfQuestions(usedQuestions);
 
         speechText("問診は終了しました。");
-        new AlertDialog.Builder(context).setMessage("問診は終了しました").setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        new AlertDialog.Builder(context).setCancelable(false).setMessage("問診は終了しました").setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
@@ -596,8 +597,10 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
                         @Override
                         public void run() {
 
-                            Log.d(TAG,"Done listen start");
-                            setSpeechRecognizer();
+                            if (!isInterviewDone) {
+                                Log.d(TAG, "Done listen start");
+                                setSpeechRecognizer();
+                            }
                         }
                     });
                 }
