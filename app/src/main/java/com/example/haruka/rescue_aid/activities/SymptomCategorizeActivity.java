@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.example.haruka.rescue_aid.R;
 import com.example.haruka.rescue_aid.recognition_list.ListSymptom;
+import com.example.haruka.rescue_aid.utils.MedicalCertification;
 
 import java.util.ArrayList;
 
@@ -34,8 +35,8 @@ public class SymptomCategorizeActivity extends ReadAloudTestActivity {
     Intent interviewIntent;
     private ArrayList<String>[] dictionary;
 
-    final int scenarioIdIll = 0;
-    final int scenarioIdInjury = 1;
+    final int SCENARIO_ID_ILL = MedicalCertification.SCENARIO_ID_ILL;
+    final int SCENARIO_ID_INJURY = MedicalCertification.SCENARIO_ID_INJURY;
 
 
     SpeechRecognizer sr;
@@ -150,7 +151,7 @@ public class SymptomCategorizeActivity extends ReadAloudTestActivity {
             public void onClick(View v) {
                 //TODO go to ill interview
                 //interviewIntent.putExtra("SCENARIO", scenarioIll);
-                interviewIntent.putExtra("SCENARIO_ID", scenarioIdIll);
+                interviewIntent.putExtra("SCENARIO_ID", SCENARIO_ID_ILL);
                 try {
                     sr.cancel();
                 }catch (Exception e){
@@ -166,7 +167,7 @@ public class SymptomCategorizeActivity extends ReadAloudTestActivity {
             public void onClick(View v) {
                 //TODO go to injury interview
                 //interviewIntent.putExtra("SCENARIO", scenarioInjury);
-                interviewIntent.putExtra("SCENARIO_ID", scenarioIdInjury);
+                interviewIntent.putExtra("SCENARIO_ID", SCENARIO_ID_INJURY);
                 try {
                     sr.cancel();
                 }catch (Exception e){

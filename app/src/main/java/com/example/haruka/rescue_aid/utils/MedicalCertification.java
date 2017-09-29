@@ -41,6 +41,9 @@ public class MedicalCertification implements Serializable, Comparable<MedicalCer
     //Address address;
     String addressString;
 
+    public static final int SCENARIO_ID_ILL = 0;
+    public static final int SCENARIO_ID_INJURY = 1;
+
     public MedicalCertification(){
         startAt = QADateFormat.getDate(QADateFormat.getInstance());
         records = new ArrayList<>();
@@ -66,6 +69,7 @@ public class MedicalCertification implements Serializable, Comparable<MedicalCer
             if (null == startAt) {
                 r = new Record(line);
                 startAt = QADateFormat.getDate(r.getTime());
+                setFilename();
             } else {
                 r = new Record(startAt, line);
             }
@@ -90,14 +94,15 @@ public class MedicalCertification implements Serializable, Comparable<MedicalCer
 
         Log.d("is location set", Boolean.toString(isLocationSet));
         showLocation();
-        setFilename();
     }
 
-    private void setFilename(){
-        name = QADateFormat.getStringDateFilename(startAt);
+    private void setFilename() {
+
+        String name = QADateFormat.getStringDateFilename(startAt);
         //name = QADateFormat.getInstanceFilename();
         number = Long.parseLong(name);
         FILENAME = name + ".obj";
+        this.name = QADateFormat.getStringDateFilename2(startAt);
     }
 
 
@@ -270,6 +275,11 @@ public class MedicalCertification implements Serializable, Comparable<MedicalCer
     public void setScenario(int scenarioID){
         this.scenarioID = scenarioID;
         addRecord(new Record(SCENARIO_TAG, Integer.toString(scenarioID)));
+        if (scenarioID == SCENARIO_ID_ILL){
+            name += " 急病";
+        } else {
+            name += " ケガ";
+        }
     }
 
     public String getCallNote(ArrayList<Question> questions){
@@ -286,6 +296,17 @@ public class MedicalCertification implements Serializable, Comparable<MedicalCer
             res += q.getQuestion() + "：" + Utils.getAnswerString(record.getValue()) + "\n";
         }
 
+        if (addressString != null){
+            res +=  "\n" + addressString + "\n";
+            res +=  "　　東経：" + Utils.getDMSLocation(location[LONGITUDE]) + "\n";
+            res +=  "　　北緯：" + Utils.getDMSLocation(location[LATITUDE]);
+        }
+
+        return res;
+    }
+
+    public String getCallNoteAddress(){
+        String res = "";
         if (addressString != null){
             res +=  "\n" + addressString + "\n";
             res +=  "　　東経：" + Utils.getDMSLocation(location[LONGITUDE]) + "\n";
