@@ -15,7 +15,7 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.haruka.rescue_aid.R;
@@ -30,7 +30,7 @@ import java.util.ArrayList;
 
 public class SymptomCategorizeActivity extends ReadAloudTestActivity {
 
-    ImageButton BtnToIll, BtnToInjury;
+    ImageView BtnToIll, BtnToInjury;
     Intent interviewIntent;
     private ArrayList<String>[] dictionary;
 
@@ -144,7 +144,7 @@ public class SymptomCategorizeActivity extends ReadAloudTestActivity {
 
         interviewIntent = new Intent(this, InterviewActivity.class);
 
-        BtnToIll = (ImageButton)findViewById(R.id.btn_to_ill);
+        BtnToIll = (ImageView)findViewById(R.id.btn_to_ill);
         BtnToIll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -160,7 +160,7 @@ public class SymptomCategorizeActivity extends ReadAloudTestActivity {
                 finish();
             }
         });
-        BtnToInjury = (ImageButton)findViewById(R.id.btn_to_injury);
+        BtnToInjury = (ImageView)findViewById(R.id.btn_to_injury);
         BtnToInjury.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

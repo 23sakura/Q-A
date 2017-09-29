@@ -14,19 +14,21 @@
         android:textColor="@color/black"
         android:textSize="28sp" />
 
-    <ImageButton
+    <ImageView
         android:id="@+id/btn_to_ill"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:scaleType="centerCrop"
-        android:src="@drawable/symptom_button1"/>
+        android:src="@drawable/symptom_button1"
+        android:layout_margin="3dp"/>
 
-    <ImageButton
+    <ImageView
         android:id="@+id/btn_to_injury"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:scaleType="centerCrop"
-        android:src="@drawable/symptom_button2" />
+        android:src="@drawable/symptom_button2"
+        android:layout_margin="3dp" />
 </LinearLayout>
