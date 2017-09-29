@@ -77,7 +77,7 @@ public class OptionActivity extends AppCompatActivity {
             intent.putExtra(Utils.TAG_INTENT_CERTIFICATION, medicalCertification);
             startActivity(intent);
         } else {
-            Toast.makeText(this, "QRコードで表示するデータがありません", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "現在、QRコードで表示するデータがありません", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -209,6 +209,8 @@ public class OptionActivity extends AppCompatActivity {
                             .show();
 
                     return true;
+                } else {
+                    Toast.makeText(this, "すでにタイトルにいます", Toast.LENGTH_SHORT).show();
                 }
                 break;
         }
