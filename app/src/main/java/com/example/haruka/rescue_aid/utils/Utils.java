@@ -21,6 +21,7 @@ public class Utils {
     public final static String TAG_END = "END";
 
     public final static String TAG_INTENT_CERTIFICATION = "CERTIFICATION";
+    public final static String TAG_INTENT_THROUGH_INTERVIEW = "THROUGH_INTERVIEW";
 
     public static final long serialVersionUID_MedicalCertification = 1L;
     public static final long serialVersionUID_Question = 2L;

@@ -41,11 +41,11 @@ import static java.lang.Integer.parseInt;
 public class CertificationActivity extends OptionActivity {
 
     private DrawingView drawingView;
-    Button b;
-    Bitmap bitmap;
 
     ArrayList<Question> questions;
     ArrayList<Care> cares;
+
+    private boolean throughInterview;
 
     private void loadQuestions(int scenarioID){
         AssetManager assetManager = getResources().getAssets();
@@ -151,6 +151,7 @@ public class CertificationActivity extends OptionActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(CertificationActivity.this, QRDisplayActivity.class);
                 intent.putExtra(Utils.TAG_INTENT_CERTIFICATION, medicalCertification);
+                intent.putExtra(Utils.TAG_INTENT_THROUGH_INTERVIEW, throughInterview);
                 startActivity(intent);
                 finish();
             }
@@ -161,6 +162,7 @@ public class CertificationActivity extends OptionActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(CertificationActivity.this, ResultActivity.class);
                 intent.putExtra(Utils.TAG_INTENT_CERTIFICATION, medicalCertification);
+                intent.putExtra(Utils.TAG_INTENT_THROUGH_INTERVIEW, throughInterview);
                 startActivity(intent);
                 finish();
             }
@@ -172,6 +174,7 @@ public class CertificationActivity extends OptionActivity {
         } catch (Exception e){
             medicalCertification = new MedicalCertification();
         }
+        throughInterview = getIntent().getBooleanExtra(Utils.TAG_INTENT_THROUGH_INTERVIEW, false);
         loadQuestions(medicalCertification.getScenarioID());
         loadCare();
 
@@ -231,21 +234,23 @@ public class CertificationActivity extends OptionActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(keyCode==KeyEvent.KEYCODE_BACK){
-            //TODO implement behavior when back key is pushed on ResultActivity from history
-            new AlertDialog.Builder(CertificationActivity.this)
-                    .setTitle("終了")
-                    .setMessage("タイトルに戻りますか")
-                    .setPositiveButton("はい", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Intent intent = new Intent(CertificationActivity.this, TitleActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(intent);
-                        }
-                    })
-                    .setNegativeButton("いいえ", null)
-                    .show();
-
+            if (throughInterview) {
+                new AlertDialog.Builder(CertificationActivity.this)
+                        .setTitle("終了")
+                        .setMessage("タイトルに戻りますか")
+                        .setPositiveButton("はい", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent(CertificationActivity.this, TitleActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                            }
+                        })
+                        .setNegativeButton("いいえ", null)
+                        .show();
+            } else {
+                finish();
+            }
             return true;
         }
         return false;

@@ -81,6 +81,7 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
     private LocationManager mLocationManager;
     Handler _handler;
 
+    private final boolean IS_THROUGH_INTERVIEW = true;
 
     String scenario;
     class SpeechListener implements RecognitionListener {
@@ -350,6 +351,7 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
         intentCertification.putExtra("URGENCY", urgency);
         intentCertification.putExtra("CARES", cares);
         intentCertification.putExtra("CERTIFICATION", medicalCertification_);
+        intentCertification.putExtra(Utils.TAG_INTENT_THROUGH_INTERVIEW, IS_THROUGH_INTERVIEW);
         medicalCertification_.showRecords("InterviewActivity");
         //interviewData.setListOfQuestions(usedQuestions);
 
