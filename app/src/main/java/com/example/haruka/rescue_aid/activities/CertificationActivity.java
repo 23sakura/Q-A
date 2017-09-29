@@ -146,7 +146,25 @@ public class CertificationActivity extends OptionActivity {
         resultButton = (Button)findViewById(R.id.btn_result_certification);
 
         QRButton.setText(getString(R.string.gotoQR));
+        QRButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CertificationActivity.this, QRDisplayActivity.class);
+                intent.putExtra(Utils.TAG_INTENT_CERTIFICATION, medicalCertification);
+                startActivity(intent);
+                finish();
+            }
+        });
         resultButton.setText(getString(R.string.gotoResult));
+        resultButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CertificationActivity.this, ResultActivity.class);
+                intent.putExtra(Utils.TAG_INTENT_CERTIFICATION, medicalCertification);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         try {
             medicalCertification = (MedicalCertification) getIntent().getSerializableExtra("CERTIFICATION");
