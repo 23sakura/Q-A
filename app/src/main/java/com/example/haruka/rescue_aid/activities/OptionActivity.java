@@ -72,7 +72,13 @@ public class OptionActivity extends AppCompatActivity {
     }
 
     protected void QRDisplay(){
-        Toast.makeText(this, "QRコードで表示するデータがありません", Toast.LENGTH_LONG).show();
+        if (medicalCertification != null){
+            Intent intent = new Intent(this, QRDisplayActivity.class);
+            intent.putExtra(Utils.TAG_INTENT_CERTIFICATION, medicalCertification);
+            startActivity(intent);
+        } else {
+            Toast.makeText(this, "QRコードで表示するデータがありません", Toast.LENGTH_LONG).show();
+        }
     }
 
     protected void call119(){
