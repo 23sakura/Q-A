@@ -67,6 +67,7 @@ public class CertificationEditActivity extends OptionActivity {
         button2.setText("診断書表示");
         button3.setText("結果画面表示");
         filenameEditText.setText(medicalCertification.name);
+        filenameEditText.setSelection(filenameEditText.getText().length());
         filenameEditText.clearFocus();
 
         intent1 = new Intent(this, QRDisplayActivity.class);
@@ -116,6 +117,9 @@ public class CertificationEditActivity extends OptionActivity {
                 medicalCertification.name = filename;
                 Log.d("filename", filename);
                 TempDataUtil.store(CertificationEditActivity.this, medicalCertification);
+
+                linearLayout.requestFocus();
+                inputMethodManager.hideSoftInputFromWindow(linearLayout.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
             }
         });
 

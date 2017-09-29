@@ -87,7 +87,7 @@ public class CertificationLoadActivity extends OptionActivity {
                                                     MedicalCertification medicalCertification = medicalCertifications.get(position);
                                                     medicalCertification.name = editView.getText().toString();
                                                     medicalCertification.save(contextLoadDataActivity);
-                                                    
+
                                                     Toast.makeText(contextLoadDataActivity,
                                                             "ファイル名を\"" + medicalCertification.name + "\"に変更しました",
                                                             Toast.LENGTH_LONG).show();
@@ -98,6 +98,8 @@ public class CertificationLoadActivity extends OptionActivity {
                                                 }
                                             })
                                             .show();
+                                    editView.setText(medicalCertifications.get(position).name);
+                                    editView.setSelection(editView.getText().length());
                                 } else {
                                     new AlertDialog.Builder(contextLoadDataActivity).setMessage("この問診データを消去しますか").setPositiveButton("はい", new DialogInterface.OnClickListener() {
                                         @Override
