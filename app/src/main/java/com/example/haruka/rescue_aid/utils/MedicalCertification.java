@@ -286,6 +286,10 @@ public class MedicalCertification implements Serializable, Comparable<MedicalCer
             res += q.getQuestion() + "：" + Utils.getAnswerString(record.getValue()) + "\n";
         }
 
+        if (addressString != null){
+            res +=  "\n" + addressString;
+        }
+
         return res;
     }
 
