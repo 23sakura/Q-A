@@ -148,19 +148,6 @@ public class QRDisplayActivity extends OptionActivity {
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(keyCode==KeyEvent.KEYCODE_BACK){
-            if (throughInterview) {
-                showDialog(0);
-                return true;
-            } else {
-                finish();
-            }
-        }
-        return false;
-    }
-
-    @Override
     public Dialog onCreateDialog(int id) {
         switch (id) {
 
@@ -181,5 +168,28 @@ public class QRDisplayActivity extends OptionActivity {
                         .create();
         }
         return null;
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode==KeyEvent.KEYCODE_BACK){
+            //TODO implement behavior when back key is pushed on ResultActivity from history
+            new AlertDialog.Builder(QRDisplayActivity.this)
+                    .setTitle("終了")
+                    .setMessage("タイトルに戻りますか")
+                    .setPositiveButton("はい", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent(QRDisplayActivity.this, TitleActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                        }
+                    })
+                    .setNegativeButton("いいえ", null)
+                    .show();
+
+            return true;
+        }
+        return false;
     }
 }

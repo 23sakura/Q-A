@@ -1,10 +1,14 @@
 package com.example.haruka.rescue_aid.activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 
@@ -203,6 +207,30 @@ public class CertificationActivity extends OptionActivity {
                 }
             }
         }
+    }
+
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode==KeyEvent.KEYCODE_BACK){
+            //TODO implement behavior when back key is pushed on ResultActivity from history
+            new AlertDialog.Builder(CertificationActivity.this)
+                    .setTitle("終了")
+                    .setMessage("タイトルに戻りますか")
+                    .setPositiveButton("はい", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent(CertificationActivity.this, TitleActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                        }
+                    })
+                    .setNegativeButton("いいえ", null)
+                    .show();
+
+            return true;
+        }
+        return false;
     }
 
 }

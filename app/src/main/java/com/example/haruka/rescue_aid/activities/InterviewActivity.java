@@ -351,7 +351,9 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
         intentCertification.putExtra("CERTIFICATION", medicalCertification_);
         medicalCertification_.showRecords("InterviewActivity");
         //interviewData.setListOfQuestions(usedQuestions);
-        new AlertDialog.Builder(context).setMessage("問診は終了です").setPositiveButton("OK", new DialogInterface.OnClickListener() {
+
+        speechText("問診は終了しました。");
+        new AlertDialog.Builder(context).setMessage("問診は終了しました").setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
@@ -368,7 +370,7 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
                 startActivity(intentCertification);
                 finish();
             }
-        }, 2000);
+        }, 3000);
     }
 
     private void produceNextQuestion(int viewID){
