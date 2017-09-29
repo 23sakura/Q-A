@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.ListView;
 
 /**
- * Created by skriulle on 9/28/2017 AD.
+ * Created by Tomoya on 9/28/2017 AD.
  */
 
 public class CareListView extends ListView implements View.OnClickListener {
