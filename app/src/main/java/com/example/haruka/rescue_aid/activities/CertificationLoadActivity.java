@@ -1,6 +1,8 @@
 package com.example.haruka.rescue_aid.activities;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -61,6 +63,22 @@ public class CertificationLoadActivity extends OptionActivity {
                 intent.putExtra(Utils.TAG_INTENT_CERTIFICATION, medicalCertification);
                 startActivity(intent);
 
+            }
+        });
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener(){
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+
+                new AlertDialog.Builder(contextLoadDataActivity).setMessage("この問診データを消去しますか").setPositiveButton("はい", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        MedicalCertification medicalCertification = medicalCertifications.get(position);
+                        deleteFile(medicalCertification.FILENAME);
+                        setView();
+                    }
+                }).show();
+
+                return true;
             }
         });
     }
@@ -141,16 +159,6 @@ public class CertificationLoadActivity extends OptionActivity {
         CertificationAdapter certificationAdapter = new CertificationAdapter(CertificationLoadActivity.this);
         certificationAdapter.setMedicalCertification(medicalCertifications);
         listView.setAdapter(certificationAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                MedicalCertification medicalCertification = medicalCertifications.get(position);
-                Intent intent = new Intent(contextLoadDataActivity, CertificationEditActivity.class);
-                intent.putExtra(Utils.TAG_INTENT_CERTIFICATION, medicalCertification);
-                startActivity(intent);
-
-            }
-        });
 
     }
 
