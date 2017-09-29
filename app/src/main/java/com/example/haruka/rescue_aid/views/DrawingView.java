@@ -328,7 +328,7 @@ public class DrawingView extends View {
                         Care c = cares.get(careIndex);
                         String careTitle = c.name;
                         String time = Long.toString((end.getTime() - start.getTime()));
-                        careRecords.add(new Record(careTitle, Integer.toString(times[i-4])));
+                        careRecords.add(new Record(careTitle, time));
 
                     } catch (Exception e1){
                         Log.e("carerecord", e1.toString());
