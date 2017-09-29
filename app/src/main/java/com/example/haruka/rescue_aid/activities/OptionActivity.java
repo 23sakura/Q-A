@@ -96,6 +96,14 @@ public class OptionActivity extends AppCompatActivity {
     }
 
     protected void showAEDmap(){
+        if (medicalCertification != null) {
+            String aedNote = medicalCertification.getCallNoteAddress();
+            if (!callNote.equals("")) {
+                CallOverlay.setText(aedNote);
+                Log.d("call note", aedNote);
+                startService(overlayIntent);
+            }
+        }
         Intent i = new Intent(Intent.ACTION_VIEW,Uri.parse("http://aedm.jp"));
         startActivity(i);
     }
