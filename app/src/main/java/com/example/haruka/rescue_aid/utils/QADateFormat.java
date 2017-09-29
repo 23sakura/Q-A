@@ -18,6 +18,7 @@ public class QADateFormat {
     public final static String simpleDateFormat2 =  "yyyy.MM.dd kk.mm.ss";
     public final static String JapaneseDateFormat =  "yyyy年MM月dd日 kk時mm分";
     public final static String FileDateFormat = "yyyyMMddkkmmss";
+    public final static String FileDateFormat2 = "MM/dd kk:mm";
 
     public static String getInstance(){
         Date date = new Date();
@@ -49,8 +50,14 @@ public class QADateFormat {
         return sdf.format(date);
     }
 
+    public static String getStringDateFilename2(Date date){
+        SimpleDateFormat sdf = new SimpleDateFormat(FileDateFormat2);
+        return sdf.format(date);
+    }
+
+
     public static Date getDate(String dateFormat) {
-        DateFormat df = new SimpleDateFormat(simpleDateFormat2);
+        DateFormat df = new SimpleDateFormat(simpleDateFormat);
         Date date = null;
         try {
             Log.d("Date format", dateFormat);
