@@ -36,7 +36,6 @@ import static java.lang.Integer.parseInt;
 
 public class CertificationActivity extends OptionActivity {
 
-    private MedicalCertification medicalCertification;
     private DrawingView drawingView;
     Button b;
     Bitmap bitmap;

@@ -1,10 +1,13 @@
 package com.example.haruka.rescue_aid.activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.content.res.XmlResourceParser;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -40,7 +43,6 @@ import static java.lang.Integer.parseInt;
 
 public class ResultActivity extends OptionActivity {
 
-    private MedicalCertification medicalCertification;
     private int urgency;
     private ArrayList<Care> cares;
     private ArrayList<Question> questions;
@@ -323,6 +325,29 @@ public class ResultActivity extends OptionActivity {
 
         //setDrawerLayout();
 
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode==KeyEvent.KEYCODE_BACK){
+            //TODO implement behavior when back key is pushed on ResultActivity from history
+            new AlertDialog.Builder(ResultActivity.this)
+                    .setTitle("終了")
+                    .setMessage("タイトルに戻りますか")
+                    .setPositiveButton("はい", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent(ResultActivity.this, TitleActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                        }
+                    })
+                    .setNegativeButton("いいえ", null)
+                    .show();
+
+            return true;
+        }
+        return false;
     }
 
 }

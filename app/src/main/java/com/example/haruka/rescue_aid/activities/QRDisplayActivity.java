@@ -35,7 +35,6 @@ public class QRDisplayActivity extends OptionActivity {
     private String mResult;
     private Intent mGetResultIntent;
     private Context context;
-    private MedicalCertification medicalCertification;
     private boolean throughInterview;
 
     private LoaderCallbacks<Bitmap> callbacks = new LoaderCallbacks<Bitmap>() {

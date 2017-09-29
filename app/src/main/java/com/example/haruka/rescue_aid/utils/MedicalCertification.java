@@ -272,6 +272,23 @@ public class MedicalCertification implements Serializable, Comparable<MedicalCer
         addRecord(new Record(SCENARIO_TAG, Integer.toString(scenarioID)));
     }
 
+    public String getCallNote(ArrayList<Question> questions){
+        String res = "";
+
+        for(Record record : records){
+            int index;
+            try{
+                index = Integer.parseInt(record.getTag());
+            } catch (NumberFormatException e){
+                continue;
+            }
+            Question q = questions.get(index);
+            res += q.getQuestion() + "：" + Utils.getAnswerString(record.getValue()) + "\n";
+        }
+
+        return res;
+    }
+
     public int getScenarioID(){
         return scenarioID;
     }

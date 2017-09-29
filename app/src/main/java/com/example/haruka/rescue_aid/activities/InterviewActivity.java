@@ -73,7 +73,7 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
     private ArrayList<Question> questions;
     private Question currentQuestion;
     private ArrayList<Question> usedQuestions;
-    private MedicalCertification medicalCertification;
+    private MedicalCertification medicalCertification_;
     private boolean isInterviewDone;
     private ArrayList<String>[] dictionary;
 
@@ -278,8 +278,7 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
                 r = new Record(Integer.toString(q_.getIndex()), Utils.getAnswerString(q_.getAnswer()));
             }
     */
-            //medicalCertification.addRecord(r);
-            medicalCertification.updateRecord(r);
+            medicalCertification_.updateRecord(r);
         }
         final HistoryButton btn = new HistoryButton(this, q_.getIndex());
         btn.setText(q_);
@@ -349,8 +348,8 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
         final Intent intentCertification = new Intent(this, ResultActivity.class);
         intentCertification.putExtra("URGENCY", urgency);
         intentCertification.putExtra("CARES", cares);
-        intentCertification.putExtra("CERTIFICATION", medicalCertification);
-        medicalCertification.showRecords("InterviewActivity");
+        intentCertification.putExtra("CERTIFICATION", medicalCertification_);
+        medicalCertification_.showRecords("InterviewActivity");
         //interviewData.setListOfQuestions(usedQuestions);
         new AlertDialog.Builder(context).setMessage("問診は終了です").setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
@@ -437,14 +436,13 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
     }
 
     void makeMedicalCertification(){
-        medicalCertification = new MedicalCertification();
+        medicalCertification_ = new MedicalCertification();
         for (Question q : usedQuestions){
             Record r = new Record(Integer.toString(q.getIndex()), Boolean.toString(q.getAnswer()));
-            medicalCertification.updateRecord(r);
-            //medicalCertification.addRecord(r);
+            medicalCertification_.updateRecord(r);
         }
 
-        medicalCertification.showRecords();
+        medicalCertification_.showRecords();
     }
     public Drawable getDrawable(String filename){
         AssetManager assetManager = this.getAssets();
@@ -510,8 +508,8 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
 
         questions = new ArrayList<>();
         usedQuestions = new ArrayList<>();
-        medicalCertification = new MedicalCertification();
-        medicalCertification.setScenario(scenarioID);
+        medicalCertification_ = new MedicalCertification();
+        medicalCertification_.setScenario(scenarioID);
         scenario = Utils.getScenario(scenarioID);
         Log.d("SCENARIO", scenario + " is chosen");
 
@@ -548,6 +546,7 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
             mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
         }
 
+        medicalCertification = null;
     }
 
     @Override
@@ -560,7 +559,7 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
 
     @Override
     public void onLocationChanged(Location location) {
-        medicalCertification.updateLocation(location, this);
+        medicalCertification_.updateLocation(location, this);
         Log.d("Longitude", String.valueOf(location.getLongitude()));
         Log.d("Latitude", String.valueOf(location.getLatitude()));
     }

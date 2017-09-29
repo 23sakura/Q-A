@@ -70,7 +70,7 @@ public class TitleActivity extends OptionActivity {
             }
         });
 
-
+        medicalCertification = null;
     }
 
     @Override

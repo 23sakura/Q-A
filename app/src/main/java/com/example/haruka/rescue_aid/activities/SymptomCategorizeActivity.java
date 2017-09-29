@@ -181,6 +181,7 @@ public class SymptomCategorizeActivity extends ReadAloudTestActivity {
         askSymptom();
         dictionary = ListSymptom.getDictionary();
 
+        medicalCertification = null;
     }
 
     @Override

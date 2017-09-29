@@ -158,7 +158,7 @@ public class CertificationLoadActivity extends OptionActivity {
     @Override
     protected void onResume(){
         super.onResume();
-
+        medicalCertification = null;
         setView();
     }
 

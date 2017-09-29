@@ -50,6 +50,7 @@ public class QRActivity extends OptionActivity {
         mSurfaceView.setOnClickListener(onClickListener);
         setContentView(mSurfaceView);
         addContentView(new CameraOverlayView(this), new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+        medicalCertification = null;
     }
 
     @Override
@@ -128,23 +129,7 @@ public class QRActivity extends OptionActivity {
         }
     };
 
-    private void showQR(MedicalCertification medicalCertification) {
-        final Intent QRIntent = new Intent(this, QRDisplayActivity.class);
-
-        QRIntent.putExtra("RESULT", medicalCertification.toString());
-        Log.d("RESULT", medicalCertification.toString());
-        startActivity(QRIntent);
-    }
-
-    private void showCertification(MedicalCertification medicalCertification) {
-        final Intent QRIntent = new Intent(this, CertificationActivity.class);
-
-        QRIntent.putExtra(Utils.TAG_INTENT_CERTIFICATION, medicalCertification);
-        Log.d("RESULT", medicalCertification.toString());
-        startActivity(QRIntent);
-    }
-
-    private void showCertificationLoadActivity(MedicalCertification medicalCertification){
+    private void showCertificationEditActivity(MedicalCertification medicalCertification){
         final Intent intent = new Intent(this, CertificationEditActivity.class);
         intent.putExtra(Utils.TAG_INTENT_CERTIFICATION, medicalCertification);
         startActivity(intent);
@@ -172,7 +157,7 @@ public class QRActivity extends OptionActivity {
                 medicalCertification.showRecords();
                 //showQR(medicalCertification);
                 //showCertification(medicalCertification);
-                showCertificationLoadActivity(medicalCertification);
+                showCertificationEditActivity(medicalCertification);
             } catch (Exception e) {
                 Log.e("QR reader", e.toString());
                 Toast.makeText(getApplicationContext(), "Not Found", Toast.LENGTH_SHORT).show();

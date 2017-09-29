@@ -33,8 +33,6 @@ import jp.fsoriented.cactusmetronome.lib.Metronome;
 
 public class ExplainActivity extends ReadAloudTestActivity {
 
-    MedicalCertification medicalCertification;
-
     Metronome mMetronome;
     //Button explainButton;
     //Button finishButton;

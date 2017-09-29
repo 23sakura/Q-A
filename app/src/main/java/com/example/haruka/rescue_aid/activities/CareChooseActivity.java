@@ -56,5 +56,7 @@ public class CareChooseActivity extends OptionActivity {
             }
         });
 
+
+        medicalCertification = null;
     }
 }

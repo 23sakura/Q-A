@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.res.AssetManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,7 +18,19 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.example.haruka.rescue_aid.R;
+import com.example.haruka.rescue_aid.utils.MedicalCertification;
+import com.example.haruka.rescue_aid.utils.Question;
+import com.example.haruka.rescue_aid.utils.Utils;
 import com.example.haruka.rescue_aid.views.CallOverlay;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.StringTokenizer;
+
+import static java.lang.Integer.parseInt;
 
 /**
  * Created by Tomoya on 9/23/2017 AD.
@@ -29,6 +42,7 @@ public class OptionActivity extends AppCompatActivity {
     Intent overlayIntent;
     public static int OVERLAY_PERMISSION_REQ_CODE = 1000;
     protected String callNote = "";
+    protected MedicalCertification medicalCertification;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -62,10 +76,13 @@ public class OptionActivity extends AppCompatActivity {
     }
 
     protected void call119(){
-        if (!callNote.equals("")) {
-            CallOverlay.setText(callNote);
-            Log.d("call note", callNote);
-            startService(overlayIntent);
+        if (medicalCertification != null) {
+            callNote = medicalCertification.getCallNote(loadQuestions(Utils.getScenario(medicalCertification.getScenarioID())));
+            if (!callNote.equals("")) {
+                CallOverlay.setText(callNote);
+                Log.d("call note", callNote);
+                startService(overlayIntent);
+            }
         }
         Uri uri = Uri.parse("tel:119");
         Intent intent = new Intent(Intent.ACTION_DIAL,uri);
@@ -75,6 +92,69 @@ public class OptionActivity extends AppCompatActivity {
     protected void showAEDmap(){
         Intent i = new Intent(Intent.ACTION_VIEW,Uri.parse("http://aedm.jp"));
         startActivity(i);
+    }
+
+
+    private ArrayList<Question> loadQuestions(String scenario){
+        ArrayList<Question> questions = new ArrayList<>();
+
+        AssetManager assetManager = this.getResources().getAssets();
+        try{
+            String scenario_ = "scenarios/" + scenario;
+            Log.d("Scenario", scenario_);
+            InputStream is = assetManager.open(scenario_);
+            InputStreamReader inputStreamReader = new InputStreamReader(is);
+            BufferedReader bufferReader = new BufferedReader(inputStreamReader);
+            String line = "";
+            line = bufferReader.readLine();
+            int _i = 0;
+            while ((line = bufferReader.readLine()) != null) {
+                Question q;
+                StringTokenizer st = new StringTokenizer(line, ",");
+                Log.d("scenario line", line);
+                _i++;
+                String id = st.nextToken();
+                if(id == "id") continue;
+                int index = parseInt(id);
+                String text = st.nextToken();
+                Log.d("text", text);
+                int yesIndex = parseInt(st.nextToken());
+                Log.d("yes_index", Integer.toString(yesIndex));
+                int noIndex = parseInt(st.nextToken());
+                Log.d("no_index", Integer.toString(noIndex));
+                try {
+                    int yesUrgency = parseInt(st.nextToken());
+                    Log.d("yes_urgency", Integer.toString(yesUrgency));
+                    int noUrgency = parseInt(st.nextToken());
+                    Log.d("no_urgency", Integer.toString(noUrgency));
+                    boolean[] yesCare = new boolean[Utils.NUM_CARE], noCare = new boolean[Utils.NUM_CARE];
+                    try{
+                        String yesCare_ = st.nextToken();
+                        Log.d("yes care", yesCare_);
+                        yesCare = MedicalCertification.makeCareList(yesCare_);
+                        String noCare_ = st.nextToken();
+                        Log.d("no care", noCare_);
+                        noCare = MedicalCertification.makeCareList(noCare_);
+                        Log.i("Question", "has been made perfectly");
+                    } catch (Exception e) {
+                        Log.e("load question", e.toString());
+                    }
+                    q = new Question(index, text, yesIndex, noIndex, yesUrgency, noUrgency, yesCare, noCare);
+                } catch (Exception e){
+                    q = new Question(index, text, yesIndex, noIndex);
+                }
+                questions.add(q);
+
+                Log.d(" question" , q.getQuestion());
+            }
+
+            is.close();
+        } catch (IOException e) {
+            Log.e(this.getClass().getSimpleName(), e.toString());
+            e.printStackTrace();
+        }
+
+        return questions;
     }
 
     @Override
