@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.os.IBinder;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -27,6 +28,8 @@ public class CallOverlay extends Service {
     private int dpScale ;
     private static TextView textView;
     public static String text = "hogehoge";
+    LayoutInflater layoutInflater;
+    WindowManager.LayoutParams params;
 
     final static String notext = "　　[拡大]　　";
     @Override
@@ -35,27 +38,28 @@ public class CallOverlay extends Service {
         dpScale = (int)getResources().getDisplayMetrics().density;
     }
 
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        LayoutInflater layoutInflater = LayoutInflater.from(this);
+    private void makeSmall(){
+        windowManager.removeView(view);
+        view = layoutInflater.inflate(R.layout.service_layer_small, null);
+        windowManager.addView(view, params);
+        DragViewListener2 dragViewListener = new DragViewListener2(windowManager, view, params, layoutInflater);
+        (view).setOnTouchListener(dragViewListener);
+        /*((LinearLayout) view).getChildAt(0).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                makeBig();
+            }
+        });*/
+    }
 
-        windowManager = (WindowManager)getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
-        WindowManager.LayoutParams params = new WindowManager.LayoutParams(
-                WindowManager.LayoutParams.WRAP_CONTENT,
-                WindowManager.LayoutParams.WRAP_CONTENT,
-                WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
-                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-                        | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
-                PixelFormat.TRANSLUCENT);
-
-        //params.gravity=  Gravity.TOP | Gravity.CENTER_HORIZONTAL;
-
+    private void makeBig(){
         view = layoutInflater.inflate(R.layout.service_layer, null);
 
         // Viewを画面上に追加
         windowManager.addView(view, params);
 
         View close = ((LinearLayout)((LinearLayout)(((LinearLayout)view).getChildAt(0))).getChildAt(0)).getChildAt(1);
+
 
         close.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,27 +68,30 @@ public class CallOverlay extends Service {
                 view = null;
             }
         });
-        /*
-        ((LinearLayout) view).getChildAt(0).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if (!textView.getText().equals(notext)){
-                    textView.setText(notext);
-                } else {
-                    textView.setText(text);
-                }
-            }
-        });
-        */
-        DragViewListener2 dragViewListener = new DragViewListener2(windowManager, view, params);
+        DragViewListener2 dragViewListener = new DragViewListener2(windowManager, view, params, layoutInflater);
         (view).setOnTouchListener(dragViewListener);
-        //DragViewListener dragViewListener = new DragViewListener(((LinearLayout) view).getChildAt(0));
-        //((LinearLayout) view).getChildAt(0).setOnTouchListener(dragViewListener);
+        dragViewListener.setText(text);
 
         textView = (TextView) (((LinearLayout)(((LinearLayout)view).getChildAt(0))).getChildAt(1));
         textView.setText(text);
+    }
 
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        layoutInflater = LayoutInflater.from(this);
+
+        windowManager = (WindowManager)getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
+        params = new WindowManager.LayoutParams(
+                WindowManager.LayoutParams.WRAP_CONTENT,
+                WindowManager.LayoutParams.WRAP_CONTENT,
+                WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                        | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
+                PixelFormat.TRANSLUCENT);
+
+        params.gravity=  Gravity.TOP | Gravity.CENTER_HORIZONTAL;
+
+        makeBig();
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -113,12 +120,11 @@ public class CallOverlay extends Service {
 
     public static void removeCallOver() {
         try {
-            if (windowManager != null && view != null) {
-                windowManager.removeView(view);
-                view = null;
-            }
-        } catch (Exception e) {
+            windowManager.removeView(DragViewListener2.view);
+            view = null;
 
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
