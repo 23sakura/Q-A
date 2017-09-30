@@ -39,6 +39,10 @@ public class CareChooseActivity extends OptionActivity {
         loadCare();
 
         ArrayList<Care> cares1 = (ArrayList<Care>)cares.clone();
+        cares1.remove(7);
+        cares1.remove(7);
+        cares1.remove(7);
+
         cares1.remove(0);
         cares1.remove(0);
         CareListAdapter careListAdapter = new CareListAdapter(this);

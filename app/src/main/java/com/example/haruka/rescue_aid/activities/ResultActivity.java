@@ -61,6 +61,8 @@ public class ResultActivity extends OptionActivity {
             showAEDmap();
         } else if (tag.equals("医師の診察を")){
             searchHospital();
+        } else if (tag.equals("救急相談センターに発信")){
+            call7119();
         } else {
             Intent intent = new Intent(this, ExplainActivity.class);
             intent.putExtra("CERTIFICATION", medicalCertification);
@@ -82,7 +84,12 @@ public class ResultActivity extends OptionActivity {
             }
         }
         if(!has0){
-            cares.add(CareList.getCare(7));
+            if(urgency == 1) {
+                cares.add(0, CareList.getCare(7));
+            } else {
+                cares.add(0, CareList.getCare(8));
+            }
+            cares.add(1, CareList.getCare(9));
         }
 
         careAdapter.setCareList(cares);
