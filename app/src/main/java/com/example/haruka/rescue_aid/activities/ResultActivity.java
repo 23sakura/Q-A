@@ -57,8 +57,10 @@ public class ResultActivity extends OptionActivity {
         String tag = care.name;
         if (tag.equals("119番通報")){
             call119();
-        } else if (tag.equals("AED使用")){
+        } else if (tag.equals("AED使用")) {
             showAEDmap();
+        } else if (tag.equals("医師の診察を")){
+            searchHospital();
         } else {
             Intent intent = new Intent(this, ExplainActivity.class);
             intent.putExtra("CERTIFICATION", medicalCertification);
@@ -71,7 +73,20 @@ public class ResultActivity extends OptionActivity {
         CareListView listView = (CareListView)findViewById(R.id.listview_care);
         CareAdapter careAdapter = new CareAdapter(this);
         Log.d("set listview", Integer.toString(cares.size()));
+        boolean has0 = false;
+        for (Care care : cares){
+            Log.d("cares index", Integer.toString(care.index));
+            if(care.index == 0){
+                has0 = true;
+                break;
+            }
+        }
+        if(!has0){
+            cares.add(CareList.getCare(7));
+        }
+
         careAdapter.setCareList(cares);
+
         if (urgency == 1 || urgency == 0) {
             listView.setBackgroundResource(R.drawable.frame_listview1);
         } else if (urgency == 2) {

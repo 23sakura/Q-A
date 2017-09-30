@@ -5,3 +5,4 @@
 4,気道異物除去,care_airway_foreign_body_removal,気道異物除去の手当を行ってください。ボタンを押すとガイドが始まります。,手当開始,care/kido.jpg
 5,熱中症,care_heatstroke.xml,熱中症かそれに準ずる症状です。手当を行ってください。ボタンを押すとガイドが始まります。,手当開始,care/necchusho.jpg
 6,骨折, ,骨折の手当を行ってください。,手当開始,care/kossetsu.jpg
+7,医師の診察を, ,医師の診察を受けてください。地域の病院を検索します。,病院の検索,

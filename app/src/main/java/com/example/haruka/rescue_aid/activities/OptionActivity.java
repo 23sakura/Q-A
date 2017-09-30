@@ -95,6 +95,21 @@ public class OptionActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    protected void call7119(){
+        if (medicalCertification != null) {
+            callNote = medicalCertification.getCallNote(loadQuestions(Utils.getScenario(medicalCertification.getScenarioID())));
+            if (!callNote.equals("")) {
+                CallOverlay.setText(callNote);
+                Log.d("call note", callNote);
+                startService(overlayIntent);
+            }
+        }
+        Uri uri = Uri.parse("tel:#7119");
+        Intent intent = new Intent(Intent.ACTION_DIAL,uri);
+        startActivity(intent);
+    }
+
+
     protected void showAEDmap(){
         if (medicalCertification != null) {
             String aedNote = medicalCertification.getCallNoteAddress();
@@ -105,6 +120,25 @@ public class OptionActivity extends AppCompatActivity {
             }
         }
         Intent i = new Intent(Intent.ACTION_VIEW,Uri.parse("http://aedm.jp"));
+        startActivity(i);
+    }
+
+    protected void searchHospital(){
+        String aedNote = "";
+        if (medicalCertification != null) {
+            aedNote = medicalCertification.getCallNoteAddressShort();
+            if (!callNote.equals("")) {
+                CallOverlay.setText(aedNote);
+                Log.d("call note", aedNote);
+                startService(overlayIntent);
+            }
+        }
+        Intent i;
+        if (!aedNote.equals("")) {
+            i = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.co.jp/search?q=" + aedNote + "　告示病院&oq="+ aedNote + "　告示病院&ie=UTF-8"));
+        } else {
+            i = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.co.jp/search?q=告示病院&oq=告示病院&ie=UTF-8"));
+        }
         startActivity(i);
     }
 

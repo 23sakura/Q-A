@@ -39,7 +39,7 @@ public class MedicalCertification implements Serializable, Comparable<MedicalCer
     int scenarioID;
     //List<Address> addresses;
     //Address address;
-    String addressString;
+    String addressString, addressStringShort;
 
     public static final int SCENARIO_ID_ILL = 0;
     public static final int SCENARIO_ID_INJURY = 1;
@@ -233,9 +233,13 @@ public class MedicalCertification implements Serializable, Comparable<MedicalCer
         if (address.getSubAdminArea() != null) {
             adr += address.getSubAdminArea();
         }
-        adr += address.getLocality();
-        adr += address.getSubLocality();
-
+        if (address.getLocality() != null) {
+            adr += address.getLocality();
+        }
+        addressStringShort = adr;
+        if (address.getSubLocality() != null) {
+            adr += address.getSubLocality();
+        }
         if (address.getThoroughfare() != null) {
             adr += address.getThoroughfare();
         }
@@ -313,6 +317,14 @@ public class MedicalCertification implements Serializable, Comparable<MedicalCer
             res +=  "　　北緯：" + Utils.getDMSLocation(location[LATITUDE]);
         }
 
+        return res;
+    }
+
+    public String getCallNoteAddressShort(){
+        String res = "";
+        if (addressStringShort != null){
+            res +=  "\n" + addressStringShort;
+        }
         return res;
     }
 
