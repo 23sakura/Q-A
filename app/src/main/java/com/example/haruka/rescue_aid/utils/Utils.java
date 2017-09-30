@@ -12,7 +12,8 @@ import com.example.haruka.rescue_aid.R;
 
 public class Utils {
 
-    public final static String SCENARIOS_ILL = "ill/scenario_17091801.csv";
+    //public final static String SCENARIOS_ILL = "ill/scenario_17091801.csv";
+    public final static String SCENARIOS_ILL = "ill/scenario_17093001.csv";
     public final static String SCENARIOS_INJURY = "injury/scenario_170918.csv";
     public final static String LIST_CARE = "carelist_v00.csv";
 
