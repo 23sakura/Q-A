@@ -9,7 +9,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.haruka.rescue_aid.R;
-import com.example.haruka.rescue_aid.utils.QADateFormat;
 
 import java.util.Date;
 
@@ -81,7 +80,7 @@ public class DragViewListener2 implements View.OnTouchListener{
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                start = QADateFormat.getDate(QADateFormat.getInstance());
+                start = new Date();
                 break;
 
             case MotionEvent.ACTION_MOVE:
@@ -97,10 +96,10 @@ public class DragViewListener2 implements View.OnTouchListener{
                 //dragView.
                 break;
             case MotionEvent.ACTION_UP:
-                Date end = QADateFormat.getDate(QADateFormat.getInstance());
+                Date end = new Date();
                 Log.d("timedayodayo", Long.toString(end.getTime() - start.getTime()));
                 Log.d("timedayodayo", "jogejogjeo");
-                if ((end.getTime() - start.getTime()) < 1000){
+                if ((end.getTime() - start.getTime()) < 200){
                     if(big) {
                         makeSmall();
                         big = false;
@@ -110,8 +109,6 @@ public class DragViewListener2 implements View.OnTouchListener{
                     }
                 }
         }
-        Log.d("timedayodayo", "jogejogjeo");
-
         oldx = x;
         oldy = y;
 
