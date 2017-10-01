@@ -6,6 +6,9 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.util.Log;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -348,6 +351,33 @@ public class MedicalCertification implements Serializable, Comparable<MedicalCer
             }
         }
         return careList;
+    }
+
+    public JSONObject getJSON(){
+        JSONObject jsonObject = null;
+        try{
+            jsonObject = new JSONObject();
+
+            jsonObject.put("len", records.size());
+            for (int i = 0; i < records.size(); i++){
+                Record record = records.get(i);
+                String name = "record" + Integer.toString(i);
+
+                JSONObject recordJSON = new JSONObject();
+                recordJSON.put("time", record.getTime());
+                recordJSON.put("tag", record.getTag());
+                recordJSON.put("value", record.getValue());
+
+                jsonObject.put(name, recordJSON);
+            }
+
+            Log.d("jsonobject", jsonObject.toString());
+
+        } catch (JSONException e){
+            e.printStackTrace();
+        }
+
+        return jsonObject;
     }
 
     @Override
