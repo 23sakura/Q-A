@@ -83,7 +83,9 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
 
     private final boolean IS_THROUGH_INTERVIEW = true;
 
+    int scenarioID;
     String scenario;
+    String iconFolder;
     class SpeechListener implements RecognitionListener {
 
         @Override
@@ -163,6 +165,9 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
 
     private void showReadQuestion(){
         mInterviewContent.setText(currentQuestion.getQuestion());
+        String img = iconFolder + "img" + String.format("%02d", currentQuestion.getIndex()) + ".jpg";
+        Log.d("iconFolder", img);
+        imageView.setImageDrawable(getDrawable(img));
         try{
             speechText(currentQuestion.getQuestion());
         }catch (Exception e){
@@ -481,7 +486,9 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
         mInterviewContent.setTextColor(getResources().getColor(R.color.black));
         imageView = (ImageView)findViewById(R.id.imageview_interview);
 
-        imageView.setImageDrawable(getDrawable("icons/ill/icon00.jpg"));
+        iconFolder = (scenarioID == 0) ? "icons/ill_icon/" : "icons/kega_icon/";
+        Log.d("iconFolder" , iconFolder);
+        imageView.setImageDrawable(getDrawable(iconFolder + "img00.jpg"));
         showReadQuestion();
 
         historyScroll = (HorizontalScrollView)findViewById(R.id.history_scroll);
@@ -507,7 +514,7 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
 
         Intent intent = getIntent();
         scenario = intent.getStringExtra("SCENARIO");
-        int scenarioID = intent.getIntExtra("SCENARIO_ID", 0);
+        scenarioID = intent.getIntExtra("SCENARIO_ID", 0);
         Log.d("SCENARIO_ID", Integer.toString(scenarioID));
         dictionary = ListYesNo.getDictionary();
 
