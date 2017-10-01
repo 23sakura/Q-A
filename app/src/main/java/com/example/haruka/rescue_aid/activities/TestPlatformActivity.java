@@ -64,8 +64,8 @@ public class TestPlatformActivity extends OptionActivity {
             }
         });
 
-        testIntent5 = new Intent(this, LocationTestActivity.class);
-        gotoTestBtn5.setText("位置情報テスト");
+        testIntent5 = new Intent(this, HTTPPostActivity.class);
+        gotoTestBtn5.setText("HTTPポスト　テスト");
         gotoTestBtn5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
