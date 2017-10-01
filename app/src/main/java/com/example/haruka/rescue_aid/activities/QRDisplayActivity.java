@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -24,6 +25,19 @@ import com.example.haruka.rescue_aid.utils.Utils;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
 
 /**
  * This is an activity to display QR code.
@@ -62,6 +76,51 @@ public class QRDisplayActivity extends OptionActivity {
             }
         }
     };
+
+    private void sendRecord(){
+        (new Thread(new Runnable() {
+            @Override
+            public void run(){
+                try {
+                    String buffer = "";
+                    HttpURLConnection con = null;
+                    URL url = new URL("https://qa-server.herokuapp.com/post");
+                    con = (HttpURLConnection) url.openConnection();
+                    con.setRequestMethod("POST");
+                    con.setInstanceFollowRedirects(false);
+                    con.setRequestProperty("Accept-Language", "jp");
+                    con.setDoOutput(true);
+                    con.setDoInput(true);
+                    con.setRequestProperty("Content-Type", "application/json; charset=utf-8");
+                    OutputStream os = con.getOutputStream();
+                    PrintStream ps = new PrintStream(os);
+                    ps.print(medicalCertification.getJSON());
+                    ps.close();
+                    Log.d("medicalCertification", medicalCertification.getJSON().toString());
+                    BufferedReader reader =
+                            new BufferedReader(new InputStreamReader(con.getInputStream(), "UTF-8"));
+
+                    buffer = reader.readLine();
+                    Log.d("medicalcertification", buffer);
+
+                    JSONArray jsonArray = new JSONArray(buffer);
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        Log.d("HTTP REQ", jsonObject.getString("name"));
+                    }
+                    con.disconnect();
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (ProtocolException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        })).start();
+    }
 
     public static class EncodeTaskLoader extends AsyncTaskLoader<Bitmap> {
         private String mContents;
@@ -135,6 +194,7 @@ public class QRDisplayActivity extends OptionActivity {
         b2.setText(getString(R.string.gotoResult));
 
         throughInterview = getIntent().getBooleanExtra("THROUGH_INTERVIEW", false);
+        sendRecord();
     }
 
     @Override

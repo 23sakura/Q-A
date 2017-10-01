@@ -358,7 +358,7 @@ public class MedicalCertification implements Serializable, Comparable<MedicalCer
         try{
             jsonObject = new JSONObject();
 
-            jsonObject.put("len", records.size());
+            jsonObject.put("len", Integer.toString(records.size()));
             for (int i = 0; i < records.size(); i++){
                 Record record = records.get(i);
                 String name = "record" + Integer.toString(i);
@@ -366,7 +366,7 @@ public class MedicalCertification implements Serializable, Comparable<MedicalCer
                 JSONObject recordJSON = new JSONObject();
                 recordJSON.put("time", record.getTime());
                 recordJSON.put("tag", record.getTag());
-                recordJSON.put("value", record.getValue());
+                recordJSON.put("val", record.getValue());
 
                 jsonObject.put(name, recordJSON);
             }
