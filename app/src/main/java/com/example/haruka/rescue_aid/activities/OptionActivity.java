@@ -99,10 +99,13 @@ public class OptionActivity extends AppCompatActivity {
         if (medicalCertification != null) {
             callNote = medicalCertification.getCallNote(loadQuestions(Utils.getScenario(medicalCertification.getScenarioID())));
             if (!callNote.equals("")) {
-                CallOverlay.setText(callNote);
+                CallOverlay.setText("#7119に発信してください\n\n" + callNote);
+
                 Log.d("call note", callNote);
-                startService(overlayIntent);
+            } else {
+                CallOverlay.setText("#7119に発信してください");
             }
+            startService(overlayIntent);
         }
         Uri uri = Uri.parse("tel:#7119");
         Intent intent = new Intent(Intent.ACTION_DIAL,uri);

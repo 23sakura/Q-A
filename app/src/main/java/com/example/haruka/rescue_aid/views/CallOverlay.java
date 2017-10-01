@@ -28,6 +28,7 @@ public class CallOverlay extends Service {
     private int dpScale ;
     private static TextView textView;
     public static String text = "hogehoge";
+    public String title;
     LayoutInflater layoutInflater;
     WindowManager.LayoutParams params;
 
@@ -36,6 +37,7 @@ public class CallOverlay extends Service {
     public void onCreate() {
         super.onCreate();
         dpScale = (int)getResources().getDisplayMetrics().density;
+        title = "";
     }
 
     private void makeSmall(){
