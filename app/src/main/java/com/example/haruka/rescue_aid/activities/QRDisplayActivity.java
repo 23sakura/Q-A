@@ -16,7 +16,9 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.example.haruka.rescue_aid.R;
@@ -46,10 +48,9 @@ import java.net.URL;
 
 public class QRDisplayActivity extends OptionActivity {
 
-    private String mResult;
-    private Intent mGetResultIntent;
     private Context context;
     private boolean throughInterview;
+    private Switch qrSwitch;
 
     private LoaderCallbacks<Bitmap> callbacks = new LoaderCallbacks<Bitmap>() {
         @Override
@@ -159,6 +160,12 @@ public class QRDisplayActivity extends OptionActivity {
         }
     }
 
+    private void showQR(String text){
+        Bundle bundle = new Bundle();
+        bundle.putString("contents", text);
+        getSupportLoaderManager().initLoader(0, bundle, callbacks);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTitle("QRコード");
@@ -192,6 +199,19 @@ public class QRDisplayActivity extends OptionActivity {
             }
         });
         b2.setText(getString(R.string.gotoResult));
+        qrSwitch = (Switch)findViewById(R.id.switch_qr_mode);
+        qrSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(!isChecked){
+                    showQR(medicalCertification.toString());
+                } else {
+                    showQR("https://qa-server.herokuapp.com/callback");
+                }
+                Toast.makeText(QRDisplayActivity.this, "isChecked : " + isChecked, Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
         throughInterview = getIntent().getBooleanExtra("THROUGH_INTERVIEW", false);
         sendRecord();
@@ -200,13 +220,10 @@ public class QRDisplayActivity extends OptionActivity {
     @Override
     protected void onResume(){
         super.onResume();
-
-        mGetResultIntent = getIntent();
-        medicalCertification = (MedicalCertification) mGetResultIntent.getSerializableExtra(Utils.TAG_INTENT_CERTIFICATION);
-        mResult = medicalCertification.toString();
-        Bundle bundle = new Bundle();
-        bundle.putString("contents", mResult);
-        getSupportLoaderManager().initLoader(0, bundle, callbacks);
+        Intent intent = getIntent();
+        medicalCertification = (MedicalCertification) intent.getSerializableExtra(Utils.TAG_INTENT_CERTIFICATION);
+        String mResult = medicalCertification.toString();
+        showQR(mResult);
     }
 
     @Override

@@ -15,6 +15,11 @@
         android:textSize="20dp"
         android:textColor="@color/black"
         android:gravity="center"/>
+    <Switch
+        android:id="@+id/switch_qr_mode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"/>
 
 
     <ImageView
