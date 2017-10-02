@@ -51,6 +51,7 @@ public class QRDisplayActivity extends OptionActivity {
     private Context context;
     private boolean throughInterview;
     private Switch qrSwitch;
+    private String qrID;
 
     private LoaderCallbacks<Bitmap> callbacks = new LoaderCallbacks<Bitmap>() {
         @Override
@@ -102,6 +103,7 @@ public class QRDisplayActivity extends OptionActivity {
                             new BufferedReader(new InputStreamReader(con.getInputStream(), "UTF-8"));
 
                     buffer = reader.readLine();
+                    qrID = buffer;
                     Log.d("medicalcertification", buffer);
 
                     JSONArray jsonArray = new JSONArray(buffer);
@@ -206,7 +208,7 @@ public class QRDisplayActivity extends OptionActivity {
                 if(!isChecked){
                     showQR(medicalCertification.toString());
                 } else {
-                    showQR("https://qa-server.herokuapp.com/callback");
+                    showQR("https://qa-server.herokuapp.com/certification/" + qrID);
                 }
                 Toast.makeText(QRDisplayActivity.this, "isChecked : " + isChecked, Toast.LENGTH_SHORT).show();
             }

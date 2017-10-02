@@ -64,7 +64,7 @@ public class TestPlatformActivity extends OptionActivity {
             }
         });
 
-        testIntent5 = new Intent(this, HTTPPostActivity.class);
+        testIntent5 = new Intent(this, CVCameraTestActivity.class);
         gotoTestBtn5.setText("HTTPポスト　テスト");
         gotoTestBtn5.setOnClickListener(new View.OnClickListener() {
             @Override
