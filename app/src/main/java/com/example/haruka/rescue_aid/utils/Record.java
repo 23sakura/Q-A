@@ -16,6 +16,12 @@ public class Record implements Serializable {
     String tag;
     String value;
 
+    public Record(String time, String tag, String value){
+        this.time = time;
+        this.tag = tag;
+        this.value = value;
+    }
+
     public Record(String tag, String value){
         time = QADateFormat.getInstance();
         this.tag = tag;
