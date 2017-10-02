@@ -57,6 +57,8 @@
         <activity android:name=".activities.ReadAloudTestActivity" />
         <activity android:name=".activities.SettingActivity" />
         <activity android:name=".activities.CareChooseActivity" />
+
+
         <service android:name=".views.CallOverlay" ></service>
     </application>
 

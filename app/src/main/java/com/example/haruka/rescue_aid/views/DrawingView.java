@@ -135,8 +135,7 @@ public class DrawingView extends View {
             setText(canvas, "2017年04月01日 12時34分 発行", canvas.getWidth() / 10 * 9, true);
         } else {
             setText(canvas, medicalCertification.getStartAtJap() + " 開始", canvas.getWidth()/10*9, true);
-            setText(canvas, "2017年09月19日 19時12分 発行", canvas.getWidth() / 10 * 9, true);
-            //setText(canvas, QADateFormat.getInstanceJapanese() + " 発行", canvas.getWidth()/10*9, true);
+            setText(canvas, medicalCertification.getEndAtJap()   + " 発行", canvas.getWidth()/10*9, true);
         }
         this.paint.setStyle(Paint.Style.STROKE);
     }

@@ -40,7 +40,7 @@ public class MedicalCertification implements Serializable, Comparable<MedicalCer
     private final String SCENARIO_TAG = "sce";;
     //private final String DEFAULT_ADDRESS = " 徳島県阿南市見能林町青木";
     public final static String DEFAULT_ADDRESS = " ー ";
-    Date startAt;
+    Date startAt, endAt;
     int scenarioID;
     //List<Address> addresses;
     //Address address;
@@ -50,7 +50,8 @@ public class MedicalCertification implements Serializable, Comparable<MedicalCer
     public static final int SCENARIO_ID_INJURY = 1;
 
     public MedicalCertification(){
-        startAt = getDate(QADateFormat.getInstance());
+        startAt = new Date();
+        endAt = new Date();
         records = new ArrayList<>();
         Record r = new Record("start", "");
         records.add(r);
@@ -64,6 +65,7 @@ public class MedicalCertification implements Serializable, Comparable<MedicalCer
         //TODO test data using QA reader
         records = new ArrayList<>();
         startAt = null;
+        endAt = null;
         location = new double[2];
         isLocationSet = false;
 
@@ -89,8 +91,11 @@ public class MedicalCertification implements Serializable, Comparable<MedicalCer
                 }catch (Exception e){
                     Log.e("records location", e.toString());
                 }
-            } else if (SCENARIO_TAG.equals(r.getTag())){
+            } else if (SCENARIO_TAG.equals(r.getTag())) {
                 setScenario(Integer.parseInt(r.getValue()));
+                continue;
+            } else if ("end".equals(r.getTag())){
+                endAt = QADateFormat.getDate(r.getTime());
                 continue;
             } else{
             }
@@ -113,6 +118,7 @@ public class MedicalCertification implements Serializable, Comparable<MedicalCer
 
     public void addRecord(Record r){
         records.add(r);
+        endAt = new Date();
     }
 
     public void updateRecord(Record r){
@@ -217,8 +223,9 @@ public class MedicalCertification implements Serializable, Comparable<MedicalCer
         }
         if (isLocationSet){
             Record r = new Record(LOCATION_TAG, Double.toString(location[LONGITUDE]) + ":" + Double.toString(location[LATITUDE]));
-            res += "0," + r.getTagValue();
+            res += "0," + r.getTagValue() + "\n";
         }
+        res += Long.toString((endAt.getTime() - startAt.getTime())/1000) + ",end, ";
 
         Log.d("records", "toString : " + res);
         return res;
@@ -226,6 +233,10 @@ public class MedicalCertification implements Serializable, Comparable<MedicalCer
 
     public String getStartAtJap(){
         return QADateFormat.getStringDateJapanese(startAt);
+    }
+
+    public String getEndAtJap(){
+        return QADateFormat.getStringDateJapanese(endAt);
     }
 
     public void setAddressString(String addressString){
@@ -388,6 +399,12 @@ public class MedicalCertification implements Serializable, Comparable<MedicalCer
 
                 jsonObject.put(name, recordJSON);
             }
+            String name = "end";
+            JSONObject recordJSON = new JSONObject();
+            recordJSON.put("time", QADateFormat.getStringDate(endAt));
+            recordJSON.put("tag", "end");
+            recordJSON.put("val", "");
+            jsonObject.put(name, recordJSON);
 
 
             jsonObject.put("len", Integer.toString(records.size()+additional));
