@@ -354,11 +354,11 @@ public class MedicalCertification implements Serializable, Comparable<MedicalCer
     }
 
     public JSONObject getJSON(){
+        int additional = 0;
         JSONObject jsonObject = null;
         try{
             jsonObject = new JSONObject();
 
-            jsonObject.put("len", Integer.toString(records.size()));
             for (int i = 0; i < records.size(); i++){
                 Record record = records.get(i);
                 String name = "record" + Integer.toString(i);
@@ -370,7 +370,19 @@ public class MedicalCertification implements Serializable, Comparable<MedicalCer
 
                 jsonObject.put(name, recordJSON);
             }
+            if (isLocationSet){
+                additional += 1;
+                String name = "record" + Integer.toString(records.size());
+                JSONObject recordJSON = new JSONObject();
+                recordJSON.put("time", records.get(0).getTime());
+                recordJSON.put("tag", "loc");
+                recordJSON.put("val", Double.toString(location[LATITUDE]) + ":" + Double.toString(location[LONGITUDE]));
 
+                jsonObject.put(name, recordJSON);
+            }
+
+
+            jsonObject.put("len", Integer.toString(records.size()+additional));
             Log.d("jsonobject", jsonObject.toString());
 
         } catch (JSONException e){

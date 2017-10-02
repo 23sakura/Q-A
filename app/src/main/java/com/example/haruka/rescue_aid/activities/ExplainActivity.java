@@ -15,10 +15,12 @@ import android.widget.TextView;
 import com.example.haruka.rescue_aid.R;
 import com.example.haruka.rescue_aid.utils.ExplainCare;
 import com.example.haruka.rescue_aid.utils.MedicalCertification;
+import com.example.haruka.rescue_aid.utils.QADateFormat;
 import com.example.haruka.rescue_aid.utils.Record;
 import com.example.haruka.rescue_aid.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import jp.fsoriented.cactusmetronome.lib.Click;
 import jp.fsoriented.cactusmetronome.lib.DefaultHighClickCallback;
@@ -46,6 +48,9 @@ public class ExplainActivity extends ReadAloudTestActivity {
     int explainIndex;
     Handler _handler;
     boolean useSwitchTimer;
+    boolean careAED;
+
+    Date start;
 
 
     private static class BpmUtil {
@@ -166,10 +171,8 @@ public class ExplainActivity extends ReadAloudTestActivity {
 
     void mainExplain(){
 
-        //medicalCertification.addRecord(new Record("Care", mainEmergencyExplanation.name));
         Log.d("Care", Integer.toString(mainEmergencyExplanation.id_));
-        Record r = new Record("Care", Integer.toString(mainEmergencyExplanation.id_));
-        medicalCertification.addRecord(r);
+        start = new Date();
 
         _handler.removeCallbacksAndMessages(null);
         stopMetronome();
@@ -191,13 +194,14 @@ public class ExplainActivity extends ReadAloudTestActivity {
             }
         }, mainEmergencyExplanation.getDuration(0));
 
+        careAED = false;
+
     }
 
     void setSubExplanation(int index){
         setTextView(subEmergencyExplanation.getText(index));
         imageView.setImageDrawable(subEmergencyExplanation.getImage(index));
-        //explainButton.setText(subEmergencyExplanation.getButtonText(index));
-        //finishButton.setText(subEmergencyExplanation.getButton2Text(index));
+        careAED = true;
     }
 
     void subExplaination(){
@@ -218,9 +222,26 @@ public class ExplainActivity extends ReadAloudTestActivity {
                 aedBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        Date end = new Date();
+                        Log.d("care end" , QADateFormat.getStringDate(new Date((end.getTime() - start.getTime()) + QADateFormat.getDate(medicalCertification.records.get(0).getTime()).getTime())));
+                        String duration = QADateFormat.getStringDate(new Date((end.getTime() - start.getTime()) + QADateFormat.getDate(medicalCertification.records.get(0).getTime()).getTime()));
+                        Record r = new Record(duration, "Care", Integer.toString(mainEmergencyExplanation.id_));
+                        Log.d("care record", r.toString());
+                        medicalCertification.addRecord(r);
+
                         subExplaination();
                     }
                 });
+
+
+
+                Date end = new Date();
+                Log.d("care end" , QADateFormat.getStringDate(new Date((end.getTime() - start.getTime()) + QADateFormat.getDate(medicalCertification.records.get(0).getTime()).getTime())));
+                String duration = QADateFormat.getStringDate(new Date((end.getTime() - start.getTime()) + QADateFormat.getDate(medicalCertification.records.get(0).getTime()).getTime()));
+                Record r = new Record(duration, "Care", Integer.toString(subEmergencyExplanation.id_));
+                Log.d("care record", r.toString());
+                medicalCertification.addRecord(r);
+
                 mainExplain();
                 aedBtn.setText("AEDが到着した");
                 //nextExplanation();
@@ -310,47 +331,17 @@ public class ExplainActivity extends ReadAloudTestActivity {
             aedBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Date end = new Date();
+                    Log.d("care end" , QADateFormat.getStringDate(new Date((end.getTime() - start.getTime()) + QADateFormat.getDate(medicalCertification.records.get(0).getTime()).getTime())));
+                    String duration = QADateFormat.getStringDate(new Date((end.getTime() - start.getTime()) + QADateFormat.getDate(medicalCertification.records.get(0).getTime()).getTime()));
+                    Record r = new Record(duration, "Care", Integer.toString(mainEmergencyExplanation.id_));
+                    Log.d("care record", r.toString());
+                    medicalCertification.addRecord(r);
+
                     subExplaination();
                 }
             });
         }
-        /*
-        imageView.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                if (!useSwitchTimer) {
-                    nextExplanation();
-                }
-            }
-        });
-        */
-
-        //linearLayout.removeAllViews();
-
-        //explainButton = (Button) findViewById(R.id.btn_explain);
-        //explainButton.setText("");
-        //finishButton = (Button)findViewById(R.id.btn_finish);
-        /*
-        finishButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                finishRescue();
-                medicalCertification.showRecords();
-            }
-        });
-        */
-        //finishButton.setText("");
-        /*
-        finishBtn = new Button(this);
-        finishBtn.setText("hogehoge");
-        linearLayout.addView(finishBtn);
-        backBtn = new Button(this);
-        backBtn.setText("◁");
-        linearLayout.addView(backBtn);
-        forwardBtn = new Button(this);
-        forwardBtn.setText("▷");
-        linearLayout.addView(forwardBtn);
-        */
 
         finishBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -394,6 +385,7 @@ public class ExplainActivity extends ReadAloudTestActivity {
         }
         mainExplain();
         useSwitchTimer = true;
+        careAED = false;
 
         medicalCertification.save(this);
 
@@ -419,6 +411,21 @@ public class ExplainActivity extends ReadAloudTestActivity {
 
         stopMetronome();
         _handler.removeCallbacksAndMessages(null);
+
+
+        Date end = new Date();
+        Log.d("care end" , QADateFormat.getStringDate(new Date((end.getTime() - start.getTime()) + QADateFormat.getDate(medicalCertification.records.get(0).getTime()).getTime())));
+        String duration = QADateFormat.getStringDate(new Date((end.getTime() - start.getTime()) + QADateFormat.getDate(medicalCertification.records.get(0).getTime()).getTime()));
+        Record r;
+        if (careAED) {
+            r = new Record(duration, "Care", Integer.toString(subEmergencyExplanation.id_));
+        } else {
+            r = new Record(duration, "Care", Integer.toString(mainEmergencyExplanation.id_));
+        }
+        medicalCertification.addRecord(r);
+        Log.d("care record", r.toString());
+
+        medicalCertification.save(this);
     }
 
     @Override

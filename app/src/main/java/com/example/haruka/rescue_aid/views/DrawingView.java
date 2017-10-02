@@ -321,13 +321,13 @@ public class DrawingView extends View {
             } catch (Exception e){
                 if (r.getTag().equals(Utils.TAG_CARE)){
                     try{
-                        Date start = QADateFormat.getDate(r.getTime());
-                        Date end = QADateFormat.getDate(medicalCertification.records.get(i+1).getTime());
+                        Date start = QADateFormat.getDate(medicalCertification.records.get(0).getTime());
+                        Date end = QADateFormat.getDate(r.getTime());
                         Log.d("carerecord", "start");
                         int careIndex = Integer.parseInt(r.getValue());
                         Care c = cares.get(careIndex);
                         String careTitle = c.name;
-                        String time = Long.toString((end.getTime() - start.getTime()));
+                        String time = Long.toString((end.getTime() - start.getTime())/1000);
                         careRecords.add(new Record(careTitle, time));
 
                     } catch (Exception e1){
