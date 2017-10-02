@@ -405,8 +405,8 @@ public class ExplainActivity extends ReadAloudTestActivity {
     }
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        speechText("応急手当を終了しますか");
         if(keyCode==KeyEvent.KEYCODE_BACK){
+            speechText("応急手当を終了しますか");
             new AlertDialog.Builder(ExplainActivity.this).setMessage("応急手当を終了しますか").setPositiveButton("はい", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
