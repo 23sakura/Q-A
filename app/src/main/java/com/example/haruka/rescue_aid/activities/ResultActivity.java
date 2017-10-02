@@ -43,6 +43,8 @@ import static java.lang.Integer.parseInt;
 
 public class ResultActivity extends OptionActivity {
 
+    private static final int SUB_ACTIVITY = 1001;
+
     private int urgency;
     private ArrayList<Care> cares;
     private ArrayList<Question> questions;
@@ -51,7 +53,6 @@ public class ResultActivity extends OptionActivity {
     CareList careList;
 
     private boolean throughInterview;
-
 
     private void startCare(Care care){
         String tag = care.name;
@@ -67,7 +68,7 @@ public class ResultActivity extends OptionActivity {
             Intent intent = new Intent(this, ExplainActivity.class);
             intent.putExtra("CERTIFICATION", medicalCertification);
             intent.putExtra("CARE_XML", care.getXml());
-            startActivity(intent);
+            startActivityForResult(intent, SUB_ACTIVITY);
         }
     }
 
@@ -342,7 +343,7 @@ public class ResultActivity extends OptionActivity {
         careList.showCareList();
 
         try {
-            medicalCertification = (MedicalCertification) getIntent().getSerializableExtra("CERTIFICATION");
+            medicalCertification = (MedicalCertification) getIntent().getSerializableExtra(Utils.TAG_INTENT_CERTIFICATION);
             medicalCertification.save(this);
         } catch (Exception e) {
             medicalCertification = new MedicalCertification();
@@ -392,4 +393,15 @@ public class ResultActivity extends OptionActivity {
         return false;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d("medicalcertification", "request");
+        if(requestCode == SUB_ACTIVITY) {
+            Log.d("medicalcertification", "valid code");
+            if(resultCode == RESULT_OK) {
+                Log.d("medicalCertification", "is got");
+                medicalCertification = (MedicalCertification) data.getSerializableExtra("CERTIFICATION");
+            }
+        }
+    }
 }

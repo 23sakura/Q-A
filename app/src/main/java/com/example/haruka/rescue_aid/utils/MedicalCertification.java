@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static com.example.haruka.rescue_aid.utils.QADateFormat.getDate;
+
 /**
  * Created by Tomoya on 9/5/2017 AD.
  * This class is the certification of this application.
@@ -48,7 +50,7 @@ public class MedicalCertification implements Serializable, Comparable<MedicalCer
     public static final int SCENARIO_ID_INJURY = 1;
 
     public MedicalCertification(){
-        startAt = QADateFormat.getDate(QADateFormat.getInstance());
+        startAt = getDate(QADateFormat.getInstance());
         records = new ArrayList<>();
         Record r = new Record("start", "");
         records.add(r);
@@ -71,7 +73,7 @@ public class MedicalCertification implements Serializable, Comparable<MedicalCer
             Record r;
             if (null == startAt) {
                 r = new Record(line);
-                startAt = QADateFormat.getDate(r.getTime());
+                startAt = getDate(r.getTime());
                 setFilename();
             } else {
                 r = new Record(startAt, line);
@@ -205,9 +207,9 @@ public class MedicalCertification implements Serializable, Comparable<MedicalCer
         for(Record r : records){
             if ("".equals(res)){
                 res += r.toString();
-                startAt = QADateFormat.getDate(r.getTime());
+                startAt = getDate(r.getTime());
             }else{
-                Date d = QADateFormat.getDate(r.getTime());
+                Date d = getDate(r.getTime());
                 String time = Long.toString(((d.getTime() - startAt.getTime())/1000));
                 res += time + "," + r.getTagValue();
             }
@@ -363,8 +365,14 @@ public class MedicalCertification implements Serializable, Comparable<MedicalCer
                 Record record = records.get(i);
                 String name = "record" + Integer.toString(i);
 
+                String time;
+                if (record.getTag().equals(Utils.TAG_CARE)){
+                    time = Long.toString(QADateFormat.getDate(record.getTime()).getTime() - startAt.getTime());
+                } else {
+                    time = record.getTime();
+                }
                 JSONObject recordJSON = new JSONObject();
-                recordJSON.put("time", record.getTime());
+                recordJSON.put("time", time);
                 recordJSON.put("tag", record.getTag());
                 recordJSON.put("val", record.getValue());
 

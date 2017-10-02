@@ -35,6 +35,8 @@ import jp.fsoriented.cactusmetronome.lib.Metronome;
 
 public class ExplainActivity extends ReadAloudTestActivity {
 
+    private static final int SUB_ACTIVITY = 1001;
+
     Metronome mMetronome;
     //Button explainButton;
     //Button finishButton;
@@ -205,7 +207,7 @@ public class ExplainActivity extends ReadAloudTestActivity {
     }
 
     void subExplaination(){
-        medicalCertification.addRecord(new Record(Utils.TAG_CARE, subEmergencyExplanation.name));
+        //medicalCertification.addRecord(new Record(Utils.TAG_CARE, subEmergencyExplanation.name));
 
         _handler.removeCallbacksAndMessages(null);
         stopMetronome();
@@ -292,6 +294,16 @@ public class ExplainActivity extends ReadAloudTestActivity {
         stopMetronome();
     }
 
+    @Override
+    public void finish(){
+        savelast();
+        Log.d("Medicalcertification", "is passed");
+        Intent data = new Intent();
+        data.putExtra(Utils.TAG_INTENT_CERTIFICATION, medicalCertification);
+        setResult(RESULT_OK, data);
+
+        super.finish();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -346,7 +358,8 @@ public class ExplainActivity extends ReadAloudTestActivity {
         finishBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AlertDialog.Builder(ExplainActivity.this).setMessage("応急手当を終了しますか").setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                speechText("応急手当を終了しますか");
+                new AlertDialog.Builder(ExplainActivity.this).setMessage("応急手当を終了しますか").setPositiveButton("はい", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         finish();
@@ -392,8 +405,9 @@ public class ExplainActivity extends ReadAloudTestActivity {
     }
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
+        speechText("応急手当を終了しますか");
         if(keyCode==KeyEvent.KEYCODE_BACK){
-            new AlertDialog.Builder(ExplainActivity.this).setMessage("応急手当を終了しますか").setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            new AlertDialog.Builder(ExplainActivity.this).setMessage("応急手当を終了しますか").setPositiveButton("はい", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     finish();
@@ -404,15 +418,7 @@ public class ExplainActivity extends ReadAloudTestActivity {
         return false;
     }
 
-
-    @Override
-    protected void onPause(){
-        super.onPause();
-
-        stopMetronome();
-        _handler.removeCallbacksAndMessages(null);
-
-
+    private void savelast(){
         Date end = new Date();
         Log.d("care end" , QADateFormat.getStringDate(new Date((end.getTime() - start.getTime()) + QADateFormat.getDate(medicalCertification.records.get(0).getTime()).getTime())));
         String duration = QADateFormat.getStringDate(new Date((end.getTime() - start.getTime()) + QADateFormat.getDate(medicalCertification.records.get(0).getTime()).getTime()));
@@ -426,7 +432,21 @@ public class ExplainActivity extends ReadAloudTestActivity {
         Log.d("care record", r.toString());
 
         medicalCertification.save(this);
+
     }
+
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+
+        stopMetronome();
+        _handler.removeCallbacksAndMessages(null);
+
+
+        savelast();
+    }
+
 
     @Override
     protected void onResume(){
