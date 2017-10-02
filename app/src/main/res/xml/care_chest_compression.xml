@@ -17,7 +17,7 @@
         <item>
             <description>次の図を参考に胸の中央部に手を置きます。</description>
             <image>
-                explain/chest_compression/img/chest1.jpg
+                explain/chest_compression/img/i000.jpg
             </image>
             <duration>10000</duration>
             <button>
@@ -27,7 +27,7 @@
         <item>
             <description>胸が5cmくらい沈むよう、ひじを伸ばして垂直に体重をかけ、メトロノームに合わせて強く胸を押します。</description>
             <image>
-                explain/chest_compression/img/chest2.jpg
+                explain/chest_compression/img/i001.jpg
             </image>
             <duration>15000</duration>
             <button>
@@ -37,7 +37,7 @@
 	    <item>
             <description>圧迫と圧迫の間に胸に力がかからないようにします。</description>
             <image>
-                explain/chest_compression/img/chest2.jpg
+                explain/chest_compression/img/i001.jpg
             </image>
             <duration>10000</duration>
             <button>
