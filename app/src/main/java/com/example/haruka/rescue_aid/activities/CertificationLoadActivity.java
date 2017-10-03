@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -123,24 +124,10 @@ public class CertificationLoadActivity extends OptionActivity {
     protected void onCreate(Bundle bundle){
         setTitle("問診履歴");
         super.onCreate(bundle);
-        /*
-        ScrollView scrollView = new ScrollView(this);
-        setContentView(scrollView);
-        linearLayout = new LinearLayout(this);
-        linearLayout.setOrientation(LinearLayout.VERTICAL);
-        scrollView.addView(linearLayout);
-        */
         contextLoadDataActivity = this;
 
         setContentView(R.layout.activity_load_certification);
         listView = (ListView)findViewById(R.id.listview_certification);
-
-        /*
-        String[] files = fileList();
-        for (String file : files){
-            deleteFile(file);
-        }
-        */
     }
 
     private void setListView2(){
@@ -203,7 +190,75 @@ public class CertificationLoadActivity extends OptionActivity {
         super.onResume();
         medicalCertification = null;
         setListView();
+
+        volume = new boolean[ALL_DELETE_COMMAND.length];
     }
 
+    void switchNext(boolean v){
+        for(int i = 7; i > 0; i--){
+            volume[i] = volume[i-1];
+        }
+        volume[0] = v;
+    }
 
+    void printBoolean(boolean[] volume){
+        String v = "";
+        for(boolean b : volume){
+            v += b ? "T":"F";
+        }
+        Log.d("printVolume", v);
+    }
+
+    boolean compareCommand(){
+        for(int i = 0; i < volume.length; i++){
+            if(volume[i] != ALL_DELETE_COMMAND[i]){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void deleteAll(){
+        new AlertDialog.Builder(contextLoadDataActivity).setMessage("全ての問診データを消去しますか").setPositiveButton("はい", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String[] filenames = fileList();
+                for(String filename : filenames) {
+                    deleteFile(filename);
+                }
+                setListView();
+            }
+        }).show();
+    }
+
+    private boolean[] volume;
+    final private boolean[] ALL_DELETE_COMMAND = {true, false, false, true, false, false, true, true};
+
+
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode==KeyEvent.KEYCODE_VOLUME_UP) {
+            switchNext(true);
+            if (compareCommand()){
+                deleteAll();
+                Log.d("volume command", "completeAllDelete");
+            }
+            Log.d("Volume up", "done");
+            printBoolean(volume);
+            printBoolean(ALL_DELETE_COMMAND);
+        } else if(keyCode==KeyEvent.KEYCODE_VOLUME_DOWN){
+            switchNext(false);
+            if (compareCommand()){
+                deleteAll();
+                Log.d("volume command", "completeAllDelete");
+            }
+            Log.d("Volume down", "done");
+            printBoolean(volume);
+            printBoolean(ALL_DELETE_COMMAND);
+        } else if (keyCode==KeyEvent.KEYCODE_BACK){
+            finish();
+        }
+        return false;
+    }
 }
