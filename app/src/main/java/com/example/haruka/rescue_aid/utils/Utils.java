@@ -109,8 +109,7 @@ public class Utils {
         } else if ("care_bleed_stopping".equals(xml)) {
             return R.xml.care_bleed_stopping;
         } else if ("care_airway_foreign_body_removal".equals(xml)) {
-            //return R.xml.care_airway_foreign_body_removal;
-            return R.xml.care_airway2;
+            return R.xml.care_airway_foreign_body_removal;
         } else if ("care_heatstroke".equals(xml)) {
             return R.xml.care_heatstroke;
         } else if ("care_fracture".equals(xml)){

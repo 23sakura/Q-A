@@ -2,69 +2,68 @@
 <root xmlns:android="http://schemas.android.com/apk/res/android">
     <id>4</id>
 
-    <num>5</num>
+    <notice>
+        <title>
+            気道異物除去（背部叩打法）
+        </title>
+        <description>
+            結果表示画面の説明文
+        </description>
+    </notice>
 
+
+    <num>4</num>
     <items>
         <item>
             <description>
-                患者の後ろに回り、ウエスト付近に手を回してください。
+                傷病者が寝ている場合、救助者の方に横に向けてください。
             </description>
             <image>
-                explain/airway_removal/img/img01.jpg
+                explain/airway_removal/img1.jpg
             </image>
-            <duration>8000</duration>
+            <duration>10000</duration>
             <button>
-                処置が終わった
+                次の処置へ
             </button>
         </item>
         <item>
             <description>
-                片方の手で、「へそ」の位置を確認してください。
+                気道を確保できるように下 あごを確保し、足を傷病者の胸に当てて支えてください。
             </description>
             <image>
-                explain/airway_removal/img/img01.jpg
+                explain/airway_removal/img2.jpg
             </image>
-            <duration>8000</duration>
+            <duration>10000</duration>
             <button>
-                処置が終わった
+                次の処置へ
             </button>
         </item>
         <item>
             <description>
-                もう一方の手で握りこぶしを作り、親指を患者の「へそ」の上部に当ててください。
+                傷病者が寝ていない場合、前傾姿勢にして、下あごを前に突き出すようにしてください。
             </description>
             <image>
-                explain/airway_removal/img/img03.jpg
+                explain/airway_removal/img3.jpg
             </image>
-            <duration>8000</duration>
+            <duration>10000</duration>
             <button>
-                処置が終わった
+                次の処置へ
             </button>
         </item>
         <item>
             <description>
-                「へそ」を確認した方の手を握りこぶしに重ねるようにして握り、素早く手前上方へ圧迫するように突き上げてください。
+                肩甲骨の間を手の付け根で、頭の方に向かって強く叩いてください。
             </description>
             <image>
-                explain/airway_removal/img/img02.jpg
+                explain/airway_removal/img4.jpg
             </image>
-            <duration>8000</duration>
+            <duration>10000</duration>
             <button>
-                処置が終わった
-            </button>
-        </item>
-        <item>
-            <description>
-                この処置を行った場合は、腹部の内臓を痛める可能性があるため、救急隊にこの処置を行ったことを伝えてください。
-            </description>
-            <image>
-                explain/airway_removal/img/img02.jpg
-            </image>
-            <duration>8000</duration>
-            <button>
-                処置が終わった
+                処置終了
             </button>
         </item>
     </items>
     <metronome>0</metronome>
+
+    <quote>http://www.119-sys.jp/each-fire-department/sakura-fire%20department/cpr/ibutu/ibutuzyokyo1.html</quote>
 </root>

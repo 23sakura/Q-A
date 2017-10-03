@@ -19,7 +19,7 @@
                 傷病者が寝ている場合、救助者の方に向くよう横に向けてください。
             </description>
             <image>
-                explain/airway_removal/img/img04.jpg
+                explain/airway_removal/img1.jpg
             </image>
             <duration>10000</duration>
             <button>
@@ -31,7 +31,7 @@
                 気道を確保できるように下 あごを突き出し、足を傷病者の胸に当てて支えてください。
             </description>
             <image>
-                explain/airway_removal/img/img04.jpg
+                explain/airway_removal/img2.jpg
             </image>
             <duration>10000</duration>
             <button>
@@ -43,7 +43,7 @@
                 傷病者が寝ていない場合、前傾姿勢にして、下 あごを前に突き出すようにしてください。
             </description>
             <image>
-                explain/airway_removal/img/img05.jpg
+                explain/airway_removal/img3.jpg
             </image>
             <duration>10000</duration>
             <button>
@@ -55,7 +55,7 @@
                 肩甲骨の間を手の付け根で、頭の方に向かって強く叩いてください。
             </description>
             <image>
-                explain/airway_removal/img/img06.jpg
+                explain/airway_removal/img4.jpg
             </image>
             <duration>10000</duration>
             <button>

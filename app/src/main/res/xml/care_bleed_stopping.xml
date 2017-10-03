@@ -2,15 +2,15 @@
 <root xmlns:android="http://schemas.android.com/apk/res/android">
     <id>3</id>
 
-    <num>3</num>
+    <num>5</num>
 
     <items>
         <item>
             <description>
-		感染防止のために、ビニール袋やビニール手袋などを使用してください。
+                傷口を流水などで洗ってください。
             </description>
             <image>
-                explain/bleed_stopping/i001.gif
+                explain/bleed_stopping/img1.jpg
             </image>
             <duration>8000</duration>
             <button>
@@ -19,10 +19,34 @@
         </item>
         <item>
             <description>
-                出血しているきず口を厚いガーゼやハンカチなどで直接強く押さえて、しばらく圧迫します。
+                ビニール袋やビニール手袋などを自分の手に付けます。
             </description>
             <image>
-                explain/bleed_stopping/i001.gif
+                explain/bleed_stopping/img2.jpg
+            </image>
+            <duration>8000</duration>
+            <button>
+                出血が止まった
+            </button>
+        </item>
+        <item>
+            <description>
+                それがない場合は、クリアファイルかたくさんのタオルなどで、血に直接触らないようにします。
+            </description>
+            <image>
+                explain/bleed_stopping/img3.jpg
+            </image>
+            <duration>8000</duration>
+            <button>
+                出血が止まった
+            </button>
+        </item>
+        <item>
+            <description>
+                きず口に厚いガーゼやハンカチを当て、直接触らないようにしてしばらく強く圧迫します。
+            </description>
+            <image>
+                explain/bleed_stopping/img4.jpg
             </image>
             <duration>8000</duration>
             <button>
@@ -34,7 +58,7 @@
                 出血が持続している間は、手を動かさず圧迫を続けてください。
             </description>
             <image>
-                explain/bleed_stopping/i001.gif
+                explain/bleed_stopping/img4.jpg
             </image>
             <duration>8000</duration>
             <button>

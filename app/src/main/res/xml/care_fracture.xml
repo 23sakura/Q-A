@@ -12,11 +12,11 @@
     </notice>
 
 
-    <num>6</num>
+    <num>5</num>
     <items>
         <item>
             <description>
-                患部が腫れているか確認してください。
+                患部が腫れていれば、冷やしながら処置を行ってください。
             </description>
             <image>
                 explain/fracture/img1.jpg
@@ -52,7 +52,7 @@
         </item>
         <item>
             <description>
-                腫れている部分を冷やしてください。
+                痛みのない程度に、患部を上げてください。
             </description>
             <image>
                 explain/fracture/img4.jpg
@@ -64,7 +64,7 @@
         </item>
         <item>
             <description>
-                痛みのない程度に、患部を上げてください。
+                手の場合は、吊り上げるか自分で持つようにしてください。
             </description>
             <image>
                 explain/fracture/img5.jpg
@@ -74,20 +74,8 @@
                 処置の続き
             </button>
         </item>
-        <item>
-            <description>
-                手の場合は、吊り上げるか、自分で持って支えてください。
-            </description>
-            <image>
-                explain/fracture/img6.jpg
-            </image>
-            <duration>10000</duration>
-            <button>
-                処置の続き
-            </button>
-        </item>
     </items>
     <metronome>0</metronome>
     
-    <quote>http://kamisyo.jp/sub05/sub05_kotusetu.htm の固定方法の例</quote>
+    <quote>http://kamisyo.jp/sub05/sub05_kotusetu.htm の固定方法の例</quote> <!-- アプリケーションで使わないので日本語でよい　本の名前、誰に聞いたか（青木さんとか）-->
 </root>
