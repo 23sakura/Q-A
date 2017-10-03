@@ -105,7 +105,7 @@ public class ExplainActivity extends ReadAloudTestActivity {
 
         ArrayList<Click> list = new ArrayList<Click>();
         int samples = BpmUtil.getSampleLength(tempo);
-        int beatsPerMeasure = 4;
+        int beatsPerMeasure = 1;
         NoteEnum note = NoteEnum.BASIC_4;
         for (int i=0; i<beatsPerMeasure ; i++) {
             note.addNewClicks(list, samples, i);
