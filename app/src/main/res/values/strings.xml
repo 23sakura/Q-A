@@ -5,7 +5,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="gotoQR">QRコード表示</string>
+    <string name="gotoQR">QRコード表示\n(伝達)</string>
     <string name="gotoCertification">診断書表示</string>
     <string name="gotoResult">問診結果表示</string>
 
