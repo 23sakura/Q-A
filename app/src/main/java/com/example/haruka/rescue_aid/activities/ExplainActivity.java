@@ -51,6 +51,7 @@ public class ExplainActivity extends ReadAloudTestActivity {
     Handler _handler;
     boolean useSwitchTimer;
     boolean careAED;
+    boolean isLastSaved;
 
     Date start;
 
@@ -209,6 +210,7 @@ public class ExplainActivity extends ReadAloudTestActivity {
     void subExplaination(){
         //medicalCertification.addRecord(new Record(Utils.TAG_CARE, subEmergencyExplanation.name));
 
+        start = new Date();
         _handler.removeCallbacksAndMessages(null);
         stopMetronome();
         if (subEmergencyExplanation.isMetronomeRequired){
@@ -297,6 +299,7 @@ public class ExplainActivity extends ReadAloudTestActivity {
     @Override
     public void finish(){
         savelast();
+        isLastSaved = true;
         Log.d("Medicalcertification", "is passed");
         Intent data = new Intent();
         data.putExtra(Utils.TAG_INTENT_CERTIFICATION, medicalCertification);
@@ -399,6 +402,7 @@ public class ExplainActivity extends ReadAloudTestActivity {
         mainExplain();
         useSwitchTimer = true;
         careAED = false;
+        isLastSaved = false;
 
         medicalCertification.save(this);
 
@@ -443,8 +447,9 @@ public class ExplainActivity extends ReadAloudTestActivity {
         stopMetronome();
         _handler.removeCallbacksAndMessages(null);
 
-
-        savelast();
+        if(!isLastSaved) {
+            savelast();
+        }
     }
 
 
