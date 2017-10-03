@@ -13,10 +13,14 @@ import com.example.haruka.rescue_aid.R;
 public class Utils {
 
     //public final static String SCENARIOS_ILL = "ill/scenario_17091801.csv";
-    ///public final static String SCENARIOS_ILL = "ill/scenario_17093001.csv";
-    public final static String SCENARIOS_ILL = "ill/ill_0930_2.csv";
+    //public final static String SCENARIOS_ILL = "ill/scenario_17093001.csv";
+    //public final static String SCENARIOS_ILL = "ill/ill_0930_2.csv";
+    public final static String SCENARIOS_ILL = "ill/ill_1002.csv";
+
     //public final static String SCENARIOS_INJURY = "injury/scenario_170918.csv";
     public final static String SCENARIOS_INJURY = "injury/kega_0930_2.csv";
+    //public final static String SCENARIOS_INJURY = "injury/kega_10002.csv";
+
     public final static String LIST_CARE = "carelist_v00.csv";
 
     public final static String TAG_CARE = "Care";
