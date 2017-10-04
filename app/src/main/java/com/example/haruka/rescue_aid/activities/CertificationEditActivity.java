@@ -71,7 +71,8 @@ public class CertificationEditActivity extends OptionActivity {
         filenameEditText.clearFocus();
 
         intent1 = new Intent(this, QRDisplayActivity.class);
-        intent2 = new Intent(this, CertificationActivity.class);
+        intent2 = new Intent(this, CertificationActivity2.class);
+        //intent2 = new Intent(this, CertificationActivity.class);
         intent3 = new Intent(this, ResultActivity.class);
 
         button1.setOnClickListener(new View.OnClickListener() {

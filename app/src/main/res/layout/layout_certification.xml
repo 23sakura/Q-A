@@ -25,8 +25,8 @@
                 android:gravity="center">
 
                 <ImageView
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:src="@drawable/icon"/>
 
                 <TextView
@@ -38,11 +38,12 @@
                     android:textColor="@color/black"/>
 
                 <ImageView
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"/>
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"/>
             </LinearLayout>
 
             <TextView
+                android:id="@+id/textview_date_certification"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="right"
@@ -50,6 +51,7 @@
                 android:textSize="15dp"
                 android:layout_marginRight="20dp"/>
             <TextView
+                android:id="@+id/textview_address_dms_certification"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="場所："
@@ -70,7 +72,8 @@
                 <TableLayout
                     android:id="@+id/tablelayout_certification1"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:background="@color/black">
 
 
                 </TableLayout>
@@ -84,7 +87,7 @@
                     android:id="@+id/tablelayout_certification2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="1dp">
+                    android:background="@color/black">
 
                 </TableLayout>
             </LinearLayout>
