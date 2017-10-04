@@ -1,9 +1,9 @@
 package com.example.haruka.rescue_aid.activities;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
 import android.view.View;
@@ -15,19 +15,17 @@ import com.example.haruka.rescue_aid.R;
 /**
  * This is a title activity
  */
-public class TitleActivity extends OptionActivity {
+public class TitleActivity extends ReadAloudTestActivity {
 
     private Button gotoInterviewBtn, gotoTestBtn, gotoCareBtn, historyBtn;
     private Intent interviewIntent, testIntent, qrIntent, careIntent;
-    private Context context;
-
+    Handler _handler;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_title);
-        context = this;
 
         //interviewIntent = new Intent(this, InterviewActivity.class);
         interviewIntent = new Intent(this, SymptomCategorizeActivity.class);
@@ -41,7 +39,38 @@ public class TitleActivity extends OptionActivity {
         gotoInterviewBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(interviewIntent);
+                String text = "問診、手当を行う前に、身の周りの安全を確保してください";
+                speechText(text);
+                _handler = new Handler();
+                final AlertDialog alertDialog = new AlertDialog.Builder(TitleActivity.this)
+                        .setTitle("身の安全を確保")
+                        .setMessage(text)
+                        .setNegativeButton("安全を確保した", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                startActivity(interviewIntent);
+                                tts.stop();
+                            }
+                        })
+                        .setIcon(getResources().getDrawable(R.drawable.attention))
+                        .setOnCancelListener(new DialogInterface.OnCancelListener() {
+                            @Override
+                            public void onCancel(DialogInterface dialog) {
+                                tts.stop();
+                                _handler.removeCallbacksAndMessages(null);
+                            }
+                        })
+                        .show();
+
+
+                _handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        startActivity(interviewIntent);
+                        tts.stop();
+                        alertDialog.cancel();
+                    }
+                }, 10000);
             }
         });
 
@@ -82,6 +111,7 @@ public class TitleActivity extends OptionActivity {
     @Override
     protected void onStop(){
         super.onStop();
+        _handler.removeCallbacksAndMessages(null);
     }
 
     @Override

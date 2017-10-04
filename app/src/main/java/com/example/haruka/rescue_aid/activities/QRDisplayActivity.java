@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.haruka.rescue_aid.R;
@@ -209,10 +210,16 @@ public class QRDisplayActivity extends OptionActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(!isChecked){
                     showQR(medicalCertification.toString());
+                    ((TextView)findViewById(R.id.textview_qr_mode)).setText("救&援のQRコードリーダーで読み取る");
                 } else {
-                    showQR("https://qa-server.herokuapp.com/certification/" + qrID);
+                    if (qrID == null){
+                        Toast.makeText(QRDisplayActivity.this, "データ転送に失敗しました\n\"救&援\"のQRコードリーダで読み取ってください", Toast.LENGTH_SHORT).show();
+                        qrSwitch.setChecked(false);
+                    } else {
+                        showQR("https://qa-server.herokuapp.com/certification/" + qrID);
+                        ((TextView) findViewById(R.id.textview_qr_mode)).setText("一般のQRコードリーダーで読み取る");
+                    }
                 }
-                Toast.makeText(QRDisplayActivity.this, "isChecked : " + isChecked, Toast.LENGTH_SHORT).show();
             }
         });
 
