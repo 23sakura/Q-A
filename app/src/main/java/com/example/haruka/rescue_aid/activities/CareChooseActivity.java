@@ -9,6 +9,8 @@ import android.widget.ListView;
 import com.example.haruka.rescue_aid.R;
 import com.example.haruka.rescue_aid.utils.Care;
 import com.example.haruka.rescue_aid.utils.CareList;
+import com.example.haruka.rescue_aid.utils.MedicalCertification;
+import com.example.haruka.rescue_aid.utils.Utils;
 import com.example.haruka.rescue_aid.views.CareListAdapter;
 
 import java.util.ArrayList;
@@ -61,6 +63,10 @@ public class CareChooseActivity extends OptionActivity {
         });
 
 
-        medicalCertification = null;
+        try{
+            medicalCertification = (MedicalCertification)getIntent().getSerializableExtra(Utils.TAG_INTENT_CERTIFICATION);
+        } catch (Exception e){
+
+        }
     }
 }

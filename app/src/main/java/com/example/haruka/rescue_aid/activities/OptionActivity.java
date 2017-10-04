@@ -230,10 +230,12 @@ public class OptionActivity extends AppCompatActivity {
                 break;
             case R.id.menu_title_QR:
                 intent = new Intent(this, QRActivity.class);
+                intent.putExtra(Utils.TAG_INTENT_CERTIFICATION, medicalCertification);
                 startActivity(intent);
                 break;
             case R.id.menu_title_care_list:
                 intent = new Intent(this, CareChooseActivity.class);
+                intent.putExtra(Utils.TAG_INTENT_CERTIFICATION, medicalCertification);
                 startActivity(intent);
                 break;
             case R.id.menu_title_AED:

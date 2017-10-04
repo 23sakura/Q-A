@@ -50,7 +50,11 @@ public class QRActivity extends OptionActivity {
         mSurfaceView.setOnClickListener(onClickListener);
         setContentView(mSurfaceView);
         addContentView(new CameraOverlayView(this), new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
-        medicalCertification = null;
+        try{
+            medicalCertification = (MedicalCertification)getIntent().getSerializableExtra(Utils.TAG_INTENT_CERTIFICATION);
+        } catch (Exception e){
+
+        }
     }
 
     @Override
