@@ -90,13 +90,13 @@ public class TitleActivity extends OptionActivity {
             new AlertDialog.Builder(TitleActivity.this)
                     .setTitle("終了")
                     .setMessage("救&援を終了しますか")
-                    .setPositiveButton("はい", new DialogInterface.OnClickListener() {
+                    .setNegativeButton("はい", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             finishAndRemoveTask();
                         }
                     })
-                    .setNegativeButton("いいえ", null)
+                    .setPositiveButton("いいえ", null)
                     .show();
 
             return true;
