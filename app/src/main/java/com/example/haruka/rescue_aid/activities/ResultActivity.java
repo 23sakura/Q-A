@@ -11,6 +11,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -95,12 +96,13 @@ public class ResultActivity extends OptionActivity {
 
         careAdapter.setCareList(cares);
 
+        LinearLayout linearLayout = (LinearLayout)findViewById(R.id.linearlayout_result);
         if (urgency == 1 || urgency == 0) {
-            listView.setBackgroundResource(R.drawable.frame_listview1);
+            linearLayout.setBackgroundResource(R.drawable.frame_listview1);
         } else if (urgency == 2) {
-            listView.setBackgroundResource(R.drawable.frame_listview2);
+            linearLayout.setBackgroundResource(R.drawable.frame_listview2);
         } else if (urgency == 3) {
-            listView.setBackgroundResource(R.drawable.frame_listview3);
+            linearLayout.setBackgroundResource(R.drawable.frame_listview3);
         }
         listView.setAdapter(careAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

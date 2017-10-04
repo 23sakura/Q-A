@@ -22,15 +22,21 @@
         android:layout_weight="0.5"
         android:gravity="center"/>
 
-    <com.example.haruka.rescue_aid.views.CareListView
+    <LinearLayout
+        android:id="@+id/linearlayout_result"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="4"
-        android:background="@drawable/frame_listview3"
-        android:id="@+id/listview_care">
+        android:background="@drawable/frame_listview1">
 
-    </com.example.haruka.rescue_aid.views.CareListView>
+        <com.example.haruka.rescue_aid.views.CareListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="4dp"
+            android:id="@+id/listview_care">
+        </com.example.haruka.rescue_aid.views.CareListView>
 
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
