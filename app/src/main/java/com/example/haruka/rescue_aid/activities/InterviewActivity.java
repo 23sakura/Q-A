@@ -361,7 +361,7 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
         //interviewData.setListOfQuestions(usedQuestions);
 
         speechText("問診は終了しました。");
-        new AlertDialog.Builder(context).setCancelable(false).setMessage("問診は終了しました").setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        new AlertDialog.Builder(context).setCancelable(false).setMessage("問診は終了しました").setPositiveButton("次へ", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
@@ -660,7 +660,7 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
             new AlertDialog.Builder(InterviewActivity.this)
                     .setTitle("終了")
                     .setMessage("問診を終了しますか")
-                    .setPositiveButton("はい", new DialogInterface.OnClickListener() {
+                    .setNegativeButton("はい", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             try{
@@ -671,7 +671,7 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
                             finish();
                         }
                     })
-                    .setNegativeButton("いいえ", null)
+                    .setPositiveButton("いいえ", null)
                     .show();
 
             return true;

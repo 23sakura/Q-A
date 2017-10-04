@@ -241,7 +241,7 @@ public class SymptomCategorizeActivity extends ReadAloudTestActivity {
             new AlertDialog.Builder(SymptomCategorizeActivity.this)
                     .setTitle("終了")
                     .setMessage("問診を終了しますか")
-                    .setPositiveButton("はい", new DialogInterface.OnClickListener() {
+                    .setNegativeButton("はい", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             try {
@@ -252,7 +252,7 @@ public class SymptomCategorizeActivity extends ReadAloudTestActivity {
                             finish();
                         }
                     })
-                    .setNegativeButton("いいえ", null)
+                    .setPositiveButton("いいえ", null)
                     .show();
 
             return true;
