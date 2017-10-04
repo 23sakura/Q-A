@@ -90,7 +90,7 @@ public class OptionActivity extends AppCompatActivity {
                 startService(overlayIntent);
             }
         }
-        Uri uri = Uri.parse("tel:119");
+        Uri uri = Uri.parse("tel:000119");
         Intent intent = new Intent(Intent.ACTION_DIAL,uri);
         startActivity(intent);
     }
@@ -242,15 +242,15 @@ public class OptionActivity extends AppCompatActivity {
                     new AlertDialog.Builder(this)
                             .setTitle("終了")
                             .setMessage("タイトルに戻りますか")
-                            .setPositiveButton("はい", new DialogInterface.OnClickListener() {
+                            .setPositiveButton("いいえ", null)
+                            .setNegativeButton("はい", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     Intent _intent = new Intent(OptionActivity.this, TitleActivity.class);
                                     _intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startActivity(_intent);
-                                }
-                            })
-                            .setNegativeButton("いいえ", null)
+                                }}
+                            )
                             .show();
 
                     return true;
