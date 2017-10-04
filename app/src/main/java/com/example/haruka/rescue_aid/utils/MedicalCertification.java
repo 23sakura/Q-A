@@ -101,7 +101,6 @@ public class MedicalCertification implements Serializable, Comparable<MedicalCer
             }
             records.add(r);
         }
-
         Log.d("is location set", Boolean.toString(isLocationSet));
         showLocation();
     }
@@ -112,7 +111,7 @@ public class MedicalCertification implements Serializable, Comparable<MedicalCer
         //name = QADateFormat.getInstanceFilename();
         number = Long.parseLong(name);
         FILENAME = name + ".obj";
-        this.name = QADateFormat.getStringDateFilename2(startAt);
+        this.name = QADateFormat.getStringDateFilename2(startAt) + " 手当";
     }
 
 
@@ -295,6 +294,8 @@ public class MedicalCertification implements Serializable, Comparable<MedicalCer
     public void setScenario(int scenarioID){
         this.scenarioID = scenarioID;
         addRecord(new Record(SCENARIO_TAG, Integer.toString(scenarioID)));
+
+        this.name = QADateFormat.getStringDateFilename2(startAt);
         if (scenarioID == SCENARIO_ID_ILL){
             name += " 急病";
         } else {
