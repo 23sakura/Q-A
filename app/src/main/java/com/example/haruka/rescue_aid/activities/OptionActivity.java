@@ -1,6 +1,7 @@
 package com.example.haruka.rescue_aid.activities;
 
 import android.annotation.TargetApi;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -43,6 +44,8 @@ public class OptionActivity extends AppCompatActivity {
     public static int OVERLAY_PERMISSION_REQ_CODE = 1000;
     protected String callNote = "";
     protected MedicalCertification medicalCertification;
+
+    ProgressDialog progressDialog;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -262,6 +265,13 @@ public class OptionActivity extends AppCompatActivity {
         return true;
     }
 
+    protected void setUpDialog(){
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setMessage("しばらくお待ちください");
+        progressDialog.setCancelable(true);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -271,6 +281,8 @@ public class OptionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+        setUpDialog();
     }
 
     protected void setCallNote(String text){

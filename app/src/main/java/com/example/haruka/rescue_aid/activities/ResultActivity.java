@@ -144,6 +144,7 @@ public class ResultActivity extends OptionActivity {
         qrBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressDialog.show();
                 Intent intent = new Intent(ResultActivity.this, QRDisplayActivity.class);
                 intent.putExtra(Utils.TAG_INTENT_CERTIFICATION, medicalCertification);
                 intent.putExtra(Utils.TAG_INTENT_THROUGH_INTERVIEW, throughInterview);
@@ -156,6 +157,7 @@ public class ResultActivity extends OptionActivity {
         certificationBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressDialog.show();
                 Intent intent = new Intent(ResultActivity.this, CertificationActivity.class);
                 intent.putExtra(Utils.TAG_INTENT_CERTIFICATION, medicalCertification);
                 intent.putExtra(Utils.TAG_INTENT_THROUGH_INTERVIEW, throughInterview);

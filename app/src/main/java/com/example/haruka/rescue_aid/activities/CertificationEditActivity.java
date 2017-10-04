@@ -77,6 +77,7 @@ public class CertificationEditActivity extends OptionActivity {
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressDialog.show();
                 intent1.putExtra(Utils.TAG_INTENT_CERTIFICATION, medicalCertification);
                 startActivity(intent1);
             }
@@ -85,6 +86,7 @@ public class CertificationEditActivity extends OptionActivity {
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressDialog.show();
                 intent2.putExtra(Utils.TAG_INTENT_CERTIFICATION, medicalCertification);
                 startActivity(intent2);
             }
@@ -93,6 +95,7 @@ public class CertificationEditActivity extends OptionActivity {
         button3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressDialog.show();
                 intent3.putExtra(Utils.TAG_INTENT_CERTIFICATION, medicalCertification);
                 startActivity(intent3);
             }
@@ -123,5 +126,12 @@ public class CertificationEditActivity extends OptionActivity {
             }
         });
 
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+
+        progressDialog.dismiss();
     }
 }
