@@ -377,7 +377,7 @@ public class ResultActivity extends OptionActivity {
                 new AlertDialog.Builder(ResultActivity.this)
                         .setTitle("終了")
                         .setMessage("タイトルに戻りますか")
-                        .setPositiveButton("はい", new DialogInterface.OnClickListener() {
+                        .setNegativeButton("はい", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 Intent intent = new Intent(ResultActivity.this, TitleActivity.class);
@@ -385,7 +385,7 @@ public class ResultActivity extends OptionActivity {
                                 startActivity(intent);
                             }
                         })
-                        .setNegativeButton("いいえ", null)
+                        .setPositiveButton("いいえ", null)
                         .show();
             } else {
                 finish();
