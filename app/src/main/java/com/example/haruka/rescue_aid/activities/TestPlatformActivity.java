@@ -37,7 +37,7 @@ public class TestPlatformActivity extends OptionActivity {
             }
         });
 
-        testIntent2 = new Intent(this, ShakeTestActivity.class);
+        testIntent2 = new Intent(this, CertificationActivity2.class);
         gotoTestBtn2.setText("振動認識テスト");
         gotoTestBtn2.setOnClickListener(new View.OnClickListener() {
             @Override
