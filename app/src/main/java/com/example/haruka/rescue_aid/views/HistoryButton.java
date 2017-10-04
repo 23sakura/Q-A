@@ -27,16 +27,21 @@ public class HistoryButton extends Button {
     }
 
     public void setText(Question q){
+        int maxSize = 18;
+        String text = q.getQuestion();
+        if (text.length() >= maxSize){
+            text = text.substring(0, maxSize-1) + "…";
+        }
         if(q.isUnsure) {
             setTextColor(getResources().getColor(R.color.unsure));
-            setText(q.getQuestion() + "\nわからない");
+            setText(text + "\nわからない");
         } else {
             if (q.getAnswer()) {
                 setTextColor(getResources().getColor(R.color.yes));
             } else {
                 setTextColor(getResources().getColor(R.color.no));
             }
-            setText(q.getQuestion() + "\n" + q.getAnswerString());
+            setText(text + "\n" + q.getAnswerString());
         }
         this.urgency = q.getUrgency();
         this.cares = q.getCares();
