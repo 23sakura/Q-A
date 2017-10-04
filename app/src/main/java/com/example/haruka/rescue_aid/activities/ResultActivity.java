@@ -160,7 +160,7 @@ public class ResultActivity extends OptionActivity {
             @Override
             public void onClick(View v) {
                 progressDialog.show();
-                Intent intent = new Intent(ResultActivity.this, CertificationActivity.class);
+                Intent intent = new Intent(ResultActivity.this, CertificationActivity2.class);
                 intent.putExtra(Utils.TAG_INTENT_CERTIFICATION, medicalCertification);
                 intent.putExtra(Utils.TAG_INTENT_THROUGH_INTERVIEW, throughInterview);
                 startActivity(intent);

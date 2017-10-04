@@ -330,8 +330,8 @@ public class MedicalCertification implements Serializable, Comparable<MedicalCer
         String res = "";
         if (addressString != null){
             res +=  "\n" + addressString + "\n";
-            res +=  "　　東経：" + Utils.getDMSLocation(location[LONGITUDE]) + "\n";
-            res +=  "　　北緯：" + Utils.getDMSLocation(location[LATITUDE]);
+            res +=  "　　　東経：" + Utils.getDMSLocation(location[LONGITUDE]) + "\n";
+            res +=  "　　　北緯：" + Utils.getDMSLocation(location[LATITUDE]);
         }
 
         return res;

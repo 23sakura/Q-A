@@ -1,10 +1,16 @@
 package com.example.haruka.rescue_aid.activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -38,6 +44,8 @@ public class CertificationActivity2 extends OptionActivity {
 
     ArrayList<Care> cares;
     ArrayList<Question> questions;
+
+    boolean throughInterview;
 
     private void loadCare(){
         AssetManager assetManager = getResources().getAssets();
@@ -349,6 +357,7 @@ public class CertificationActivity2 extends OptionActivity {
                     ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     3));
+            textView.setGravity(Gravity.RIGHT);
             textView.setBackgroundResource(R.color.white);
             lp = textView.getLayoutParams();
             mlp = (ViewGroup.MarginLayoutParams)lp;
@@ -374,18 +383,53 @@ public class CertificationActivity2 extends OptionActivity {
 
     private void setAddress(){
         TextView addressTextView = (TextView)findViewById(R.id.textview_address_dms_certification);
-        String address = medicalCertification.getCallNoteAddress().substring(1);
+        String address = medicalCertification.getCallNoteAddress();
         if (address.equals("")){
             address = " 　ー　";
         }
-        addressTextView.setText("場所：" + medicalCertification.getCallNoteAddress().substring(1));
+        addressTextView.setText("場所：" + address.substring(1));
     }
+
+    private void setButton(){
+        Button QRButton, resultButton;
+        QRButton = (Button)findViewById(R.id.btn_certification_qr);
+        resultButton = (Button)findViewById(R.id.btn_certification_result);
+
+        QRButton.setText(getString(R.string.gotoQR));
+        QRButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                progressDialog.show();
+                Intent intent = new Intent(CertificationActivity2.this, QRDisplayActivity.class);
+                intent.putExtra(Utils.TAG_INTENT_CERTIFICATION, medicalCertification);
+                intent.putExtra(Utils.TAG_INTENT_THROUGH_INTERVIEW, throughInterview);
+                startActivity(intent);
+                finish();
+            }
+        });
+        resultButton.setText(getString(R.string.gotoResult));
+        resultButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                progressDialog.show();
+                Intent intent = new Intent(CertificationActivity2.this, ResultActivity.class);
+                intent.putExtra(Utils.TAG_INTENT_CERTIFICATION, medicalCertification);
+                intent.putExtra(Utils.TAG_INTENT_THROUGH_INTERVIEW, throughInterview);
+                startActivity(intent);
+                finish();
+            }
+        });
+    }
+
+
     @Override
     protected void onCreate(Bundle bundle){
         super.onCreate(bundle);
         setContentView(R.layout.layout_certification);
 
         medicalCertification = (MedicalCertification)getIntent().getSerializableExtra(Utils.TAG_INTENT_CERTIFICATION);
+        throughInterview = getIntent().getBooleanExtra(Utils.TAG_INTENT_THROUGH_INTERVIEW, false);
+
         loadCare();
         loadQuestions(medicalCertification.getScenarioID());
         setCertification();
@@ -393,5 +437,32 @@ public class CertificationActivity2 extends OptionActivity {
         setTable();
         setDate();
         setAddress();
+        setButton();
     }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode==KeyEvent.KEYCODE_BACK){
+            if (throughInterview) {
+                new AlertDialog.Builder(CertificationActivity2.this)
+                        .setTitle("終了")
+                        .setMessage("タイトルに戻りますか")
+                        .setNegativeButton("はい", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent(CertificationActivity2.this, TitleActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                            }
+                        })
+                        .setPositiveButton("いいえ", null)
+                        .show();
+            } else {
+                finish();
+            }
+            return true;
+        }
+        return false;
+    }
+
 }
