@@ -111,7 +111,6 @@ public class ExplainActivity extends ReadAloudTestActivity {
         for (int i=0; i<beatsPerMeasure ; i++) {
             note.addNewClicks(list, samples, i);
         }
-
         mMetronome.start();
         mMetronome.setPattern(list, samples * beatsPerMeasure);
     }
@@ -361,13 +360,7 @@ public class ExplainActivity extends ReadAloudTestActivity {
         finishBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                speechText("応急手当を終了しますか");
-                new AlertDialog.Builder(ExplainActivity.this).setMessage("応急手当を終了しますか").setPositiveButton("はい", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        finish();
-                    }
-                }).show();
+                finishProcess();
             }
         });
         backBtn.setOnClickListener(new View.OnClickListener() {
@@ -407,16 +400,47 @@ public class ExplainActivity extends ReadAloudTestActivity {
         medicalCertification.save(this);
 
     }
+
+    protected void speechTextFinish(String text){
+        speechText(text);
+        _handler.removeCallbacksAndMessages(null);
+        stopMetronome();
+    }
+
+    private void finishProcess(){
+        speechTextFinish("応急手当を終了しますか");
+        new AlertDialog.Builder(ExplainActivity.this)
+                .setMessage("応急手当を終了しますか")
+                .setNegativeButton("はい", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                })
+                .setPositiveButton("いいえ", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ExplainCare explainCare = (!careAED) ? mainEmergencyExplanation : subEmergencyExplanation;
+                        _handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                nextExplanation();
+                            }
+                        }, explainCare.getDuration(explainIndex));
+                        speechText(explainCare.getText(explainIndex));
+                        if (explainCare.isMetronomeRequired){
+                            startMetronome();
+                        }
+                    }
+                })
+                .setCancelable(false)
+                .show();
+    }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(keyCode==KeyEvent.KEYCODE_BACK){
-            speechText("応急手当を終了しますか");
-            new AlertDialog.Builder(ExplainActivity.this).setMessage("応急手当を終了しますか").setPositiveButton("はい", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    finish();
-                }
-            }).show();
+            finishProcess();
             return true;
         }
         return false;
