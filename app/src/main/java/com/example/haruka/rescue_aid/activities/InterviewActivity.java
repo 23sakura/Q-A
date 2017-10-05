@@ -604,6 +604,8 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
     public void onLocationChanged(final Location location) {
         Log.d("Location changed", "location");
         mInterviewContent.setTextColor(getResources().getColor(R.color.no));
+        medicalCertification_.updateLocation(location, InterviewActivity.this);
+        /*
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -621,6 +623,7 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
                 }
             }
         }).start();
+        */
     }
 
     @Override
