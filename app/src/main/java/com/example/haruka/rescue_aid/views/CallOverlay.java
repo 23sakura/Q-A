@@ -27,7 +27,7 @@ public class CallOverlay extends Service {
     private static WindowManager windowManager;
     private int dpScale ;
     private static TextView textView;
-    public static String text = "hogehoge";
+    public static String text = "";
     public String title;
     LayoutInflater layoutInflater;
     WindowManager.LayoutParams params;

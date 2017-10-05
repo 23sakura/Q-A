@@ -426,6 +426,7 @@ public class CertificationActivity2 extends OptionActivity {
     protected void onCreate(Bundle bundle){
         super.onCreate(bundle);
         setContentView(R.layout.layout_certification);
+        setTitle("診断書");
 
         medicalCertification = (MedicalCertification)getIntent().getSerializableExtra(Utils.TAG_INTENT_CERTIFICATION);
         throughInterview = getIntent().getBooleanExtra(Utils.TAG_INTENT_THROUGH_INTERVIEW, false);
