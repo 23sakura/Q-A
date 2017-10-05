@@ -183,7 +183,7 @@ public class CertificationActivity2 extends OptionActivity {
                     ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT,
                     10));
-            textView.setBackgroundResource(R.color.white);
+            textView.setBackgroundResource(R.color.default_background);
             tableRow.addView(textView);
             ViewGroup.LayoutParams lp = textView.getLayoutParams();
             ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams)lp;
@@ -198,7 +198,7 @@ public class CertificationActivity2 extends OptionActivity {
                     ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     3));
-            textView.setBackgroundResource(R.color.white);
+            textView.setBackgroundResource(R.color.default_background);
             tableRow.addView(textView);
             lp = textView.getLayoutParams();
             mlp = (ViewGroup.MarginLayoutParams)lp;
@@ -233,7 +233,7 @@ public class CertificationActivity2 extends OptionActivity {
                     ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT,
                     10));
-            textView.setBackgroundResource(R.color.white);
+            textView.setBackgroundResource(R.color.default_background);
             ViewGroup.LayoutParams lp = textView.getLayoutParams();
             ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams)lp;
             if(i == 0) {
@@ -259,7 +259,7 @@ public class CertificationActivity2 extends OptionActivity {
                     ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     3));
-            textView.setBackgroundResource(R.color.white);
+            textView.setBackgroundResource(R.color.default_background);
             lp = textView.getLayoutParams();
             mlp = (ViewGroup.MarginLayoutParams)lp;
             if(i == 0) {
@@ -285,7 +285,7 @@ public class CertificationActivity2 extends OptionActivity {
                     ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT,
                     10));
-            textView.setBackgroundResource(R.color.white);
+            textView.setBackgroundResource(R.color.default_background);
             tableRow.addView(textView);
             ViewGroup.LayoutParams lp = textView.getLayoutParams();
             ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams)lp;
@@ -300,7 +300,7 @@ public class CertificationActivity2 extends OptionActivity {
                     ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     3));
-            textView.setBackgroundResource(R.color.white);
+            textView.setBackgroundResource(R.color.default_background);
             tableRow.addView(textView);
             lp = textView.getLayoutParams();
             mlp = (ViewGroup.MarginLayoutParams)lp;
@@ -335,7 +335,7 @@ public class CertificationActivity2 extends OptionActivity {
                     ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT,
                     10));
-            textView.setBackgroundResource(R.color.white);
+            textView.setBackgroundResource(R.color.default_background);
             ViewGroup.LayoutParams lp = textView.getLayoutParams();
             ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams)lp;
             if (careRecords.size() == 1){
@@ -358,7 +358,7 @@ public class CertificationActivity2 extends OptionActivity {
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     3));
             textView.setGravity(Gravity.RIGHT);
-            textView.setBackgroundResource(R.color.white);
+            textView.setBackgroundResource(R.color.default_background);
             lp = textView.getLayoutParams();
             mlp = (ViewGroup.MarginLayoutParams)lp;
             if (careRecords.size() == 1){
