@@ -45,7 +45,7 @@ public class TitleActivity extends ReadAloudTestActivity {
                 final AlertDialog alertDialog = new AlertDialog.Builder(TitleActivity.this)
                         .setTitle("身の安全を確保")
                         .setMessage(text)
-                        .setNegativeButton("安全を確保した", new DialogInterface.OnClickListener() {
+                        .setNegativeButton("次へ", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 startActivity(interviewIntent);
@@ -111,7 +111,13 @@ public class TitleActivity extends ReadAloudTestActivity {
     @Override
     protected void onStop(){
         super.onStop();
-        _handler.removeCallbacksAndMessages(null);
+        try {
+            if (_handler != null){
+                _handler.removeCallbacksAndMessages(null);
+            }
+        } catch (NullPointerException e){
+
+        }
     }
 
     @Override
