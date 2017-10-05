@@ -122,7 +122,9 @@ public class CallOverlay extends Service {
 
     public static void removeCallOver() {
         try {
-            windowManager.removeView(DragViewListener2.view);
+            if(DragViewListener2.view != null) {
+                windowManager.removeView(DragViewListener2.view);
+            }
             view = null;
 
         } catch (Exception e) {
