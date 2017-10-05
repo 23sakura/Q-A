@@ -163,13 +163,25 @@ public class MedicalCertification implements Serializable, Comparable<MedicalCer
             try {
                 Geocoder coder = new Geocoder(context);
                 List<Address> addresses = coder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-                Address address = addresses.get(0);
-                Log.d("Geocoder location", address.getLocality());
-                setAddressString(getAddressLine(address));
+                //Address address = addresses.get(0);
+                //setAddressString(getAddressLine(address));
             } catch (Exception e) {
                 Log.e("Geocoder location2", e.toString());
             }
         }
+
+    }
+
+
+    public void updateLocation(Location location, String address ,Context context){
+        //this.location = location;
+        isLocationSet = true;
+        this.location[LONGITUDE] = location.getLongitude();
+        this.location[LATITUDE] = location.getLatitude();
+
+        setAddressString(address);
+
+
     }
 
     public Location getLocation(){

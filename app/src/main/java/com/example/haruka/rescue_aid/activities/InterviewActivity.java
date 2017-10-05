@@ -45,6 +45,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
@@ -569,11 +571,56 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
         super.onPause();
     }
 
+
+    static String InputStreamToString(InputStream is) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(is));
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while ((line = br.readLine()) != null) {
+            sb.append(line);
+        }
+        br.close();
+        return sb.toString();
+    }
+
+    private void getAddress(final Location location){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    URL url = new URL("https://qa-server.herokuapp.com/address/" + location.getLatitude() + ":" + location.getLongitude());
+                    HttpURLConnection con = (HttpURLConnection)url.openConnection();
+                    String str = InputStreamToString(con.getInputStream());
+                    Log.d("HTTP", str);
+
+                } catch(Exception ex) {
+                    System.out.println(ex);
+                }
+            }
+        }).start();
+    }
+
     @Override
-    public void onLocationChanged(Location location) {
-        medicalCertification_.updateLocation(location, this);
-        Log.d("Longitude", String.valueOf(location.getLongitude()));
-        Log.d("Latitude", String.valueOf(location.getLatitude()));
+    public void onLocationChanged(final Location location) {
+        Log.d("Location changed", "location");
+        mInterviewContent.setTextColor(getResources().getColor(R.color.no));
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Log.d("Longitude", String.valueOf(location.getLongitude()));
+                    Log.d("Latitude", String.valueOf(location.getLatitude()));
+                    medicalCertification_.updateLocation(location, InterviewActivity.this);
+                    URL url = new URL("https://qa-server.herokuapp.com/address/" + location.getLatitude() + ":" + location.getLongitude());
+                    HttpURLConnection con = (HttpURLConnection)url.openConnection();
+                    String address = InputStreamToString(con.getInputStream());
+                    Log.d("HTTP", address);
+                    medicalCertification_.setAddressString(address);
+                } catch(Exception ex) {
+                    System.out.println(ex);
+                }
+            }
+        }).start();
     }
 
     @Override
