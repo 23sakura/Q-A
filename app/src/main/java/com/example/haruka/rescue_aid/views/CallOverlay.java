@@ -125,7 +125,6 @@ public class CallOverlay extends Service {
     public static void setTable(ArrayList<String[]> list){
         CallOverlay.list = list;
         NewDragViewListener.list = list;
-        Log.e("errorr", Integer.toString(list.size()));
 
         try {
             for (String[] question : list) {
