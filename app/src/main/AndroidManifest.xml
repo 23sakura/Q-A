@@ -60,6 +60,7 @@
         <activity android:name=".activities.CertificationActivity2" />
 
 
+        <service android:name=".views.CallOverlayOld" ></service>
         <service android:name=".views.CallOverlay" ></service>
     </application>
 

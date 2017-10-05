@@ -1,13 +1,9 @@
-package com.example.haruka.rescue_aid.views;
+package com.example.haruka.rescue_aid.listener;
 
-import android.app.Service;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.PixelFormat;
-import android.os.IBinder;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
@@ -16,47 +12,46 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.example.haruka.rescue_aid.R;
-import com.example.haruka.rescue_aid.listener.NewDragViewListener;
 import com.example.haruka.rescue_aid.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
- * Created by Tomoya on 9/22/2017 AD.
- * This is call when you open phone app to call ambulance
+ * Created by Tomoya on 10/5/2017 AD.
  */
 
-public class CallOverlay extends Service {
+public class NewDragViewListener implements View.OnTouchListener{
 
-    private static View view;
-    private static WindowManager windowManager;
-    private static TableLayout tableLayout;
-    private int dpScale ;
-    private static TextView textView;
-    public static String text = "abc";
+    private WindowManager windowManager;
+    public static View view;
+    public static TextView textView;
+    public static TableLayout tableLayout;
+    private WindowManager.LayoutParams params;
+    private LayoutInflater layoutInflater;
+    private static Context context;
+
+    static boolean big = true;
+    public static String text = "";
     public static ArrayList<String[]> list;
-    public String title;
-    LayoutInflater layoutInflater;
-    WindowManager.LayoutParams params;
-    static Context context;
+    private int oldx;
+    private int oldy;
 
-    final static String notext = "　　[拡大]　　";
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        dpScale = (int)getResources().getDisplayMetrics().density;
-        title = "";
+    Date start;
+
+    public NewDragViewListener(WindowManager dragView, View view, WindowManager.LayoutParams params, LayoutInflater layoutInflater) {
+        this.windowManager = dragView;
+        this.view = view;
+        this.params = params;
+        this.layoutInflater = layoutInflater;
     }
 
-    private void makeSmall(){
-        windowManager.removeView(view);
-        view = layoutInflater.inflate(R.layout.service_layer_small, null);
-        windowManager.addView(view, params);
-        NewDragViewListener dragViewListener = new NewDragViewListener(windowManager, view, params, layoutInflater);
-        (view).setOnTouchListener(dragViewListener);
+    public static void setContext(Context context){
+        NewDragViewListener.context = context;
     }
 
     private void makeBig(){
+        windowManager.removeView(view);
         view = layoutInflater.inflate(R.layout.service_layout, null);
 
         // Viewを画面上に追加
@@ -74,70 +69,39 @@ public class CallOverlay extends Service {
         });
         NewDragViewListener dragViewListener = new NewDragViewListener(windowManager, view, params, layoutInflater);
         NewDragViewListener.setContext(context);
-        NewDragViewListener.list = list;
         (view).setOnTouchListener(dragViewListener);
         dragViewListener.setText(text);
 
         tableLayout = (TableLayout) (((LinearLayout)(((LinearLayout)view).getChildAt(0))).getChildAt(1));
         Log.d("LayoutContens", Integer.toString(tableLayout.getChildCount()));
-
-
+        Log.d("LayoutContenslistsize", Integer.toString(list.size()));
 
         setTable(list);
         textView = (TextView) (((LinearLayout)(((LinearLayout)view).getChildAt(0))).getChildAt(2));
         textView.setText(text);
     }
 
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        layoutInflater = LayoutInflater.from(this);
-
-        windowManager = (WindowManager)getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
-        params = new WindowManager.LayoutParams(
-                WindowManager.LayoutParams.WRAP_CONTENT,
-                WindowManager.LayoutParams.WRAP_CONTENT,
-                WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
-                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-                        | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
-                PixelFormat.TRANSLUCENT);
-
-        params.gravity=  Gravity.TOP | Gravity.CENTER_HORIZONTAL;
-
-        makeBig();
-        return super.onStartCommand(intent, flags, startId);
-    }
 
 
-
-    public static void setText(String text){
-        CallOverlay.text = text;
-        try {
-            textView.setText(text);
-        } catch (NullPointerException e){
-            Log.e("CallOverlay", e.toString());
-        }
-    }
-
-    public static void setContext(Context context){
-        CallOverlay.context = context;
-    }
 
     public static void setTable(ArrayList<String[]> list){
-        CallOverlay.list = list;
         NewDragViewListener.list = list;
         Log.e("errorr", Integer.toString(list.size()));
 
         try {
             for (String[] question : list) {
 
+                Log.d("errorFinder", "index0");
                 TableRow tableRow = new TableRow(context);
                 TableRow _tableRow = new TableRow(context);
+                Log.d("errorFinder", "index1");
                 for (int i = 0; i < 2; i++){
                     String val = question[i];
                     TextView textview = new TextView(context);
                     textview.setMaxWidth(340);
                     textview.setTextSize(15);
                     if (i == 1){
+                        Log.d("errorFinder", "index2");
                         if (val.equals(Utils.ANSWER_JP_YES)){
                             textview.setTextColor(context.getResources().getColor(R.color.yes));
                         } else if (val.equals(Utils.ANSWER_JP_NO)){
@@ -147,6 +111,7 @@ public class CallOverlay extends Service {
                         val = "　" + val;
                         textview.setTextColor(context.getResources().getColor(R.color.no));
 
+                        Log.d("errorFinder", "index3");
                     } else {
                         textview.setTextColor(context.getResources().getColor(R.color.black));
                     }
@@ -154,6 +119,7 @@ public class CallOverlay extends Service {
 
                     tableRow.addView(textview);
 
+                    Log.d("errorFinder", "index4");
                     TextView _textView = new TextView(context);
                     _textView.setText(" ");
                     _textView.setMaxHeight(17);
@@ -161,36 +127,74 @@ public class CallOverlay extends Service {
                 }
 
 
+                Log.d("errorFinder", "index5 ");
                 tableLayout.addView(tableRow);
                 tableLayout.addView(_tableRow);
             }
         } catch (Exception e){
-            Log.e("errororrrorrorororrorrr", "error");
             e.printStackTrace();
         }
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Log.d("debug","onDestroy");
+
+    public void setText(String text){
+        this.text = text;
+    }
+
+    private void makeSmall(){
         windowManager.removeView(view);
+        view = layoutInflater.inflate(R.layout.service_layer_small, null);
+        windowManager.addView(view, params);
+        NewDragViewListener dragViewListener = new NewDragViewListener(windowManager, view, params, layoutInflater);
+        (view).setOnTouchListener(dragViewListener);
     }
 
     @Override
-    public IBinder onBind(Intent intent) {
-        return null;
-    }
+    public boolean onTouch(View view, MotionEvent event) {
+        int x = (int) event.getRawX();
+        int y = (int) event.getRawY();
 
-    public static void removeCallOver() {
-        try {
-            if(NewDragViewListener.view != null) {
-                windowManager.removeView(NewDragViewListener.view);
-            }
-            view = null;
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                start = new Date();
+                break;
 
-        } catch (Exception e) {
-            e.printStackTrace();
+            case MotionEvent.ACTION_MOVE:
+                params.x += (x-oldx);
+                params.y += (y-oldy);
+
+                windowManager.updateViewLayout(view, params);
+                //windowManager.removeView(view);
+                //windowManager.addView(view, params);
+                //int left = dragView.getLeft() + (x - oldx);
+                //int top = dragView.getTop() + (y - oldy);
+                //dragView.layout(left, top, left + dragView.getWidth(), top + dragView.getHeight());
+                //dragView.
+                break;
+            case MotionEvent.ACTION_UP:
+                Date end = new Date();
+                Log.d("timedayodayo", Long.toString(end.getTime() - start.getTime()));
+                Log.d("timedayodayo", "jogejogjeo");
+                if ((end.getTime() - start.getTime()) < 200){
+                    if(big) {
+                        makeSmall();
+                        Log.d("timedayodayo", "small");
+                        big = false;
+                    } else {
+                        makeBig();
+                        Log.d("timedayodayo", "big");
+                        big = true;
+                    }
+                }
         }
+        oldx = x;
+        oldy = y;
+
+        //return Math.pow((x-oldx), 2) + Math.pow((y-oldy), 2) > 100;
+        //TODO find the way to judge either if the window is moved or just tapped
+        return true;
     }
+
+
+
 }

@@ -315,6 +315,28 @@ public class MedicalCertification implements Serializable, Comparable<MedicalCer
         }
     }
 
+    public ArrayList<String[]> getCallNoteTable(ArrayList<Question> questions){
+        ArrayList<String[]> list = new ArrayList<>();
+
+        for(Record record : records){
+            int index;
+            try{
+                index = Integer.parseInt(record.getTag());
+            } catch (NumberFormatException e){
+                continue;
+            }
+            Question q = questions.get(index);
+            //res += q.getQuestion() + "：" + Utils.getAnswerString(record.getValue()) + "\n";
+            String[] question = new String[2];
+            question[0] = q.getQuestion();
+            question[1] = Utils.getAnswerString(record.getValue());
+            list.add(question);
+        }
+
+        //return res;
+        return list;
+    }
+
     public String getCallNote(ArrayList<Question> questions){
         String res = "";
 

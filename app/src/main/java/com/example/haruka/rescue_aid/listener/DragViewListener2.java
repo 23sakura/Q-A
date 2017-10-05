@@ -39,7 +39,7 @@ public class DragViewListener2 implements View.OnTouchListener{
 
     private void makeBig(){
         windowManager.removeView(view);
-        view = layoutInflater.inflate(R.layout.service_layer, null);
+        view = layoutInflater.inflate(R.layout.service_layer_old, null);
 
         // Viewを画面上に追加
         windowManager.addView(view, params);

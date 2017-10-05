@@ -23,6 +23,7 @@ import com.example.haruka.rescue_aid.utils.MedicalCertification;
 import com.example.haruka.rescue_aid.utils.Question;
 import com.example.haruka.rescue_aid.utils.Utils;
 import com.example.haruka.rescue_aid.views.CallOverlay;
+import com.example.haruka.rescue_aid.views.CallOverlayOld;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -88,7 +89,9 @@ public class OptionActivity extends AppCompatActivity {
         if (medicalCertification != null) {
             callNote = medicalCertification.getCallNote(loadQuestions(Utils.getScenario(medicalCertification.getScenarioID())));
             if (!callNote.equals("")) {
-                CallOverlay.setText(callNote);
+                CallOverlay.setContext(this);
+                CallOverlay.setText(medicalCertification.getCallNoteAddress());
+                CallOverlay.setTable(medicalCertification.getCallNoteTable(loadQuestions(Utils.getScenario(medicalCertification.getScenarioID()))));
                 Log.d("call note", callNote);
                 startService(overlayIntent);
             }
@@ -102,11 +105,11 @@ public class OptionActivity extends AppCompatActivity {
         if (medicalCertification != null) {
             callNote = medicalCertification.getCallNote(loadQuestions(Utils.getScenario(medicalCertification.getScenarioID())));
             if (!callNote.equals("")) {
-                CallOverlay.setText("#7119に発信してください\n\n" + callNote);
+                CallOverlayOld.setText("#7119に発信してください\n\n" + callNote);
 
                 Log.d("call note", callNote);
             } else {
-                CallOverlay.setText("#7119に発信してください");
+                CallOverlayOld.setText("#7119に発信してください");
             }
             startService(overlayIntent);
         }
@@ -120,7 +123,7 @@ public class OptionActivity extends AppCompatActivity {
         if (medicalCertification != null) {
             String aedNote = medicalCertification.getCallNoteAddress();
             if (!aedNote.equals("")) {
-                CallOverlay.setText(aedNote);
+                CallOverlayOld.setText(aedNote);
                 Log.d("call note", aedNote);
                 startService(overlayIntent);
             }
@@ -134,7 +137,7 @@ public class OptionActivity extends AppCompatActivity {
         if (medicalCertification != null) {
             aedNote = medicalCertification.getCallNoteAddressShort();
             if (!callNote.equals("")) {
-                CallOverlay.setText(aedNote);
+                CallOverlayOld.setText(aedNote);
                 Log.d("call note", aedNote);
                 startService(overlayIntent);
             }
@@ -280,6 +283,7 @@ public class OptionActivity extends AppCompatActivity {
             checkPermission();
         }
         overlayIntent = new Intent(getApplication(), CallOverlay.class);
+        //overlayIntent = new Intent(getApplication(), CallOverlayOld.class);
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
