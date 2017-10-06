@@ -62,7 +62,7 @@ public class CallOverlay extends Service {
         // Viewを画面上に追加
         windowManager.addView(view, params);
         Log.d("LayoutContens", Integer.toString(((LinearLayout)((LinearLayout)((LinearLayout)view).getChildAt(0)).getChildAt(0)).getChildCount()));
-        View close = ((LinearLayout)((LinearLayout)(((LinearLayout)view).getChildAt(0))).getChildAt(0)).getChildAt(0);
+        TextView close = (TextView) ((LinearLayout)((LinearLayout)(((LinearLayout)view).getChildAt(0))).getChildAt(0)).getChildAt(1);
 
 
         close.setOnClickListener(new View.OnClickListener() {
@@ -131,9 +131,13 @@ public class CallOverlay extends Service {
 
                 TableRow tableRow = new TableRow(context);
                 TableRow _tableRow = new TableRow(context);
+                TextView textview = new TextView(context);
+                textview.setText("・");
+                textview.setTextSize(15);
+                tableRow.addView(textview);
                 for (int i = 0; i < 2; i++){
                     String val = question[i];
-                    TextView textview = new TextView(context);
+                    textview = new TextView(context);
                     textview.setMaxWidth(340);
                     textview.setTextSize(15);
                     if (i == 1){

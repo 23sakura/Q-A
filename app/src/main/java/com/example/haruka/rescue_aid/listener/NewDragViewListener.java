@@ -57,7 +57,7 @@ public class NewDragViewListener implements View.OnTouchListener{
         // Viewを画面上に追加
         windowManager.addView(view, params);
         Log.d("LayoutContens", Integer.toString(((LinearLayout)((LinearLayout)((LinearLayout)view).getChildAt(0)).getChildAt(0)).getChildCount()));
-        View close = ((LinearLayout)((LinearLayout)(((LinearLayout)view).getChildAt(0))).getChildAt(0)).getChildAt(0);
+        View close = ((LinearLayout)((LinearLayout)(((LinearLayout)view).getChildAt(0))).getChildAt(0)).getChildAt(1);
 
 
         close.setOnClickListener(new View.OnClickListener() {
@@ -91,17 +91,18 @@ public class NewDragViewListener implements View.OnTouchListener{
         try {
             for (String[] question : list) {
 
-                Log.d("errorFinder", "index0");
                 TableRow tableRow = new TableRow(context);
                 TableRow _tableRow = new TableRow(context);
-                Log.d("errorFinder", "index1");
+                TextView textview = new TextView(context);
+                textview.setText("・");
+                textview.setTextSize(15);
+                tableRow.addView(textview);
                 for (int i = 0; i < 2; i++){
                     String val = question[i];
-                    TextView textview = new TextView(context);
+                    textview = new TextView(context);
                     textview.setMaxWidth(340);
                     textview.setTextSize(15);
                     if (i == 1){
-                        Log.d("errorFinder", "index2");
                         if (val.equals(Utils.ANSWER_JP_YES)){
                             textview.setTextColor(context.getResources().getColor(R.color.yes));
                         } else if (val.equals(Utils.ANSWER_JP_NO)){
@@ -110,8 +111,6 @@ public class NewDragViewListener implements View.OnTouchListener{
                         }
                         val = "　" + val;
                         textview.setTextColor(context.getResources().getColor(R.color.no));
-
-                        Log.d("errorFinder", "index3");
                     } else {
                         textview.setTextColor(context.getResources().getColor(R.color.black));
                     }
@@ -119,15 +118,12 @@ public class NewDragViewListener implements View.OnTouchListener{
 
                     tableRow.addView(textview);
 
-                    Log.d("errorFinder", "index4");
                     TextView _textView = new TextView(context);
                     _textView.setText(" ");
                     _textView.setMaxHeight(17);
                     _tableRow.addView(_textView);
                 }
 
-
-                Log.d("errorFinder", "index5 ");
                 tableLayout.addView(tableRow);
                 tableLayout.addView(_tableRow);
             }
