@@ -87,6 +87,7 @@ public class OptionActivity extends AppCompatActivity {
     protected void call119(){
 
         Intent overlayIntent = new Intent(getApplication(), CallOverlay.class);
+        Log.d("InterviewAct Medi", Boolean.toString(medicalCertification == null));
         if (medicalCertification != null) {
             callNote = medicalCertification.getCallNote(loadQuestions(Utils.getScenario(medicalCertification.getScenarioID())));
             if (!callNote.equals("")) {

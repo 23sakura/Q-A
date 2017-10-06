@@ -4,13 +4,8 @@ import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.graphics.drawable.Drawable;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.location.LocationProvider;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -20,7 +15,6 @@ import android.speech.SpeechRecognizer;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -45,8 +39,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
@@ -60,7 +52,7 @@ import static java.lang.Integer.parseInt;
  * It gives you next question. After 3 to 5 qquestions, you will get the result
  */
 
-public class InterviewActivity extends ReadAloudTestActivity implements LocationListener{
+public class InterviewActivity extends LocationActivity{
 
     private Context context;
     private Button mBtnYes;
@@ -75,12 +67,9 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
     private ArrayList<Question> questions;
     private Question currentQuestion;
     private ArrayList<Question> usedQuestions;
-    private MedicalCertification medicalCertification_;
     private boolean isInterviewDone;
     private ArrayList<String>[] dictionary;
 
-    //private InterviewData interviewData;
-    private LocationManager mLocationManager;
     Handler _handler;
 
     private final boolean IS_THROUGH_INTERVIEW = true;
@@ -287,7 +276,7 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
                 r = new Record(Integer.toString(q_.getIndex()), Utils.getAnswerString(q_.getAnswer()));
             }
     */
-            medicalCertification_.updateRecord(r);
+            medicalCertification.updateRecord(r);
         }
         final HistoryButton btn = new HistoryButton(this, q_.getIndex());
         btn.setText(q_);
@@ -357,9 +346,9 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
         final Intent intentCertification = new Intent(this, ResultActivity.class);
         intentCertification.putExtra("URGENCY", urgency);
         intentCertification.putExtra("CARES", cares);
-        intentCertification.putExtra("CERTIFICATION", medicalCertification_);
+        intentCertification.putExtra("CERTIFICATION", medicalCertification);
         intentCertification.putExtra(Utils.TAG_INTENT_THROUGH_INTERVIEW, IS_THROUGH_INTERVIEW);
-        medicalCertification_.showRecords("InterviewActivity");
+        medicalCertification.showRecords("InterviewActivity");
         //interviewData.setListOfQuestions(usedQuestions);
 
         speechText("問診は終了しました。");
@@ -447,15 +436,7 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
         }
     }
 
-    void makeMedicalCertification(){
-        medicalCertification_ = new MedicalCertification();
-        for (Question q : usedQuestions){
-            Record r = new Record(Integer.toString(q.getIndex()), Boolean.toString(q.getAnswer()));
-            medicalCertification_.updateRecord(r);
-        }
 
-        medicalCertification_.showRecords();
-    }
     public Drawable getDrawable(String filename){
         AssetManager assetManager = this.getAssets();
         Drawable drawable = null;
@@ -522,23 +503,14 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
 
         questions = new ArrayList<>();
         usedQuestions = new ArrayList<>();
-        medicalCertification_ = new MedicalCertification();
-        medicalCertification_.setScenario(scenarioID);
+        medicalCertification = new MedicalCertification();
+        medicalCertification.setScenario(scenarioID);
         scenario = Utils.getScenario(scenarioID);
         Log.d("SCENARIO", scenario + " is chosen");
 
         loadQuestions();
         setLayout();
         isInterviewDone = false;
-
-        mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-
-        //Location Permission
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,}, 0);
-            return;
-        }
-
     }
 
     View.OnClickListener interAnsBtnListener = new View.OnClickListener(){
@@ -547,29 +519,6 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
             produceNextQuestion(v.getId());
         }
     };
-
-
-
-    @Override
-    protected void onResume(){
-        super.onResume();
-        if (mLocationManager != null) {
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                return;
-            }
-            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-        }
-
-        medicalCertification = null;
-    }
-
-    @Override
-    protected void onPause() {
-        if (mLocationManager != null) {
-            mLocationManager.removeUpdates(this);
-        }
-        super.onPause();
-    }
 
 
     static String InputStreamToString(InputStream is) throws IOException {
@@ -581,64 +530,6 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
         }
         br.close();
         return sb.toString();
-    }
-
-    private void getAddress(final Location location){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    URL url = new URL("https://qa-server.herokuapp.com/address/" + location.getLatitude() + ":" + location.getLongitude());
-                    HttpURLConnection con = (HttpURLConnection)url.openConnection();
-                    String str = InputStreamToString(con.getInputStream());
-                    Log.d("HTTP", str);
-
-                } catch(Exception ex) {
-                    System.out.println(ex);
-                }
-            }
-        }).start();
-    }
-
-    @Override
-    public void onLocationChanged(final Location location) {
-        Log.d("Location changed", "location");
-        mInterviewContent.setTextColor(getResources().getColor(R.color.no));
-        medicalCertification_.updateLocation(location, InterviewActivity.this);
-        /*
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Log.d("Longitude", String.valueOf(location.getLongitude()));
-                    Log.d("Latitude", String.valueOf(location.getLatitude()));
-                    medicalCertification_.updateLocation(location, InterviewActivity.this);
-                    URL url = new URL("https://qa-server.herokuapp.com/address/" + location.getLatitude() + ":" + location.getLongitude());
-                    HttpURLConnection con = (HttpURLConnection)url.openConnection();
-                    String address = InputStreamToString(con.getInputStream());
-                    Log.d("HTTP", address);
-                    medicalCertification_.setAddressString(address);
-                } catch(Exception ex) {
-                    System.out.println(ex);
-                }
-            }
-        }).start();
-        */
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-        if (mLocationManager != null) {
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                return;
-            }
-            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-        }
     }
 
     @Override
@@ -687,22 +578,6 @@ public class InterviewActivity extends ReadAloudTestActivity implements Location
         }
 
     }
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-        switch (status) {
-            case LocationProvider.AVAILABLE:
-                Log.v("Status", "AVAILABLE");
-                break;
-            case LocationProvider.OUT_OF_SERVICE:
-                Log.v("Status", "OUT_OF_SERVICE");
-                break;
-            case LocationProvider.TEMPORARILY_UNAVAILABLE:
-                Log.v("Status", "TEMPORARILY_UNAVAILABLE");
-                break;
-        }
-    }
-
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {

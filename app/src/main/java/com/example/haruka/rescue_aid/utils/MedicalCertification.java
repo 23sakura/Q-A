@@ -158,6 +158,7 @@ public class MedicalCertification implements Serializable, Comparable<MedicalCer
         isLocationSet = true;
         this.location[LONGITUDE] = location.getLongitude();
         this.location[LATITUDE] = location.getLatitude();
+        Log.d("location [lat, long]", location.getLatitude() + " : " + location.getLongitude());
 
         if(addressString == null) {
             try {
@@ -166,7 +167,7 @@ public class MedicalCertification implements Serializable, Comparable<MedicalCer
                 Address address = addresses.get(0);
                 setAddressString(getAddressLine(address));
             } catch (Exception e) {
-                Log.e("Geocoder location2", e.toString());
+                Log.e("Geocoder location3", e.toString());
             }
         }
 
