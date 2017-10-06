@@ -38,7 +38,7 @@ import static java.lang.Integer.parseInt;
  * Showing it to your family, friends or doctor make it easier to tell the situation
  */
 
-public class CertificationActivity extends OptionActivity {
+public class CertificationActivity extends LocationActivity {
 
     private DrawingView drawingView;
 

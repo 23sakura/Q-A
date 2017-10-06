@@ -42,7 +42,7 @@ import static java.lang.Integer.parseInt;
  * You will get the list of the care which you should do
  */
 
-public class ResultActivity extends OptionActivity {
+public class ResultActivity extends LocationActivity {
 
     private static final int SUB_ACTIVITY = 1001;
 

@@ -33,7 +33,7 @@ import jp.fsoriented.cactusmetronome.lib.Metronome;
  * It has function to play metronome to keep tempo when you go on a chest compression care.
  */
 
-public class ExplainActivity extends ReadAloudTestActivity {
+public class ExplainActivity extends LocationActivity {
 
     private static final int SUB_ACTIVITY = 1001;
 

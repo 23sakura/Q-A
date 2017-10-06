@@ -37,7 +37,7 @@ import static java.lang.Integer.parseInt;
  * Created by skriulle on 10/4/2017 AD.
  */
 
-public class CertificationActivity2 extends OptionActivity {
+public class CertificationActivity2 extends LocationActivity {
 
     ArrayList<Record> interviewRecords;
     ArrayList<Record> careRecords;

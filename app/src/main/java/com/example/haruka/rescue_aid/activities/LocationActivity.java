@@ -78,7 +78,11 @@ public class LocationActivity extends ReadAloudTestActivity implements LocationL
     @Override
     public void onLocationChanged(final Location location) {
         Log.d("Location changed", "location");
-        medicalCertification.updateLocation(location, this);
+        try {
+            medicalCertification.updateLocation(location, this);
+        } catch (NullPointerException ne){
+            ne.printStackTrace();
+        }
         /*
         new Thread(new Runnable() {
             @Override

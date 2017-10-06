@@ -47,7 +47,7 @@ import java.net.URL;
  * You can share the certification with others
  */
 
-public class QRDisplayActivity extends OptionActivity {
+public class QRDisplayActivity extends LocationActivity {
 
     private Context context;
     private boolean throughInterview;

@@ -29,7 +29,7 @@ import java.util.ArrayList;
  * This is an activity to categorize the symptoms.
  */
 
-public class SymptomCategorizeActivity extends ReadAloudTestActivity {
+public class SymptomCategorizeActivity extends LocationActivity {
 
     ImageView BtnToIll, BtnToInjury;
     Intent interviewIntent;
@@ -181,8 +181,6 @@ public class SymptomCategorizeActivity extends ReadAloudTestActivity {
 
         askSymptom();
         dictionary = ListSymptom.getDictionary();
-
-        medicalCertification = null;
     }
 
     @Override
