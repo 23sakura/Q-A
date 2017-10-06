@@ -20,7 +20,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:scaleType="centerCrop"
-        android:src="@drawable/symptom_button1"
+        android:src="@drawable/symptom_button3"
         android:layout_margin="3dp"/>
 
     <ImageView
@@ -29,6 +29,6 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:scaleType="centerCrop"
-        android:src="@drawable/symptom_button2"
+        android:src="@drawable/symptom_button4"
         android:layout_margin="3dp" />
 </LinearLayout>
