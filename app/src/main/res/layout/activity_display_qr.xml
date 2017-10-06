@@ -53,6 +53,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:textSize="20dp"
+            android:textStyle="bold"
             android:text="診断書を表示"/>
         <Button
             android:id="@+id/btn_qr_show_result"
@@ -60,6 +61,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:textSize="20dp"
+            android:textStyle="bold"
             android:text="応急手当を表示"/>
 
     </LinearLayout>

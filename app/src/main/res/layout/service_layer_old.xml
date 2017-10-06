@@ -24,12 +24,14 @@
                 android:src="@drawable/icon" />
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:text=" x "
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:background="@drawable/frame_style_green"
+                android:gravity="center|center_vertical"
+                android:text="x"
                 android:textColor="@color/black"
-                android:textSize="30dp" />
+                android:textStyle="bold"
+                android:textSize="25dp" />
 
         </LinearLayout>
 
@@ -38,7 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
-            android:text="hogehogsssssssssssse"
+            android:text=""
             android:textColor="@color/black"
             android:textSize="15dp" />
 
