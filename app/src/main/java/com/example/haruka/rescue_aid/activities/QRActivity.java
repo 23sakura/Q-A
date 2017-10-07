@@ -154,7 +154,7 @@ public class QRActivity extends OptionActivity {
             try {
                 result = reader.decode(bitmap);
                 String text = result.getText();
-                Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG).show();
                 Log.d("QR", text);
                 MedicalCertification medicalCertification = new MedicalCertification(text);
                 Log.i("medical certification", "read");
@@ -164,7 +164,7 @@ public class QRActivity extends OptionActivity {
                 showCertificationEditActivity(medicalCertification);
             } catch (Exception e) {
                 Log.e("QR reader", e.toString());
-                Toast.makeText(getApplicationContext(), "Not Found", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "認識に失敗しました。\nもう一度やり直してください。", Toast.LENGTH_SHORT).show();
             }
         }
     };

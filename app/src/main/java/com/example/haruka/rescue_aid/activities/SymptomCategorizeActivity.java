@@ -16,7 +16,6 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.example.haruka.rescue_aid.R;
 import com.example.haruka.rescue_aid.recognition_list.ListSymptom;
@@ -67,7 +66,7 @@ public class SymptomCategorizeActivity extends LocationActivity {
                 //get Permission
                 ActivityCompat.requestPermissions(SymptomCategorizeActivity.this, new String[]{Manifest.permission.RECORD_AUDIO}, 0);
             }else if (error != 7){
-                Toast.makeText(getApplicationContext(), "エラー " + error, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "エラー " + error, Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -85,7 +84,7 @@ public class SymptomCategorizeActivity extends LocationActivity {
 
         @Override
         public void onReadyForSpeech(Bundle params) {
-            Toast.makeText(getApplicationContext(), "認識開始", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(), "認識開始", Toast.LENGTH_SHORT).show();
         }
 
         private void voiceAnswer(ArrayList<String> candidates){
@@ -94,7 +93,7 @@ public class SymptomCategorizeActivity extends LocationActivity {
             for(yes = 0; yes < 2; yes++){
                 for(int index = 0; index < dictionary[yes].size(); index++){
                     if(dictionary[yes].get(index).equals(candidates.get(0))){
-                        Toast.makeText(getApplicationContext(), (yes == 0) ?"Yes":"No" , Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getApplicationContext(), (yes == 0) ?"Yes":"No" , Toast.LENGTH_SHORT).show();
                         if(yes == 0){
                             BtnToIll.callOnClick();
                         }else{

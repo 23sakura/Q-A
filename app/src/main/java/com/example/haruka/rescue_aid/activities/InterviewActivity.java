@@ -24,7 +24,6 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.haruka.rescue_aid.R;
 import com.example.haruka.rescue_aid.recognition_list.ListYesNo;
@@ -97,7 +96,7 @@ public class InterviewActivity extends LocationActivity{
                 //get Permission
                 ActivityCompat.requestPermissions(InterviewActivity.this, new String[]{Manifest.permission.RECORD_AUDIO}, 0);
             }else if (error != 7){
-                Toast.makeText(getApplicationContext(), "エラー " + error, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "エラー " + error, Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -111,7 +110,7 @@ public class InterviewActivity extends LocationActivity{
 
         @Override
         public void onReadyForSpeech(Bundle params) {
-            Toast.makeText(getApplicationContext(), "認識開始", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(), "認識開始", Toast.LENGTH_SHORT).show();
         }
 
         private void voiceAnswer(ArrayList<String> candidates){
@@ -131,7 +130,7 @@ public class InterviewActivity extends LocationActivity{
                             mBtnUnsure.callOnClick();
                             message = "UNSURE";
                         }
-                        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
                         break;
                     }
                 }
