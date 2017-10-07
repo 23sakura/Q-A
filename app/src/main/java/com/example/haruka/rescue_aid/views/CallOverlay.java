@@ -28,12 +28,13 @@ import java.util.ArrayList;
 
 public class CallOverlay extends Service {
 
-    private static View view;
+    public static View view;
     private static WindowManager windowManager;
     private static TableLayout tableLayout;
     private int dpScale ;
     private static TextView textView;
     public static String text = "abc";
+    public static boolean call7119 = false;
     public static ArrayList<String[]> list;
     public String title;
     LayoutInflater layoutInflater;
@@ -78,14 +79,18 @@ public class CallOverlay extends Service {
         (view).setOnTouchListener(dragViewListener);
         dragViewListener.setText(text);
 
-        tableLayout = (TableLayout) (((LinearLayout)(((LinearLayout)view).getChildAt(0))).getChildAt(1));
-        Log.d("LayoutContens", Integer.toString(tableLayout.getChildCount()));
 
-
+        tableLayout = (TableLayout) (((LinearLayout) (((LinearLayout) view).getChildAt(0))).getChildAt(2));
 
         setTable(list);
-        textView = (TextView) (((LinearLayout)(((LinearLayout)view).getChildAt(0))).getChildAt(2));
+        textView = (TextView) (((LinearLayout)(((LinearLayout)view).getChildAt(0))).getChildAt(3));
         textView.setText(text);
+
+        NewDragViewListener.call7119 = call7119;
+        if (call7119){
+            textView = (TextView) (((LinearLayout)(((LinearLayout)view).getChildAt(0))).getChildAt(1));
+            textView.setText("\"#7119\"に発信してください");
+        }
     }
 
     @Override

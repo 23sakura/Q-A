@@ -31,8 +31,10 @@ public class NewDragViewListener implements View.OnTouchListener{
     private LayoutInflater layoutInflater;
     private static Context context;
 
+
     static boolean big = true;
     public static String text = "";
+    public static boolean call7119 = false;
     public static ArrayList<String[]> list;
     private int oldx;
     private int oldy;
@@ -72,13 +74,18 @@ public class NewDragViewListener implements View.OnTouchListener{
         (view).setOnTouchListener(dragViewListener);
         dragViewListener.setText(text);
 
-        tableLayout = (TableLayout) (((LinearLayout)(((LinearLayout)view).getChildAt(0))).getChildAt(1));
+        tableLayout = (TableLayout) (((LinearLayout)(((LinearLayout)view).getChildAt(0))).getChildAt(2));
         Log.d("LayoutContens", Integer.toString(tableLayout.getChildCount()));
         Log.d("LayoutContenslistsize", Integer.toString(list.size()));
 
         setTable(list);
-        textView = (TextView) (((LinearLayout)(((LinearLayout)view).getChildAt(0))).getChildAt(2));
+        textView = (TextView) (((LinearLayout)(((LinearLayout)view).getChildAt(0))).getChildAt(3));
         textView.setText(text);
+
+        if (call7119){
+            textView = (TextView) (((LinearLayout)(((LinearLayout)view).getChildAt(0))).getChildAt(1));
+            textView.setText("\"#7119\"に発信してください");
+        }
     }
 
 

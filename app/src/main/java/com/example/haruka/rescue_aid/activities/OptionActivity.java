@@ -93,6 +93,7 @@ public class OptionActivity extends AppCompatActivity {
             if (!callNote.equals("")) {
                 CallOverlay.setContext(this);
                 CallOverlay.setText(medicalCertification.getCallNoteAddress());
+                CallOverlay.call7119 = false;
                 CallOverlay.setTable(medicalCertification.getCallNoteTable(loadQuestions(Utils.getScenario(medicalCertification.getScenarioID()))));
                 Log.d("call note", callNote);
                 startService(overlayIntent);
@@ -111,11 +112,9 @@ public class OptionActivity extends AppCompatActivity {
                 CallOverlay.setContext(this);
                 CallOverlay.setTable(medicalCertification.getCallNoteTable(loadQuestions(Utils.getScenario(medicalCertification.getScenarioID()))));
 
-                CallOverlay.setText("#7119に発信してください\n" + medicalCertification.getCallNoteAddress());
-
+                CallOverlay.setText(medicalCertification.getCallNoteAddress());
+                CallOverlay.call7119 = true;
                 Log.d("call note", callNote);
-            } else {
-                CallOverlay.setText("#7119に発信してください");
             }
             startService(overlayIntent);
         }
