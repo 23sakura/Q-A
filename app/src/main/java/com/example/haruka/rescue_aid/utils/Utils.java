@@ -19,7 +19,7 @@ public class Utils {
 
     //public final static String SCENARIOS_INJURY = "injury/scenario_170918.csv";
     //public final static String SCENARIOS_INJURY = "injury/kega_0930_2.csv";
-    public final static String SCENARIOS_INJURY = "injury/kega_1002.csv";
+    public final static String SCENARIOS_INJURY = "injury/kega_1003.csv";
 
     public final static String LIST_CARE = "carelist_v00.csv";
 
