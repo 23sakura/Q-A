@@ -16,7 +16,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Care title"
-            android:textSize="40dp"
+            android:textSize="30dp"
+            android:textStyle="bold"
             android:textColor="@color/black"/>
 
         <LinearLayout
@@ -33,7 +34,7 @@
 
             <Button
                 android:id="@+id/btn_explain_care"
-                android:layout_width="140dp"
+                android:layout_width="135dp"
                 android:layout_height="80dp"
                 android:background="@drawable/frame_style_blue"
                 android:textColor="@color/start"
