@@ -94,11 +94,13 @@ public class TitleActivity extends ReadAloudTestActivity {
             }
         });
 
-        final Intent intent = new Intent(this, TestPlatformActivity.class);
+        final Intent intent = new Intent(this, CertificationLoadActivity.class);
+        //final Intent intent = new Intent(this, TestPlatformActivity.class);
         historyBtn =(Button) findViewById(R.id.btn_title_history);
         historyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressDialog.show();
                 startActivity(intent);
             }
         });
@@ -125,6 +127,7 @@ public class TitleActivity extends ReadAloudTestActivity {
         } catch (NullPointerException e){
 
         }
+        progressDialog.cancel();
     }
 
     void switchNext(boolean v){
