@@ -87,6 +87,10 @@ public class Utils {
         return "Y".equals(a);
     }
 
+    public static boolean getUnsureBoolean(String answer){
+        return answer.length() == 2;
+    }
+
     public static String getScenario(int scenarioID){
         switch (scenarioID){
             case 0:

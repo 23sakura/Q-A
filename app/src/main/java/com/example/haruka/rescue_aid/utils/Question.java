@@ -1,5 +1,7 @@
 package com.example.haruka.rescue_aid.utils;
 
+import android.util.Log;
+
 import java.io.Serializable;
 
 /**
@@ -56,8 +58,8 @@ public class Question implements Serializable {
         this.yesIndex = yesIndex;
         this.noIndex = noIndex;
         this.question = question;
-        this.yesUrgency = Math.min(Math.max(yesUrgency, MIN_URGENCY), MAX_URGENCY);
-        this.noUrgency = Math.min(Math.max(noUrgency, MIN_URGENCY), MAX_URGENCY);
+        this.yesUrgency = yesUrgency; //Math.min(Math.max(yesUrgency, MIN_URGENCY), MAX_URGENCY);
+        this.noUrgency = noUrgency; //Math.min(Math.max(noUrgency, MIN_URGENCY), MAX_URGENCY);
         yesCare = new boolean[Utils.NUM_CARE];
         noCare = new boolean[Utils.NUM_CARE];
 
@@ -71,8 +73,8 @@ public class Question implements Serializable {
         this.yesIndex = yesIndex;
         this.noIndex = noIndex;
         this.question = question;
-        this.yesUrgency = Math.min(Math.max(yesUrgency, MIN_URGENCY), MAX_URGENCY);
-        this.noUrgency = Math.min(Math.max(noUrgency, MIN_URGENCY), MAX_URGENCY);
+        this.yesUrgency = yesUrgency; //Math.min(Math.max(yesUrgency, MIN_URGENCY), MAX_URGENCY);
+        this.noUrgency = noUrgency; //Math.min(Math.max(noUrgency, MIN_URGENCY), MAX_URGENCY);
         this.yesCare = yesCare;
         this.noCare = noCare;
 
@@ -121,18 +123,22 @@ public class Question implements Serializable {
     }
 
     public int getYesUrgency(){
-        return yesUrgency;
+        return Math.abs(yesUrgency);
     }
 
     public int getNoUrgency(){
-        return noUrgency;
+        return Math.abs(noUrgency);
     }
 
     public int getUrgency(){
-        if (answer){
-            return yesUrgency;
+        Log.d("currentquestionUrgency", "unsure : " + Boolean.toString(isUnsure));
+        if(isUnsure){
+            Log.d("currentquestionUrgency", getYesUrgency() + ", " + getNoUrgency());
+            return Math.max(getYesUrgency(), getNoUrgency());
+        } else if (answer){
+            return getYesUrgency();
         } else {
-            return noUrgency;
+            return getNoUrgency();
         }
     }
 

@@ -322,8 +322,10 @@ public class ResultActivity extends LocationActivity {
             try{
                 int questionIndex = Integer.parseInt(record.getTag());
                 boolean answer = Utils.getAnswerBoolean(record.getValue());
+                boolean unsure = Utils.getUnsureBoolean(record.getValue());
                 Question q = questions.get(questionIndex);
                 q.answer(answer);
+                q.isUnsure = unsure;
                 boolean[] q_care = q.getCares();
                 for (int i = 0; i < q_care.length; i++){
                     cares_flag[i] = cares_flag[i] | q_care[i];
