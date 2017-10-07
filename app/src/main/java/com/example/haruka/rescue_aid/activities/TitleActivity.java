@@ -5,9 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.haruka.rescue_aid.R;
 
@@ -20,6 +22,8 @@ public class TitleActivity extends ReadAloudTestActivity {
     private Button gotoInterviewBtn, gotoTestBtn, gotoCareBtn, historyBtn;
     private Intent interviewIntent, testIntent, qrIntent, careIntent;
     Handler _handler;
+    public static boolean MODE_DEMO = false;
+    private final static boolean DEMO_ON = true, DEMO_OFF = false;
 
 
     @Override
@@ -100,6 +104,9 @@ public class TitleActivity extends ReadAloudTestActivity {
         });
 
         medicalCertification = null;
+
+        volume = new boolean[COMMAND.length];
+        MODE_DEMO = DEMO_OFF;
     }
 
     @Override
@@ -120,6 +127,53 @@ public class TitleActivity extends ReadAloudTestActivity {
         }
     }
 
+    void switchNext(boolean v){
+        for(int i = 7; i > 0; i--){
+            volume[i] = volume[i-1];
+        }
+        volume[0] = v;
+    }
+
+    void printBoolean(boolean[] volume){
+        String v = "";
+        for(boolean b : volume){
+            v += b ? "T":"F";
+        }
+        Log.d("printVolume", v);
+    }
+
+    boolean compareCommand(){
+        for(int i = 0; i < volume.length; i++){
+            if(volume[i] != COMMAND[i]){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void setDemo(){
+        new AlertDialog.Builder(this).setMessage("デモモードにしますか")
+                .setNegativeButton("はい", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        MODE_DEMO = DEMO_ON;
+                        Toast.makeText(TitleActivity.this, "デモモードに移行しました", Toast.LENGTH_LONG).show();
+                    }
+                    })
+                .setPositiveButton("いいえ", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        MODE_DEMO = DEMO_OFF;
+                        Toast.makeText(TitleActivity.this, "通常モードに移行しました", Toast.LENGTH_LONG).show();
+                    }
+                })
+                .show();
+    }
+
+    private boolean[] volume;
+    final private boolean[] COMMAND = {true, true, false, false, true, true, true, true};
+
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(keyCode==KeyEvent.KEYCODE_BACK){
@@ -136,6 +190,25 @@ public class TitleActivity extends ReadAloudTestActivity {
                     .show();
 
             return true;
+        }
+        else if(keyCode==KeyEvent.KEYCODE_VOLUME_UP) {
+            switchNext(true);
+            if (compareCommand()){
+                Log.d("volume command", "completeAllDelete");
+                setDemo();
+            }
+            Log.d("Volume up", "done");
+            printBoolean(volume);
+            printBoolean(COMMAND);
+        } else if(keyCode==KeyEvent.KEYCODE_VOLUME_DOWN){
+            switchNext(false);
+            if (compareCommand()){
+                Log.d("volume command", "completeAllDelete");
+                setDemo();
+            }
+            Log.d("Volume down", "done");
+            printBoolean(volume);
+            printBoolean(COMMAND);
         }
         return false;
     }

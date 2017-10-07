@@ -83,7 +83,7 @@ public class CertificationLoadActivity extends OptionActivity {
                                     new AlertDialog.Builder(contextLoadDataActivity)
                                             .setTitle("ファイル名を変更する")
                                             .setView(editView)
-                                            .setPositiveButton("決定", new DialogInterface.OnClickListener() {
+                                            .setNegativeButton("決定", new DialogInterface.OnClickListener() {
                                                 public void onClick(DialogInterface dialog, int whichButton) {
                                                     MedicalCertification medicalCertification = medicalCertifications.get(position);
                                                     medicalCertification.name = editView.getText().toString();
@@ -94,7 +94,7 @@ public class CertificationLoadActivity extends OptionActivity {
                                                             Toast.LENGTH_LONG).show();
                                                 }
                                             })
-                                            .setNegativeButton("キャンセル", new DialogInterface.OnClickListener() {
+                                            .setPositiveButton("キャンセル", new DialogInterface.OnClickListener() {
                                                 public void onClick(DialogInterface dialog, int whichButton) {
                                                 }
                                             })

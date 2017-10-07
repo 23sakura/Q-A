@@ -140,13 +140,34 @@ public class ExplainActivity extends LocationActivity {
         setExplain(explainIndex);
         setPage();
 
-        _handler.removeCallbacksAndMessages(null);
-        _handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                nextExplanation();
+        try {
+            if (TitleActivity.MODE_DEMO) {
+                _handler.removeCallbacksAndMessages(null);
+                _handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        nextExplanation();
+                    }
+                }, 60000);
+            } else {
+                _handler.removeCallbacksAndMessages(null);
+                _handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        nextExplanation();
+                    }
+                }, mainEmergencyExplanation.getDuration(explainIndex));
+
             }
-        }, mainEmergencyExplanation.getDuration(explainIndex));
+        } catch (Exception e){
+            _handler.removeCallbacksAndMessages(null);
+            _handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    nextExplanation();
+                }
+            }, mainEmergencyExplanation.getDuration(explainIndex));
+        }
     }
 
     void previousExplanation(){
@@ -154,13 +175,34 @@ public class ExplainActivity extends LocationActivity {
         setExplain(explainIndex);
         setPage();
 
-        _handler.removeCallbacksAndMessages(null);
-        _handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                nextExplanation();
+        try {
+            if (TitleActivity.MODE_DEMO) {
+                _handler.removeCallbacksAndMessages(null);
+                _handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        nextExplanation();
+                    }
+                }, 60000);
+            } else {
+                _handler.removeCallbacksAndMessages(null);
+                _handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        nextExplanation();
+                    }
+                }, mainEmergencyExplanation.getDuration(explainIndex));
+
             }
-        }, mainEmergencyExplanation.getDuration(explainIndex));
+        } catch (Exception e){
+            _handler.removeCallbacksAndMessages(null);
+            _handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    nextExplanation();
+                }
+            }, mainEmergencyExplanation.getDuration(explainIndex));
+        }
 
     }
 
@@ -187,6 +229,7 @@ public class ExplainActivity extends LocationActivity {
         explainIndex = 0;
         setExplain(explainIndex);
 
+        /*
         _handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -195,7 +238,35 @@ public class ExplainActivity extends LocationActivity {
                 }
             }
         }, mainEmergencyExplanation.getDuration(0));
+        */
+        try {
+            if (TitleActivity.MODE_DEMO) {
+                _handler.removeCallbacksAndMessages(null);
+                _handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        nextExplanation();
+                    }
+                }, 60000);
+            } else {
+                _handler.removeCallbacksAndMessages(null);
+                _handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        nextExplanation();
+                    }
+                }, mainEmergencyExplanation.getDuration(0));
 
+            }
+        } catch (Exception e){
+            _handler.removeCallbacksAndMessages(null);
+            _handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    nextExplanation();
+                }
+            }, mainEmergencyExplanation.getDuration(0));
+        }
         careAED = false;
 
     }
@@ -421,12 +492,42 @@ public class ExplainActivity extends LocationActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         ExplainCare explainCare = (!careAED) ? mainEmergencyExplanation : subEmergencyExplanation;
+                        /*
                         _handler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
                                 nextExplanation();
                             }
                         }, explainCare.getDuration(explainIndex));
+                        */
+                        try {
+                            if (TitleActivity.MODE_DEMO) {
+                                _handler.removeCallbacksAndMessages(null);
+                                _handler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        nextExplanation();
+                                    }
+                                }, 60000);
+                            } else {
+                                _handler.removeCallbacksAndMessages(null);
+                                _handler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        nextExplanation();
+                                    }
+                                }, explainCare.getDuration(explainIndex));
+
+                            }
+                        } catch (Exception e){
+                            _handler.removeCallbacksAndMessages(null);
+                            _handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    nextExplanation();
+                                }
+                            }, explainCare.getDuration(explainIndex));
+                        }
                         speechText(explainCare.getText(explainIndex));
                         if (explainCare.isMetronomeRequired){
                             startMetronome();
