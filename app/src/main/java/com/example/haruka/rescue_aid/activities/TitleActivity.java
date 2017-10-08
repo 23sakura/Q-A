@@ -1,5 +1,6 @@
 package com.example.haruka.rescue_aid.activities;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ public class TitleActivity extends ReadAloudTestActivity {
     public static boolean MODE_DEMO = false;
     private final static boolean DEMO_ON = true, DEMO_OFF = false;
 
+    final static int DIALOG_ID = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +48,7 @@ public class TitleActivity extends ReadAloudTestActivity {
                 String text = "問診、手当を行う前に、身の周りの安全を確保してください";
                 speechText(text);
                 _handler = new Handler();
+                /*
                 final AlertDialog alertDialog = new AlertDialog.Builder(TitleActivity.this)
                         .setTitle("身の安全を確保")
                         .setMessage(text)
@@ -65,8 +68,12 @@ public class TitleActivity extends ReadAloudTestActivity {
                             }
                         })
                         .show();
-
-
+                */
+                Dialog dialog = createDialog(DIALOG_ID);
+                if (dialog != null) {
+                    dialog.show();
+                }
+                /*
                 _handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -75,6 +82,7 @@ public class TitleActivity extends ReadAloudTestActivity {
                         alertDialog.cancel();
                     }
                 }, 10000);
+                */
             }
         });
 
@@ -214,6 +222,42 @@ public class TitleActivity extends ReadAloudTestActivity {
             printBoolean(COMMAND);
         }
         return false;
+    }
+
+
+    private Dialog createDialog(int id) {
+        if (id == DIALOG_ID) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("");
+            builder.setTitle("身の安全を確保");
+            builder.setMessage("問診、手当を行う前に、身の周りの安全を確保してください");
+            builder.setNegativeButton("次へ", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    startActivity(interviewIntent);
+                    tts.stop();
+                }
+            });
+            builder.setIcon(getResources().getDrawable(R.drawable.attention));
+            builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialog) {
+                    tts.stop();
+                    _handler.removeCallbacksAndMessages(null);
+                }
+            });
+
+            _handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    startActivity(interviewIntent);
+                    tts.stop();
+                }
+            }, 7000);
+
+            return builder.create();
+        }
+        return null;
     }
 
 }
