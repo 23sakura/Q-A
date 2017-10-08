@@ -55,7 +55,7 @@ public class QRDisplayActivity extends LocationActivity {
     private boolean throughInterview;
     private Switch qrSwitch;
     private String qrID;
-    private boolean done;
+    private boolean done, require;
 
     private LoaderCallbacks<Bitmap> callbacks = new LoaderCallbacks<Bitmap>() {
         @Override
@@ -84,6 +84,9 @@ public class QRDisplayActivity extends LocationActivity {
     };
 
     private void sendRecord(final int num){
+        if (num < 0){
+            return;
+        }
         (new Thread(new Runnable() {
             @Override
             public void run(){
@@ -117,6 +120,11 @@ public class QRDisplayActivity extends LocationActivity {
                     }
                     con.disconnect();
                     done = true;
+                    if (require){
+                        qrSwitch.setChecked(true);
+                        showQR("https://qa-server.herokuapp.com/certification/" + qrID);
+                        ((TextView) findViewById(R.id.textview_qr_mode)).setText("一般のQRコードリーダーで読み取る");
+                    }
                     return;
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
@@ -232,7 +240,9 @@ public class QRDisplayActivity extends LocationActivity {
                             Toast.makeText(QRDisplayActivity.this, "データ転送に失敗しました\n\"救&援\"のQRコードリーダで読み取ってください", Toast.LENGTH_SHORT).show();
                             qrSwitch.setChecked(false);
                         } else {
+                            require = true;
                             Toast.makeText(QRDisplayActivity.this, "しばらくお待ち下さい", Toast.LENGTH_SHORT).show();
+                            qrSwitch.setChecked(false);
                         }
                     } else {
                         showQR("https://qa-server.herokuapp.com/certification/" + qrID);
@@ -246,6 +256,7 @@ public class QRDisplayActivity extends LocationActivity {
         throughInterview = getIntent().getBooleanExtra("THROUGH_INTERVIEW", false);
         sendRecord(5);
         done = false;
+        require = false;
     }
 
     @Override
