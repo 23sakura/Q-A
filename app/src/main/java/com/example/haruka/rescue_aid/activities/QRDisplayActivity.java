@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
@@ -53,6 +55,7 @@ public class QRDisplayActivity extends LocationActivity {
     private boolean throughInterview;
     private Switch qrSwitch;
     private String qrID;
+    private boolean done;
 
     private LoaderCallbacks<Bitmap> callbacks = new LoaderCallbacks<Bitmap>() {
         @Override
@@ -80,7 +83,7 @@ public class QRDisplayActivity extends LocationActivity {
         }
     };
 
-    private void sendRecord(){
+    private void sendRecord(final int num){
         (new Thread(new Runnable() {
             @Override
             public void run(){
@@ -113,6 +116,8 @@ public class QRDisplayActivity extends LocationActivity {
                         Log.d("HTTP REQ", jsonObject.getString("name"));
                     }
                     con.disconnect();
+                    done = true;
+                    return;
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 } catch (ProtocolException e) {
@@ -122,6 +127,16 @@ public class QRDisplayActivity extends LocationActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+
+
+
+                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        sendRecord(num-1);
+                    }
+                }, 500);
+
             }
         })).start();
     }
@@ -213,8 +228,12 @@ public class QRDisplayActivity extends LocationActivity {
                     ((TextView)findViewById(R.id.textview_qr_mode)).setText("救&援のQRコードリーダーで読み取る");
                 } else {
                     if (qrID == null){
-                        Toast.makeText(QRDisplayActivity.this, "データ転送に失敗しました\n\"救&援\"のQRコードリーダで読み取ってください", Toast.LENGTH_SHORT).show();
-                        qrSwitch.setChecked(false);
+                        if (done) {
+                            Toast.makeText(QRDisplayActivity.this, "データ転送に失敗しました\n\"救&援\"のQRコードリーダで読み取ってください", Toast.LENGTH_SHORT).show();
+                            qrSwitch.setChecked(false);
+                        } else {
+                            Toast.makeText(QRDisplayActivity.this, "しばらくお待ち下さい", Toast.LENGTH_SHORT).show();
+                        }
                     } else {
                         showQR("https://qa-server.herokuapp.com/certification/" + qrID);
                         ((TextView) findViewById(R.id.textview_qr_mode)).setText("一般のQRコードリーダーで読み取る");
@@ -225,7 +244,8 @@ public class QRDisplayActivity extends LocationActivity {
 
 
         throughInterview = getIntent().getBooleanExtra("THROUGH_INTERVIEW", false);
-        sendRecord();
+        sendRecord(5);
+        done = false;
     }
 
     @Override
