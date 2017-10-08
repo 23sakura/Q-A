@@ -43,6 +43,7 @@
             android:layout_width="0dp"
             android:layout_weight="1.1"
             android:layout_height="match_parent"
+            android:background="@drawable/gray_button"
             android:text="応急手当を終了する"
             android:textSize="13dp"
             android:textStyle="bold"/>
@@ -51,6 +52,7 @@
             android:id="@+id/btn_explain_aed"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:background="@drawable/gray_button"
             android:layout_weight="1.5"
             android:text="AEDが到着した"
             android:textSize="13dp"

@@ -43,6 +43,7 @@
             android:layout_width="0dp"
             android:layout_weight="3"
             android:layout_height="match_parent"
+            android:background="@drawable/gray_button"
             android:text="応急手当を終了する"
             android:textSize="17dp"
             android:textStyle="bold"/>

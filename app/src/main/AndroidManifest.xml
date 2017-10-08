@@ -53,6 +53,7 @@
         <activity android:name=".activities.CardiotachometerActivity" />
         <activity android:name=".activities.LightTestActivity" />
         <activity android:name=".activities.CVCameraTestActivity" />
+        <activity android:name=".activities.LocationActivity" />
         <activity android:name=".activities.LocationTestActivity" />
         <activity android:name=".activities.ReadAloudTestActivity" />
         <activity android:name=".activities.SettingActivity" />
