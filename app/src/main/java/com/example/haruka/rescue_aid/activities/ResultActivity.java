@@ -1,5 +1,7 @@
 package com.example.haruka.rescue_aid.activities;
 
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.AssetManager;
@@ -45,13 +47,14 @@ import static java.lang.Integer.parseInt;
 public class ResultActivity extends LocationActivity {
 
     private static final int SUB_ACTIVITY = 1001;
-
+    private static final int DIALOG_ID_LOAD = 1;
     private int urgency;
     private ArrayList<Care> cares;
     private ArrayList<Question> questions;
     TextView textView;
     Button qrBtn, certificationBtn;
     CareList careList;
+    Dialog dialog;
 
     private boolean throughInterview;
 
@@ -146,12 +149,24 @@ public class ResultActivity extends LocationActivity {
         qrBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /*
+                dialog = createDialog(DIALOG_ID_LOAD);
+                if (dialog != null) {
+                    dialog.show();
+                }
+                */
+                progressDialog = new ProgressDialog(ResultActivity.this);
+                progressDialog.setMessage("しばらくお待ち下さい");
+                progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                progressDialog.setCancelable(false);
                 progressDialog.show();
                 Intent intent = new Intent(ResultActivity.this, QRDisplayActivity.class);
                 intent.putExtra(Utils.TAG_INTENT_CERTIFICATION, medicalCertification);
                 intent.putExtra(Utils.TAG_INTENT_THROUGH_INTERVIEW, throughInterview);
                 startActivity(intent);
-                finish();
+                if (!throughInterview) {
+                    finish();
+                }
             }
         });
         qrBtn.setText(getString(R.string.gotoQR));
@@ -159,12 +174,25 @@ public class ResultActivity extends LocationActivity {
         certificationBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /*
+                dialog = createDialog(DIALOG_ID_LOAD);
+                if (dialog != null) {
+                    dialog.show();
+                }
+                */
+
+                progressDialog = new ProgressDialog(ResultActivity.this);
+                progressDialog.setMessage("しばらくお待ち下さい");
+                progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                progressDialog.setCancelable(false);
                 progressDialog.show();
                 Intent intent = new Intent(ResultActivity.this, CertificationActivity2.class);
                 intent.putExtra(Utils.TAG_INTENT_CERTIFICATION, medicalCertification);
                 intent.putExtra(Utils.TAG_INTENT_THROUGH_INTERVIEW, throughInterview);
                 startActivity(intent);
-                finish();
+                if (!throughInterview) {
+                    finish();
+                }
             }
         });
         certificationBtn.setText(getString(R.string.gotoCertification));
@@ -188,8 +216,6 @@ public class ResultActivity extends LocationActivity {
         int xmlID = Utils.getXMLID(c.xml);
         if (xmlID >= 0) {
             XmlResourceParser xpp = this.getResources().getXml(xmlID);
-
-
             try {
                 int eventType = xpp.getEventType();
                 while (eventType != XmlResourceParser.END_DOCUMENT) {
@@ -409,5 +435,24 @@ public class ResultActivity extends LocationActivity {
                 medicalCertification = (MedicalCertification) data.getSerializableExtra("CERTIFICATION");
             }
         }
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        try {
+            progressDialog.cancel();
+        } catch (Exception e){
+        }
+    }
+
+    private Dialog createDialog(int id) {
+        if (id == DIALOG_ID_LOAD){
+            ProgressDialog.Builder builder = new ProgressDialog.Builder(this);
+            builder.setMessage("しばらくお待ち下さい");
+            builder.setCancelable(true);
+            return builder.create();
+        }
+        return null;
     }
 }

@@ -1,7 +1,5 @@
 package com.example.haruka.rescue_aid.activities;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.os.Bundle;
@@ -444,6 +442,8 @@ public class CertificationActivity2 extends LocationActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(keyCode==KeyEvent.KEYCODE_BACK){
+            finish();
+            /*
             if (throughInterview) {
                 new AlertDialog.Builder(CertificationActivity2.this)
                         .setTitle("終了")
@@ -461,6 +461,7 @@ public class CertificationActivity2 extends LocationActivity {
             } else {
                 finish();
             }
+            */
             return true;
         }
         return false;

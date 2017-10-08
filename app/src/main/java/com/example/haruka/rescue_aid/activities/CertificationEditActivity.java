@@ -63,9 +63,6 @@ public class CertificationEditActivity extends OptionActivity {
         linearLayout = (LinearLayout)findViewById(R.id.linearlayout_edit_certification);
         inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
 
-        button1.setText("QRコード表示");
-        button2.setText("診断書表示");
-        button3.setText("結果画面表示");
         filenameEditText.setText(medicalCertification.name);
         filenameEditText.setSelection(filenameEditText.getText().length());
         filenameEditText.clearFocus();
@@ -83,7 +80,7 @@ public class CertificationEditActivity extends OptionActivity {
                 startActivity(intent1);
             }
         });
-        button1.setText(getString(R.string.gotoQR));
+        //button1.setText(getString(R.string.gotoQR));
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,7 +89,7 @@ public class CertificationEditActivity extends OptionActivity {
                 startActivity(intent2);
             }
         });
-        button2.setText(getString(R.string.gotoCertification));
+        //button2.setText(getString(R.string.gotoCertification));
         button3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,17 +98,20 @@ public class CertificationEditActivity extends OptionActivity {
                 startActivity(intent3);
             }
         });
-        button3.setText(getString(R.string.gotoResult));
+        //button3.setText(getString(R.string.gotoResult));
         button4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AlertDialog.Builder(CertificationEditActivity.this).setMessage("このデータを消去します\nよろしいですか").setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        deleteFile(medicalCertification.FILENAME);
-                        finish();
-                    }
-                }).show();
+                new AlertDialog.Builder(CertificationEditActivity.this)
+                        .setMessage("このデータを消去します\nよろしいですか")
+                        .setPositiveButton("いいえ", null)
+                        .setNegativeButton("はい", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                deleteFile(medicalCertification.FILENAME);
+                                finish();
+                            }})
+                        .show();
             }
         });
         filenameButton.setOnClickListener(new View.OnClickListener() {

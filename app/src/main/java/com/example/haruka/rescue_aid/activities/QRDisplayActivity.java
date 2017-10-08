@@ -111,6 +111,14 @@ public class QRDisplayActivity extends LocationActivity {
 
                     buffer = reader.readLine();
                     qrID = buffer;
+
+                    done = true;
+                    Log.d("HTTP RESULT", "require is "+ Boolean.toString(require));
+                    if (require){
+                        qrSwitch.setChecked(true);
+                        showQR("https://qa-server.herokuapp.com/certification/" + qrID);
+                        ((TextView) findViewById(R.id.textview_qr_mode)).setText("一般のQRコードリーダーで読み取る");
+                    }
                     Log.d("medicalcertification", buffer);
 
                     JSONArray jsonArray = new JSONArray(buffer);
@@ -119,12 +127,6 @@ public class QRDisplayActivity extends LocationActivity {
                         Log.d("HTTP REQ", jsonObject.getString("name"));
                     }
                     con.disconnect();
-                    done = true;
-                    if (require){
-                        qrSwitch.setChecked(true);
-                        showQR("https://qa-server.herokuapp.com/certification/" + qrID);
-                        ((TextView) findViewById(R.id.textview_qr_mode)).setText("一般のQRコードリーダーで読み取る");
-                    }
                     return;
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
@@ -294,7 +296,7 @@ public class QRDisplayActivity extends LocationActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(keyCode==KeyEvent.KEYCODE_BACK){
-            //TODO implement behavior when back key is pushed on ResultActivity from history
+            /*
             if (throughInterview) {
                 new AlertDialog.Builder(QRDisplayActivity.this)
                         .setTitle("終了")
@@ -312,6 +314,8 @@ public class QRDisplayActivity extends LocationActivity {
             } else{
                 finish();
             }
+            */
+            finish();
             return true;
         }
         return false;

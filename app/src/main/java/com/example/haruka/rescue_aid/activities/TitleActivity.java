@@ -1,6 +1,7 @@
 package com.example.haruka.rescue_aid.activities;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -109,10 +110,12 @@ public class TitleActivity extends ReadAloudTestActivity {
             public void onClick(View v) {
                 //progressDialog.show();
 
-                dialog = createDialog(DIALOG_ID_HISTORY);
-                if (dialog != null) {
-                    dialog.show();
-                }
+                progressDialog = new ProgressDialog(TitleActivity.this);
+                progressDialog.setMessage("しばらくお待ち下さい");
+                progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                progressDialog.setCancelable(false);
+                progressDialog.show();
+
                 startActivity(intent);
             }
         });
@@ -129,7 +132,6 @@ public class TitleActivity extends ReadAloudTestActivity {
         try {
             dialog.cancel();
         } catch (Exception e){
-            
         }
     }
 
@@ -266,7 +268,7 @@ public class TitleActivity extends ReadAloudTestActivity {
 
             return builder.create();
         } else if (id == DIALOG_ID_HISTORY){
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            ProgressDialog.Builder builder = new ProgressDialog.Builder(this);
             builder.setMessage("しばらくお待ち下さい");
             builder.setCancelable(true);
             return builder.create();
