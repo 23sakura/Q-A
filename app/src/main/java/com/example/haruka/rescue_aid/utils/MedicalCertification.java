@@ -194,6 +194,14 @@ public class MedicalCertification implements Serializable, Comparable<MedicalCer
         return l;
     }
 
+    public void setLocation(){
+        isLocationSet = true;
+        location[LONGITUDE] = 131.813277;
+        location[LATITUDE] = 34.061438;
+        addressString = "山口県周南市徳山５８５４";
+        addressStringShort = "山口県周南市";
+    }
+
     public void showLocation(){
         if (!isLocationSet){
             Log.i("medical certification", "location is not set");
@@ -373,11 +381,18 @@ public class MedicalCertification implements Serializable, Comparable<MedicalCer
     }
 
     public String getCallNoteAddressShort(){
+        /*
         String res = "";
         if (addressStringShort != null){
             res +=  "\n" + addressStringShort;
         }
         return res;
+        */
+        if(addressStringShort != null){
+            return addressStringShort;
+        }else {
+            return "";
+        }
     }
 
     public int getScenarioID(){

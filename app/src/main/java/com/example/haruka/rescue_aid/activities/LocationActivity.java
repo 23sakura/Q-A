@@ -79,7 +79,7 @@ public class LocationActivity extends ReadAloudTestActivity implements LocationL
     public void onLocationChanged(final Location location) {
         Log.d("Location changed", "location");
         try {
-            medicalCertification.updateLocation(location, this);
+            //medicalCertification.updateLocation(location, this);
         } catch (NullPointerException ne){
             ne.printStackTrace();
         }

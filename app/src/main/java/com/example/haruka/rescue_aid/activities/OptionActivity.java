@@ -141,7 +141,9 @@ public class OptionActivity extends AppCompatActivity {
     protected void searchHospital(){
         Intent overlayIntent = new Intent(getApplication(), CallOverlayOld.class);
         String aedNote = "";
+        Log.d("call note", aedNote + "aednote");
         if (medicalCertification != null) {
+            Log.d("call note", aedNote + "not null");
             aedNote = medicalCertification.getCallNoteAddressShort();
             if (!callNote.equals("")) {
                 CallOverlayOld.setText(aedNote);

@@ -26,7 +26,8 @@ public class TitleActivity extends ReadAloudTestActivity {
     public static boolean MODE_DEMO = false;
     private final static boolean DEMO_ON = true, DEMO_OFF = false;
 
-    final static int DIALOG_ID = 0;
+    final static int DIALOG_ID = 0,  DIALOG_ID_HISTORY = 1;
+    Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +42,6 @@ public class TitleActivity extends ReadAloudTestActivity {
 
         gotoInterviewBtn = (Button)findViewById(R.id.startbtn);
         gotoInterviewBtn.setTextColor(getResources().getColor(R.color.start));
-        gotoInterviewBtn.setBackgroundColor(getResources().getColor(R.color.start_back));
         gotoInterviewBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,12 +103,16 @@ public class TitleActivity extends ReadAloudTestActivity {
         });
 
         final Intent intent = new Intent(this, CertificationLoadActivity.class);
-        //final Intent intent = new Intent(this, TestPlatformActivity.class);
         historyBtn =(Button) findViewById(R.id.btn_title_history);
         historyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progressDialog.show();
+                //progressDialog.show();
+
+                dialog = createDialog(DIALOG_ID_HISTORY);
+                if (dialog != null) {
+                    dialog.show();
+                }
                 startActivity(intent);
             }
         });
@@ -122,6 +126,11 @@ public class TitleActivity extends ReadAloudTestActivity {
     @Override
     protected void onResume(){
         super.onResume();
+        try {
+            dialog.cancel();
+        } catch (Exception e){
+            
+        }
     }
 
 
@@ -255,6 +264,11 @@ public class TitleActivity extends ReadAloudTestActivity {
                 }
             }, 7000);
 
+            return builder.create();
+        } else if (id == DIALOG_ID_HISTORY){
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("しばらくお待ち下さい");
+            builder.setCancelable(true);
             return builder.create();
         }
         return null;

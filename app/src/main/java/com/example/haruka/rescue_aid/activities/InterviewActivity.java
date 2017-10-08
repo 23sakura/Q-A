@@ -510,6 +510,8 @@ public class InterviewActivity extends LocationActivity{
         loadQuestions();
         setLayout();
         isInterviewDone = false;
+
+        medicalCertification.setLocation();
     }
 
     View.OnClickListener interAnsBtnListener = new View.OnClickListener(){
