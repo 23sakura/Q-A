@@ -45,8 +45,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="応急手当一覧"
-            android:background="@drawable/gray_button"
+            android:background="@drawable/care_button"
             android:layout_margin="2dp"
             android:id="@+id/btn_title_care"
             android:textSize="25sp"/>
@@ -56,9 +55,8 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
-            android:background="@drawable/gray_button"
+            android:background="@drawable/qr_read_button"
             android:layout_margin="2dp"
-            android:text="QRコード\n読み取り"
             android:textSize="25sp" />
 
     </LinearLayout>
@@ -68,7 +66,7 @@
         android:layout_height="0dp"
         android:layout_weight="2"
         android:id="@+id/startbtn"
-        android:background="@drawable/blue_button_b"
+        android:background="@drawable/blue_button"
         android:text="問診開始"
         android:textSize="50sp"/>
 

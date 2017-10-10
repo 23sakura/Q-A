@@ -108,8 +108,7 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:textSize="20dp"
-            android:text="@string/gotoQR"
-            android:background="@drawable/gray_button"
+            android:background="@drawable/button_qr_long"
             android:textStyle="bold"
             android:id="@+id/btn_certification_qr"/>
         <Button
@@ -117,8 +116,7 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:textSize="20dp"
-            android:text="@string/gotoResult"
-            android:background="@drawable/gray_button"
+            android:background="@drawable/button_result_long"
             android:textStyle="bold"
             android:id="@+id/btn_certification_result"/>
 

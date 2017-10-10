@@ -169,7 +169,6 @@ public class ResultActivity extends LocationActivity {
                 }
             }
         });
-        qrBtn.setText(getString(R.string.gotoQR));
         certificationBtn = (Button)findViewById(R.id.btn_result_certification);
         certificationBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -195,7 +194,6 @@ public class ResultActivity extends LocationActivity {
                 }
             }
         });
-        certificationBtn.setText(getString(R.string.gotoCertification));
         /*
         final Intent intent = new Intent(this, ExplainActivity.class);
 
@@ -396,6 +394,12 @@ public class ResultActivity extends LocationActivity {
         setDealingBtn();
 
         //setDrawerLayout();
+
+        if (throughInterview){
+            if(urgency == 3){
+                speechText("周りの人に協力を求め、応急手当を行ってください");
+            }
+        }
 
     }
 

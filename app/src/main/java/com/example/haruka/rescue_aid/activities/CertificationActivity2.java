@@ -393,7 +393,7 @@ public class CertificationActivity2 extends LocationActivity {
         QRButton = (Button)findViewById(R.id.btn_certification_qr);
         resultButton = (Button)findViewById(R.id.btn_certification_result);
 
-        QRButton.setText(getString(R.string.gotoQR));
+        //QRButton.setText(getString(R.string.gotoQR));
         QRButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -405,7 +405,7 @@ public class CertificationActivity2 extends LocationActivity {
                 finish();
             }
         });
-        resultButton.setText(getString(R.string.gotoResult));
+        //resultButton.setText(getString(R.string.gotoResult));
         resultButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

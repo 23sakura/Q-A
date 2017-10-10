@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.hardware.Camera;
 import android.hardware.Camera.AutoFocusCallback;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -151,9 +152,11 @@ public class QRActivity extends OptionActivity {
 
             Reader reader = new MultiFormatReader();
             Result result = null;
+            String _text = "";
             try {
                 result = reader.decode(bitmap);
                 String text = result.getText();
+                _text = text;
                 //Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG).show();
                 Log.d("QR", text);
                 MedicalCertification medicalCertification = new MedicalCertification(text);
@@ -163,8 +166,20 @@ public class QRActivity extends OptionActivity {
                 //showCertification(medicalCertification);
                 showCertificationEditActivity(medicalCertification);
             } catch (Exception e) {
-                Log.e("QR reader", e.toString());
-                Toast.makeText(getApplicationContext(), "認識に失敗しました。\nもう一度やり直してください。", Toast.LENGTH_SHORT).show();
+
+                try {
+                    if (_text.substring(0, 4).equals("http")) {
+                        Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(_text));
+                        startActivity(i);
+                        finish();
+                    } else {
+                        Log.e("QR reader", e.toString());
+                        Toast.makeText(getApplicationContext(), "認識に失敗しました。\nもう一度やり直してください。", Toast.LENGTH_SHORT).show();
+                    }
+                }catch (Exception ex){
+                    Log.e("QR reader", e.toString());
+                    Toast.makeText(getApplicationContext(), "認識に失敗しました。\nもう一度やり直してください。", Toast.LENGTH_SHORT).show();
+                }
             }
         }
     };

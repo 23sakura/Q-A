@@ -62,11 +62,12 @@
         android:gravity="bottom"
         android:orientation="horizontal">
 
+
         <Button
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:id="@+id/btn_edit_qr"
-            android:background="@drawable/gray_button"
+            android:background="@drawable/button_qr"
             android:textStyle="bold"
             android:layout_weight="1" />
 
@@ -74,7 +75,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:id="@+id/btn_edit_show"
-            android:background="@drawable/gray_button"
+            android:background="@drawable/button_certification"
             android:textStyle="bold"
             android:layout_weight="1" />
 
@@ -82,7 +83,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:id="@+id/btn_edit_result"
-            android:background="@drawable/gray_button"
+            android:background="@drawable/button_result"
             android:textStyle="bold"
             android:layout_weight="1" />
 

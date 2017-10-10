@@ -81,16 +81,19 @@ public class MedicalCertification implements Serializable, Comparable<MedicalCer
                 r = new Record(startAt, line);
             }
             if (LOCATION_TAG.equals(r.getTag())){
+                setLocation();
                 try {
                     String[] loc = r.getValue().split(":");
                     location = new double[2];
                     location[LONGITUDE] = Double.parseDouble(loc[LONGITUDE]);
                     location[LATITUDE] = Double.parseDouble(loc[LATITUDE]);
                     isLocationSet = true;
+
                     continue;
                 }catch (Exception e){
                     Log.e("records location", e.toString());
                 }
+                setLocation();
             } else if (SCENARIO_TAG.equals(r.getTag())) {
                 setScenario(Integer.parseInt(r.getValue()));
                 continue;

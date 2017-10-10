@@ -215,7 +215,6 @@ public class QRDisplayActivity extends LocationActivity {
                 finish();
             }
         });
-        b1.setText(getString(R.string.gotoCertification));
         b2 = (Button)findViewById(R.id.btn_qr_show_result);
         b2.setOnClickListener(new OnClickListener() {
             @Override
@@ -228,7 +227,6 @@ public class QRDisplayActivity extends LocationActivity {
                 finish();
             }
         });
-        b2.setText(getString(R.string.gotoResult));
         qrSwitch = (Switch)findViewById(R.id.switch_qr_mode);
         qrSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

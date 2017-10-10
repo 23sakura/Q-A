@@ -49,8 +49,7 @@
             android:textStyle="bold"
             android:layout_weight="1"
             android:textSize="20dp"
-            android:text="@string/gotoQR"
-            android:background="@drawable/gray_button"
+            android:background="@drawable/button_qr_long"
             android:id="@+id/btn_result_qr_display"/>
 
         <Button
@@ -59,8 +58,7 @@
             android:textStyle="bold"
             android:layout_weight="1"
             android:textSize="20dp"
-            android:text="@string/gotoCertification"
-            android:background="@drawable/gray_button"
+            android:background="@drawable/button_certification_long"
             android:id="@+id/btn_result_certification"/>
 
     </LinearLayout>

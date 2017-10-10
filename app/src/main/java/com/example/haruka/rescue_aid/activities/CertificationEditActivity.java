@@ -12,6 +12,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.example.haruka.rescue_aid.R;
 import com.example.haruka.rescue_aid.utils.MedicalCertification;
@@ -32,7 +33,7 @@ public class CertificationEditActivity extends OptionActivity {
     Intent intent1, intent2, intent3;
     EditText filenameEditText;
     Button filenameButton;
-
+    Context context;
     InputMethodManager inputMethodManager;
     private LinearLayout linearLayout;
 
@@ -121,11 +122,15 @@ public class CertificationEditActivity extends OptionActivity {
                 medicalCertification.name = filename;
                 Log.d("filename", filename);
                 TempDataUtil.store(CertificationEditActivity.this, medicalCertification);
-
+                Toast.makeText(context,
+                        "ファイル名を\"" + medicalCertification.name + "\"に変更しました",
+                        Toast.LENGTH_LONG).show();
                 linearLayout.requestFocus();
                 inputMethodManager.hideSoftInputFromWindow(linearLayout.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
             }
         });
+
+        context = this;
 
     }
 
